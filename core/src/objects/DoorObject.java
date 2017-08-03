@@ -16,9 +16,12 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
+
+import events.SpawnEvent;
 
 public class DoorObject extends GameObject {
 
@@ -50,6 +53,10 @@ public class DoorObject extends GameObject {
         instance = new ModelInstance(model);
 
         this.position.y = size.y / 2;
+    }
+
+    public void onSpawnEvent(SpawnEvent e){
+
     }
 
     public void update(){

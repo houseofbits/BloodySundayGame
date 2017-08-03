@@ -9,11 +9,15 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import events.EventManager;
+
 /**
  * Created by T510 on 8/2/2017.
  */
 
 public class SceneManager {
+
+    public EventManager eventManager = new EventManager();
 
     protected Array<GameObject> gameObjectArray = new Array<GameObject>();
     protected TimeUtils time = new TimeUtils();
@@ -23,7 +27,6 @@ public class SceneManager {
     public Environment environment;
     public PerspectiveCamera cam;
     public CameraInputController camController;
-
 
 
     public SceneManager(){
@@ -65,20 +68,13 @@ public class SceneManager {
         }
 
         prev_frame_time = current_time_ms;
+
+        eventManager.process();
     }
 
     public void dispose(){
         for (final GameObject go : this.gameObjectArray) {
             go.dispose();
-         }
+        }
     }
-
-
-    public void SendEvent(GameEvent event){
-
-
-
-    }
-
-
 }

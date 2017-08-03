@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-import events.SpawnEvent;
-
 public class MyGdxGame extends ApplicationAdapter {
 
     protected Stage stage;
@@ -50,6 +48,14 @@ public class MyGdxGame extends ApplicationAdapter {
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(0.75f,1.1f,0.05f), new Vector3(0.6f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(-2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
+
+
+        //DoorObject door = new DoorObject(new Vector3(0,0,0));
+
+        //door.init(sceneManager);
+
+        //sceneManager.eventManager.sendEvent(new SpawnEvent());
+
 
 	}
 

@@ -33,7 +33,7 @@ public class EventManager {
         ///}
 
         Method[] methods = listener.getClass().getDeclaredMethods();
-        //this.registeredListeners.add(listener);
+
         for (final Method method : methods) {
 
             Class<?>[] parameters = method.getParameterTypes();
@@ -72,7 +72,6 @@ public class EventManager {
                     it.remove();
             }
         }
-//        this.registeredListeners.remove(listener);
     }
     public <T extends GameEvent> T executeEvent(T event) {
         Collection<EventHandler> handlers = this.bindings.get(event.getClass());

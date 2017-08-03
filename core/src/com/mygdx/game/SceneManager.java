@@ -57,6 +57,8 @@ public class SceneManager {
         long current_time_ms = time.millis();
         frame_time_s = (current_time_ms - prev_frame_time) / 1000.0f;
 
+        if(frame_time_s > 0.025f)frame_time_s = 0.025f;
+
         camController.update();
 
         for (final GameObject go : this.gameObjectArray) {

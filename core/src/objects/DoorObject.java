@@ -6,9 +6,8 @@ package objects;
 
 //import com.mygdx.game.GameObject;
 //import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -16,14 +15,19 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
-import events.SpawnEvent;
+import events.DoorEvent;
 
 public class DoorObject extends GameObject {
+
+    public enum DoorState{
+        CLOSED,
+        OPEN,
+        OPENING,
+        CLOSING,
+    }
 
     private Vector3  position;
     private Vector3  size;
@@ -32,7 +36,7 @@ public class DoorObject extends GameObject {
     public ModelInstance instance;
     public float angle = 0;
     public float speed = 100;
-    public int state = 1;
+    public DoorState state = DoorState.CLOSED;
 
     public DoorObject (Vector3 pos){
 
@@ -55,17 +59,22 @@ public class DoorObject extends GameObject {
         this.position.y = size.y / 2;
     }
 
-    public void onSpawnEvent(SpawnEvent e){
+    public void onDoorEvent(DoorEvent e){
 
+        Gdx.app.log("onDoorEvent", "call");
+
+        if(e.setState == DoorState.CLOSED && state != DoorState.CLOSED)state = DoorState.CLOSING;
+
+        if(e.setState == DoorState.OPEN && state != DoorState.OPEN)state = DoorState.OPENING;
     }
 
     public void update(){
 
-        if(state == 1)angle = angle + (speed * sceneManager.frame_time_s);
-        if(state == 2)angle = angle - (speed * sceneManager.frame_time_s);
+        if(state == DoorState.OPENING)angle = angle + (speed * sceneManager.frame_time_s);
+        if(state == DoorState.CLOSING)angle = angle - (speed * sceneManager.frame_time_s);
 
-        if(angle >= 110)state = 2;
-        if(angle <= 0)state = 1;
+        if(angle >= 110)state = DoorState.OPEN;
+        if(angle <= 0)state = DoorState.CLOSED;
 
         instance.transform.idt();
         instance.transform.translate(this.position);

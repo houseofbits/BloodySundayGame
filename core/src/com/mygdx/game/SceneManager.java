@@ -52,6 +52,13 @@ public class SceneManager {
         object.init(this);
     }
 
+    public GameObject getObjectByName(String name){
+        for (final GameObject go : this.gameObjectArray) {
+            if(go.getName() == name)return go;
+        }
+        return null;
+    }
+
     void renderAll(){
 
         long current_time_ms = time.millis();

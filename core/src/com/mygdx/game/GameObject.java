@@ -16,10 +16,12 @@ public class GameObject implements events.EventListener {
     public String       name = null;
 
     public void init(SceneManager sceneManagerRef){
-
         sceneManager = sceneManagerRef;
-
         sceneManager.eventManager.registerListener(this);
+    }
+
+    public String getName(){
+        return name;
     }
 
     public void sendEvent(GameEvent e){
@@ -30,7 +32,7 @@ public class GameObject implements events.EventListener {
 
     public void sendEvent(GameEvent e, String targetName){
         if(this.sceneManager != null){
-            this.sceneManager.eventManager.addEvent(this, e, null);  //this.sceneManager.getObjectByName(targetName);
+            this.sceneManager.eventManager.addEvent(this, e, this.sceneManager.getObjectByName(targetName));
         }
     }
 
@@ -40,20 +42,10 @@ public class GameObject implements events.EventListener {
         }
     }
 
-    public void update() {
+    public void update() {  }
 
-    }
-
-    public void render () {
-
-
-
-    }
+    public void render () { }
     public void dispose () {
-
         sceneManager.eventManager.removeListener(this);
-
     }
-
-
 }

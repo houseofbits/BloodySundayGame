@@ -8,9 +8,19 @@ import objects.DoorObject;
 
 public class DoorEvent implements GameEvent {
 
-    public DoorObject.DoorState setState = DoorObject.DoorState.CLOSED;
+    public enum DoorAction{
+        SET_STATE,
+        STATE_CHANGED,
+    }
+
+    public DoorObject.DoorState state = DoorObject.DoorState.CLOSED;
+    public DoorAction action = DoorAction.SET_STATE;
 
     public DoorEvent(DoorObject.DoorState doorState){
-        setState = doorState;
+        state = doorState;
+    }
+    public DoorEvent(DoorAction a, DoorObject.DoorState doorState){
+        action = a;
+        state = doorState;
     }
 }

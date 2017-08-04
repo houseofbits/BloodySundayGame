@@ -61,11 +61,24 @@ public class DoorObject extends GameObject {
 
     public void onDoorEvent(DoorEvent e){
 
-        Gdx.app.log("onDoorEvent", "call");
+//        Gdx.app.log("onDoorEvent", "call");
 
-        if(e.setState == DoorState.CLOSED && state != DoorState.CLOSED)state = DoorState.CLOSING;
+        if(e.action == DoorEvent.DoorAction.SET_STATE) {
+            if (e.state == DoorState.CLOSED) this.closeDoor();
+            if (e.state == DoorState.OPEN) this.openDoor();
+        }
+        if(e.action == DoorEvent.DoorAction.STATE_CHANGED) {
+            if (e.state == DoorState.CLOSED) this.openDoor();
+            if (e.state == DoorState.OPEN) this.closeDoor();
+        }
+    }
 
-        if(e.setState == DoorState.OPEN && state != DoorState.OPEN)state = DoorState.OPENING;
+    public void openDoor(){
+        if(state != DoorState.OPEN)state = DoorState.OPENING;
+    }
+
+    public void closeDoor(){
+        if(state != DoorState.CLOSED)state = DoorState.CLOSING;
     }
 
     public void update(){
@@ -73,8 +86,14 @@ public class DoorObject extends GameObject {
         if(state == DoorState.OPENING)angle = angle + (speed * sceneManager.frame_time_s);
         if(state == DoorState.CLOSING)angle = angle - (speed * sceneManager.frame_time_s);
 
-        if(angle >= 110)state = DoorState.OPEN;
-        if(angle <= 0)state = DoorState.CLOSED;
+        if(angle >= 110 && state != DoorState.OPEN){
+            state = DoorState.OPEN;
+            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.DoorAction.STATE_CHANGED, DoorState.OPEN));
+        }
+        if(angle <= 0 && state != DoorState.CLOSED){
+            state = DoorState.CLOSED;
+            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.DoorAction.STATE_CHANGED, DoorState.CLOSED));
+        }
 
         instance.transform.idt();
         instance.transform.translate(this.position);

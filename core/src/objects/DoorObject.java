@@ -34,7 +34,8 @@ public class DoorObject extends GameObject {
     public float advancement = 0;
     public float advancement_min = 0;
     public float advancement_max = 110;
-    public float speed = 100;
+    public float speedOpening = 100;
+    public float speedClosing = 150;
     public State state = State.CLOSED;
 
     public ModelBatch modelBatch;
@@ -87,8 +88,8 @@ public class DoorObject extends GameObject {
 
     //Implement in derived classes
     public void advanceMovement(){
-        if(state == State.OPENING)advancement = advancement + (speed * sceneManager.frame_time_s);
-        if(state == State.CLOSING)advancement = advancement - (speed * sceneManager.frame_time_s);
+        if(state == State.OPENING)advancement = advancement + (speedOpening * sceneManager.frame_time_s);
+        if(state == State.CLOSING)advancement = advancement - (speedClosing * sceneManager.frame_time_s);
     }
 
     public void update(){

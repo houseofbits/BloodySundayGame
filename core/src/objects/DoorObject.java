@@ -62,11 +62,11 @@ public class DoorObject extends GameObject {
         instance = new ModelInstance(model);
 
         this.position.y = size.y / 2;
+
+        this.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, State.OPEN));
     }
 
     public void onDoorEvent(DoorEvent e){
-
-//        Gdx.app.log("onDoorEvent", "call");
 
         if(e.action == DoorEvent.Action.SET_STATE) {
             if (e.state == State.CLOSED) this.closeDoor();

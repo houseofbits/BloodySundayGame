@@ -35,9 +35,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
         sceneManager = new SceneManager();
 
-        sceneManager.AddGameObject(new objects.SpawnObject("door_1", new Vector3(-1.5f,0,1)));
-        sceneManager.AddGameObject(new objects.SpawnObject("door_2", new Vector3(-1.5f,0,1)));
-        sceneManager.AddGameObject(new objects.SpawnObject("door_3", new Vector3(-1.5f,0,1)));
+        sceneManager.AddGameObject(new objects.SpawnObject("door_1", new Vector3(-1.5f,0,-0.6f)));
+        sceneManager.AddGameObject(new objects.SpawnObject("door_2", new Vector3(0,0,-0.6f)));
+        sceneManager.AddGameObject(new objects.SpawnObject("door_3", new Vector3(1.5f,0,-0.6f)));
 
         sceneManager.AddGameObject(new objects.DoorObject("door_1", new Vector3(-1.5f,0,0)));
         sceneManager.AddGameObject(new objects.DoorObject("door_2", new Vector3(0,0,0)));

@@ -69,12 +69,15 @@ public class SpawnObject extends GameObject {
 
     public void render () {
 
-
+        modelBatch.begin(sceneManager.cam);
+        modelBatch.render(instance, sceneManager.environment);
+        modelBatch.end();
 
     }
     public void dispose () {
         super.dispose();
-
+        modelBatch.dispose();
+        model.dispose();
     }
 
 }

@@ -52,6 +52,7 @@ public class StaticObject extends GameObject {
         modelBatch.end();
     }
     public void dispose () {
+        super.dispose();
         modelBatch.dispose();
         model.dispose();
     }

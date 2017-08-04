@@ -57,7 +57,7 @@ public class ActorObject extends GameObject {
 
     }
     public void dispose () {
-
+        super.dispose();
 
     }
 }

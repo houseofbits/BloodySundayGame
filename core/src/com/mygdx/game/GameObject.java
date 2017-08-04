@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 public class GameObject implements events.EventListener {
 
     public SceneManager sceneManager;
+    public String       name;
 
     public void init(SceneManager sceneManagerRef){
 

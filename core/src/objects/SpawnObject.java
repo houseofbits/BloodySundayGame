@@ -60,7 +60,7 @@ public class SpawnObject extends GameObject {
 
     }
     public void dispose () {
-
+        super.dispose();
 
     }
 

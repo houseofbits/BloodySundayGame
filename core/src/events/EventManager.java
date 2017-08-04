@@ -2,6 +2,7 @@ package events;
 
 
 import com.badlogic.gdx.Gdx;
+import com.mygdx.game.GameObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;

@@ -22,7 +22,7 @@ import events.DoorEvent;
 
 public class DoorObject extends GameObject {
 
-    public enum DoorState{
+    public enum State{
         CLOSED,
         OPEN,
         OPENING,
@@ -31,15 +31,19 @@ public class DoorObject extends GameObject {
 
     private Vector3  position;
     private Vector3  size;
+    public float advancement = 0;
+    public float advancement_min = 0;
+    public float advancement_max = 110;
+    public float speed = 100;
+    public State state = State.CLOSED;
+
     public ModelBatch modelBatch;
     public Model model;
     public ModelInstance instance;
-    public float angle = 0;
-    public float speed = 100;
-    public DoorState state = DoorState.CLOSED;
 
-    public DoorObject (Vector3 pos){
+    public DoorObject (String n, Vector3 pos){
 
+        name = n;
         position = pos;
         size = new Vector3(0.9f, 2.2f, 0.1f);
     }
@@ -63,46 +67,51 @@ public class DoorObject extends GameObject {
 
 //        Gdx.app.log("onDoorEvent", "call");
 
-        if(e.action == DoorEvent.DoorAction.SET_STATE) {
-            if (e.state == DoorState.CLOSED) this.closeDoor();
-            if (e.state == DoorState.OPEN) this.openDoor();
+        if(e.action == DoorEvent.Action.SET_STATE) {
+            if (e.state == State.CLOSED) this.closeDoor();
+            if (e.state == State.OPEN) this.openDoor();
         }
-        if(e.action == DoorEvent.DoorAction.STATE_CHANGED) {
-            if (e.state == DoorState.CLOSED) this.openDoor();
-            if (e.state == DoorState.OPEN) this.closeDoor();
+        if(e.action == DoorEvent.Action.STATE_CHANGED) {
+            if (e.state == State.CLOSED) this.openDoor();
+            if (e.state == State.OPEN) this.closeDoor();
         }
     }
 
     public void openDoor(){
-        if(state != DoorState.OPEN)state = DoorState.OPENING;
+        if(state != State.OPEN)state = State.OPENING;
     }
 
     public void closeDoor(){
-        if(state != DoorState.CLOSED)state = DoorState.CLOSING;
+        if(state != State.CLOSED)state = State.CLOSING;
+    }
+
+    //Implement in derived classes
+    public void advanceMovement(){
+        if(state == State.OPENING)advancement = advancement + (speed * sceneManager.frame_time_s);
+        if(state == State.CLOSING)advancement = advancement - (speed * sceneManager.frame_time_s);
     }
 
     public void update(){
 
-        if(state == DoorState.OPENING)angle = angle + (speed * sceneManager.frame_time_s);
-        if(state == DoorState.CLOSING)angle = angle - (speed * sceneManager.frame_time_s);
+        advanceMovement();
 
-        if(angle >= 110 && state != DoorState.OPEN){
-            state = DoorState.OPEN;
-            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.DoorAction.STATE_CHANGED, DoorState.OPEN));
+        if(advancement >= advancement_max && state != State.OPEN){
+            state = State.OPEN;
+            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPEN));
         }
-        if(angle <= 0 && state != DoorState.CLOSED){
-            state = DoorState.CLOSED;
-            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.DoorAction.STATE_CHANGED, DoorState.CLOSED));
+        if(advancement <= advancement_min && state != State.CLOSED){
+            state = State.CLOSED;
+            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSED));
         }
+    }
+
+    public void render () {
 
         instance.transform.idt();
         instance.transform.translate(this.position);
         instance.transform.translate(size.x/2,0,0);
-        instance.transform.rotate(0,1,0, angle);
+        instance.transform.rotate(0,1,0, advancement);
         instance.transform.translate(-size.x/2,0,0);
-    }
-
-    public void render () {
 
         modelBatch.begin(sceneManager.cam);
         modelBatch.render(instance, sceneManager.environment);
@@ -110,6 +119,7 @@ public class DoorObject extends GameObject {
 
     }
     public void dispose () {
+        super.dispose();
         modelBatch.dispose();
         model.dispose();
     }

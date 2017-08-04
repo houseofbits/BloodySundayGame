@@ -6,20 +6,20 @@ import objects.DoorObject;
  * Created by T510 on 8/3/2017.
  */
 
-public class DoorEvent implements GameEvent {
+public class DoorEvent extends GameEvent {
 
-    public enum DoorAction{
+    public enum Action{
         SET_STATE,
         STATE_CHANGED,
     }
 
-    public DoorObject.DoorState state = DoorObject.DoorState.CLOSED;
-    public DoorAction action = DoorAction.SET_STATE;
+    public DoorObject.State state = DoorObject.State.CLOSED;
+    public Action action = Action.SET_STATE;
 
-    public DoorEvent(DoorObject.DoorState doorState){
+    public DoorEvent(DoorObject.State doorState){
         state = doorState;
     }
-    public DoorEvent(DoorAction a, DoorObject.DoorState doorState){
+    public DoorEvent(Action a, DoorObject.State doorState){
         action = a;
         state = doorState;
     }

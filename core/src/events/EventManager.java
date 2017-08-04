@@ -80,14 +80,21 @@ public class EventManager {
             return event;
         }
         for (EventHandler handler : handlers) {
-             handler.execute(event);
+            if((event.targetObject != null && handler.listener == event.targetObject) || event.targetObject == null) {
+                handler.execute(event);
+            }
         }
         return event;
     }
 
-    public void sendEvent(GameEvent e){
-        this.eventArray.add(e);
+    public void addEvent(GameObject sender, GameEvent event, GameObject target){
+
+        event.targetObject = target;
+        event.senderObject = sender;
+        this.eventArray.add(event);
+
     }
+
     public void process(){
         for(GameEvent evt:this.eventArray){
             this.executeEvent(evt);

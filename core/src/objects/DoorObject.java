@@ -97,11 +97,11 @@ public class DoorObject extends GameObject {
 
         if(advancement >= advancement_max && state != State.OPEN){
             state = State.OPEN;
-            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPEN));
+            this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPEN));
         }
         if(advancement <= advancement_min && state != State.CLOSED){
             state = State.CLOSED;
-            this.sceneManager.eventManager.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSED));
+            this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSED));
         }
     }
 

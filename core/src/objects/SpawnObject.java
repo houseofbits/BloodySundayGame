@@ -13,19 +13,23 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
+import events.DoorEvent;
+
 /**
  * Created by T510 on 7/31/2017.
  */
 
 public class SpawnObject extends GameObject {
 
+    public String targetDoorName = null;
+    public Vector3 position;
+
     public ModelBatch modelBatch;
     public Model model;
     public ModelInstance instance;
 
-    public Vector3 position;
-
-    public SpawnObject(Vector3 pos){
+    public SpawnObject(String doorName, Vector3 pos){
+        targetDoorName = doorName;
         position = pos;
     }
 
@@ -36,16 +40,25 @@ public class SpawnObject extends GameObject {
         modelBatch = new ModelBatch();
 
         ModelBuilder modelBuilder = new ModelBuilder();
-        /*
-        model = modelBuilder.createBox(size.x, size.y, size.z,
-                new Material(ColorAttribute.createDiffuse(color)),
+
+        model = modelBuilder.createBox(0.15f, 0.15f, 0.15f,
+                new Material(ColorAttribute.createDiffuse(1,1,0,1)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         instance = new ModelInstance(model);
 
         instance.transform.idt();
-        instance.transform.translate(pos);
-        */
+        instance.transform.translate(position);
 
+
+    }
+
+    public void onDoorChangeEvent(DoorEvent e){
+
+//        Gdx.app.log("onDoorChangeEvent", "call");
+
+        if(targetDoorName == e.getName() && e.action == DoorEvent.Action.STATE_CHANGED) {
+            //if (e.state == DoorObject.State.CLOSED) ready to spawn new Actors
+        }
     }
 
     public void update() {

@@ -5,10 +5,12 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.Array;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -22,11 +24,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 
-
-//        GameEvent e = new SpawnEvent();
-
-//        if(e.getClass() == SpawnEvent.class)Gdx.app.log("MyTag", "ok");
-
         stage = new Stage();
         font = new BitmapFont();
         label = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
@@ -35,9 +32,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
         sceneManager = new SceneManager();
 
-        sceneManager.AddGameObject(new objects.SpawnObject("door_1", new Vector3(-1.5f,0,-0.6f)));
-        sceneManager.AddGameObject(new objects.SpawnObject("door_2", new Vector3(0,0,-0.6f)));
-        sceneManager.AddGameObject(new objects.SpawnObject("door_3", new Vector3(1.5f,0,-0.6f)));
+        sceneManager.AddGameObject(new objects.SpawnObject("spawn_1", "door_1", new Vector3(-1.6f,0,-0.6f)));
+        sceneManager.AddGameObject(new objects.SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
+        sceneManager.AddGameObject(new objects.SpawnObject("spawn_3", "door_3", new Vector3(1.7f,0,-0.6f)));
 
         sceneManager.AddGameObject(new objects.DoorObject("door_1", new Vector3(-1.5f,0,0)));
         sceneManager.AddGameObject(new objects.DoorObject("door_2", new Vector3(0,0,0)));
@@ -53,15 +50,15 @@ public class MyGdxGame extends ApplicationAdapter {
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(-2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
 
+        //sceneManager.assetsManager.load("test_actor.g3dj", Model.class);
 
-        //DoorObject door = new DoorObject(new Vector3(0,0,0));
+    }
 
-        //door.init(sceneManager);
+    private void doneLoading() {
 
-        //sceneManager.eventManager.sendEvent(new SpawnEvent());
+       // System.out.println("done loading");
 
-
-	}
+    }
 
 	@Override
 	public void render () {

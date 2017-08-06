@@ -14,6 +14,6 @@ public class GameEvent {
     public GameObject targetObject = null;
 
     public String getName(){
-        return this.senderObject.name;
+        return this.senderObject.getName();
     }
 }

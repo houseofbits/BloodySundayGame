@@ -13,13 +13,17 @@ import events.GameEvent;
 public class GameObject implements events.EventListener {
 
     public SceneManager sceneManager = null;
-    public String       name = null;
+    private String       name = "";
+    private boolean      dispose = false;
 
     public void init(SceneManager sceneManagerRef){
         sceneManager = sceneManagerRef;
         sceneManager.eventManager.registerListener(this);
     }
 
+    public void setDispose(boolean d){ this.dispose = d; }
+    public boolean isDisposable(){ return dispose; }
+    public void setName(String n){ name = n; }
     public String getName(){
         return name;
     }

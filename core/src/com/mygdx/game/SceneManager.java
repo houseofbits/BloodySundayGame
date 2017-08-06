@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -20,6 +21,8 @@ public class SceneManager {
     public EventManager eventManager = new EventManager();
 
     protected Array<GameObject> gameObjectArray = new Array<GameObject>();
+    protected Array<GameObject> createGameObjectArray = new Array<GameObject>();
+
     protected TimeUtils time = new TimeUtils();
     protected long prev_frame_time = 0;
     public float frame_time_s = 0;
@@ -28,8 +31,12 @@ public class SceneManager {
     public PerspectiveCamera cam;
     public CameraInputController camController;
 
+    public AssetManager assetsManager;
 
     public SceneManager(){
+
+        assetsManager = new AssetManager();
+
         prev_frame_time = time.millis();
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(-0.7f, 1.3f, 6f);
@@ -47,14 +54,13 @@ public class SceneManager {
     }
 
     public void AddGameObject(GameObject object){
-        this.gameObjectArray.add(object);
-
-        object.init(this);
+        this.createGameObjectArray.add(object);
     }
 
     public GameObject getObjectByName(String name){
-        for (final GameObject go : this.gameObjectArray) {
-            if(go.getName() == name)return go;
+        for(int i=0; i<gameObjectArray.size; i++){
+            GameObject o = gameObjectArray.get(i);
+            if(o.getName() == name)return o;
         }
         return null;
     }
@@ -79,6 +85,23 @@ public class SceneManager {
         prev_frame_time = current_time_ms;
 
         eventManager.process();
+
+        //Remove marked GameObjects
+        for(int i=0; i<gameObjectArray.size; i++){
+            GameObject o = gameObjectArray.get(i);
+            if(o.isDisposable()){
+                o.dispose();
+                o = null;
+                gameObjectArray.removeIndex(i);
+            }
+        }
+        //Add new game GameObjects
+        for(int i=0; i<createGameObjectArray.size; i++){
+            GameObject o = createGameObjectArray.get(i);
+            gameObjectArray.add(o);
+            o.init(this);
+        }
+        createGameObjectArray.clear();
     }
 
     public void dispose(){

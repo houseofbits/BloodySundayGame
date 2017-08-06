@@ -32,11 +32,12 @@ public class DoorObject extends GameObject {
     private Vector3  position;
     private Vector3  size;
     public float advancement = 0;
-    public float advancement_min = 0;
-    public float advancement_max = 110;
-    public float speedOpening = 100;
-    public float speedClosing = 150;
+    public float speedOpening = 1.5f;
+    public float speedClosing = 2;
     public State state = State.CLOSED;
+
+    public float angleMin = 0;
+    public float angleMax = 110;
 
     public ModelBatch modelBatch;
     public Model model;
@@ -44,7 +45,7 @@ public class DoorObject extends GameObject {
 
     public DoorObject (String n, Vector3 pos){
 
-        name = n;
+        this.setName(n);
         position = pos;
         size = new Vector3(0.9f, 2.2f, 0.1f);
     }
@@ -63,7 +64,7 @@ public class DoorObject extends GameObject {
 
         this.position.y = size.y / 2;
 
-        this.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, State.OPEN));
+        //this.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, State.OPEN));
     }
 
     public void onDoorEvent(DoorEvent e){
@@ -73,13 +74,14 @@ public class DoorObject extends GameObject {
             if (e.state == State.OPEN) this.openDoor();
         }
         if(e.action == DoorEvent.Action.STATE_CHANGED) {
-            if (e.state == State.CLOSED) this.openDoor();
-            if (e.state == State.OPEN) this.closeDoor();
+        //    if (e.state == State.CLOSED) this.openDoor();
+        //    if (e.state == State.OPEN) this.closeDoor();
         }
     }
 
     public void openDoor(){
         if(state != State.OPEN)state = State.OPENING;
+        //System.out.println(" call openDoor "+state.toString());
     }
 
     public void closeDoor(){
@@ -96,11 +98,13 @@ public class DoorObject extends GameObject {
 
         advanceMovement();
 
-        if(advancement >= advancement_max && state != State.OPEN){
+        if(advancement >= 1 && state != State.OPEN){
+            advancement = 1;
             state = State.OPEN;
             this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPEN));
         }
-        if(advancement <= advancement_min && state != State.CLOSED){
+        if(advancement <= 0 && state != State.CLOSED){
+            advancement = 0;
             state = State.CLOSED;
             this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSED));
         }
@@ -108,10 +112,12 @@ public class DoorObject extends GameObject {
 
     public void render () {
 
+        float angle = angleMin + ((angleMax - angleMin) * advancement);
+
         instance.transform.idt();
         instance.transform.translate(this.position);
         instance.transform.translate(size.x/2,0,0);
-        instance.transform.rotate(0,1,0, advancement);
+        instance.transform.rotate(0,1,0, angle);
         instance.transform.translate(-size.x/2,0,0);
 
         modelBatch.begin(sceneManager.cam);

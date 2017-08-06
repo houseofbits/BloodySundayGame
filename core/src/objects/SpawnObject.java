@@ -13,6 +13,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
+import java.util.Random;
+
+import events.ActorEvent;
 import events.DoorEvent;
 
 /**
@@ -21,14 +24,24 @@ import events.DoorEvent;
 
 public class SpawnObject extends GameObject {
 
+    public enum State {
+        READY,              //Ready to spawn object
+        LIVE,               //Object is live
+    }
+
     public String targetDoorName = null;
     public Vector3 position;
+
+    public State state = null;
+
+    float   nextSpawnTimer = 0;
 
     public ModelBatch modelBatch;
     public Model model;
     public ModelInstance instance;
 
-    public SpawnObject(String doorName, Vector3 pos){
+    public SpawnObject(String name, String doorName, Vector3 pos){
+        this.setName(name);
         targetDoorName = doorName;
         position = pos;
     }
@@ -49,22 +62,32 @@ public class SpawnObject extends GameObject {
         instance.transform.idt();
         instance.transform.translate(position);
 
-
+        setReadyToSpawn();
     }
 
-    public void onDoorChangeEvent(DoorEvent e){
-
-//        Gdx.app.log("onDoorChangeEvent", "call");
-
-        if(targetDoorName == e.getName() && e.action == DoorEvent.Action.STATE_CHANGED) {
-            //if (e.state == DoorObject.State.CLOSED) ready to spawn new Actors
+    public void onActorEvent(ActorEvent e){
+        if(e.state == ActorEvent.State.REMOVED){
+            setReadyToSpawn();
         }
     }
 
+    public void setReadyToSpawn(){
+        state = State.READY;
+
+        Random r = new Random();
+        nextSpawnTimer = (r.nextFloat() * 4) + 2;
+    }
+
     public void update() {
+        if(state == State.READY) {
+            nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
+            if(nextSpawnTimer <= 0){
 
-
-
+                sceneManager.AddGameObject(new objects.ActorObject(getName(), targetDoorName, position));
+                //System.out.println("Create new actor");
+                state = State.LIVE;
+            }
+        }
     }
 
     public void render () {

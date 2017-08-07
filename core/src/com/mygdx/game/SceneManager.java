@@ -36,6 +36,7 @@ public class SceneManager {
     public AssetManager assetsManager;
     public boolean  assetsLoaded = false;
 
+    public Scene    scene = null;
 
     public SceneManager(){
 
@@ -65,6 +66,7 @@ public class SceneManager {
     }
 
     public void AddGameObject(GameObject object){
+        object.onCreate(this);
         this.createGameObjectArray.add(object);
     }
 
@@ -76,7 +78,7 @@ public class SceneManager {
         return null;
     }
 
-    void renderAll(){
+    void processFrame(){
 
         if(!assetsManager.update()){
             assetsLoaded = false;
@@ -95,7 +97,7 @@ public class SceneManager {
         camController.update();
 
         for (final GameObject go : this.gameObjectArray) {
-            go.update();
+            go.onUpdate();
         }
 
         for (final GameObject go : this.gameObjectArray) {
@@ -104,6 +106,7 @@ public class SceneManager {
 
         prev_frame_time = current_time_ms;
 
+        //Process events
         eventManager.process();
 
         //Remove marked GameObjects
@@ -115,11 +118,17 @@ public class SceneManager {
                 gameObjectArray.removeIndex(i);
             }
         }
+
+        //Load all assets before creating new objects
+        if(assetsManager.getQueuedAssets() > 0 && createGameObjectArray.size > 0) {
+            assetsManager.finishLoading();
+        }
+
         //Add new game GameObjects
-        for(int i=0; i<createGameObjectArray.size; i++){
+        for (int i = 0; i < createGameObjectArray.size; i++) {
             GameObject o = createGameObjectArray.get(i);
             gameObjectArray.add(o);
-            o.init(this);
+            o.onInit();
         }
         createGameObjectArray.clear();
     }

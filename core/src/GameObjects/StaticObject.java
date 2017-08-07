@@ -1,4 +1,4 @@
-package objects;
+package GameObjects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -39,10 +39,12 @@ public class StaticObject extends GameObject {
 
     }
 
-    public void init(SceneManager sceneManagerRef){
+    public void onCreate(SceneManager sceneManagerRef){
+        super.onCreate(sceneManagerRef);
 
-        super.init(sceneManagerRef);
+    }
 
+    public void onInit(){
 
     }
 

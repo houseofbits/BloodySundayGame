@@ -1,21 +1,7 @@
-package objects;
+package GameObjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.ModelLoader;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.UBJsonReader;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
@@ -45,7 +31,7 @@ public class ActorObject extends GameObject {
     String  doorName = "";
     String  spawnName = "";
 
-    Renderable model;
+    Renderable renderable;
 
     public void setState(State s){
 
@@ -81,15 +67,20 @@ public class ActorObject extends GameObject {
         spawnName = spawn;
         doorName = door;
         position = pos;
-        model = new Renderable(this);
+        renderable = new Renderable(this);
     }
 
-    public void init(SceneManager sceneManagerRef){
+    public void onCreate(SceneManager sceneManagerRef){
 
-        super.init(sceneManagerRef);
+        super.onCreate(sceneManagerRef);
 
-        model.init("test_actor.g3dj");
-        model.translate(position);
+        renderable.create("test_actor.g3dj");
+    }
+
+    public void onInit(){
+
+        renderable.init();
+        renderable.translate(position);
 
         Vector3 v = new Vector3(position);
         v = v.sub(sceneManager.cam.position);
@@ -98,12 +89,12 @@ public class ActorObject extends GameObject {
 
         float crs = v2n1.crs(new Vector2(sceneManager.cam.direction.x,sceneManager.cam.direction.z).nor());
 
-        model.instance.transform.rotate(0,1,0, (crs*90));
+        if(renderable.modelInstance != null)renderable.modelInstance.transform.rotate(0,1,0, (crs*90));
 
         setState(State.APPEAR);
     }
 
-    public void update() {
+    public void onUpdate() {
 
         if(state!= null && stateTimer > 0)stateTimer = stateTimer - sceneManager.frame_time_s;
 
@@ -139,10 +130,10 @@ public class ActorObject extends GameObject {
     }
 
     public void render () {
-        model.render(sceneManager.cam, sceneManager.environment);
+        renderable.render(sceneManager.cam, sceneManager.environment);
     }
     public void dispose () {
         super.dispose();
-        model.dispose();
+        renderable.dispose();
     }
 }

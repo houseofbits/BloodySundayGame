@@ -1,4 +1,4 @@
-package objects;
+package GameObjects;
 
 /**
  * Created by T510 on 7/29/2017.
@@ -6,7 +6,6 @@ package objects;
 
 //import com.mygdx.game.GameObject;
 //import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -50,9 +49,9 @@ public class DoorObject extends GameObject {
         size = new Vector3(0.9f, 2.2f, 0.1f);
     }
 
-    public void init(SceneManager sceneManagerRef){
+    public void onCreate(SceneManager sceneManagerRef){
 
-        super.init(sceneManagerRef);
+        super.onCreate(sceneManagerRef);
 
         modelBatch = new ModelBatch();
 
@@ -65,6 +64,10 @@ public class DoorObject extends GameObject {
         this.position.y = size.y / 2;
 
         //this.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, State.OPEN));
+    }
+
+    public void onInit() {
+
     }
 
     public void onDoorEvent(DoorEvent e){
@@ -94,7 +97,7 @@ public class DoorObject extends GameObject {
         if(state == State.CLOSING)advancement = advancement - (speedClosing * sceneManager.frame_time_s);
     }
 
-    public void update(){
+    public void onUpdate(){
 
         advanceMovement();
 

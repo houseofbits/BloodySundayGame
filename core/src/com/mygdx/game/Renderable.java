@@ -21,43 +21,46 @@ public class Renderable {
 
     private GameObject gameObject;
 
+    private String modelName = "";
+
     public ModelBatch modelBatch = null;
-    public Model model = null;
-    public ModelInstance instance = null;
+    public ModelInstance modelInstance = null;
     //private Texture texture = null;
 
     public Renderable(GameObject o){
         gameObject = o;
     }
 
-    public void init(String modelName){
+    public void create(String m){
+        modelName = m;
+        gameObject.sceneManager.assetsManager.load(modelName, Model.class);
+    }
+
+    public void init(){
 
         modelBatch = new ModelBatch();
 
-        if(gameObject.sceneManager.assetsManager.isLoaded("test_actor.g3dj")) {
-            model = gameObject.sceneManager.assetsManager.get("test_actor.g3dj", Model.class);
-            instance = new ModelInstance(model);
+        if(gameObject.sceneManager.assetsManager.isLoaded(modelName)) {
+            Model model = gameObject.sceneManager.assetsManager.get(modelName, Model.class);
+            modelInstance = new ModelInstance(model);
         }
     }
 
     public void translate(Vector3 pos){
-        if(instance != null) {
-            instance.transform.idt();
-            instance.transform.translate(pos);
+        if(modelInstance != null) {
+            modelInstance.transform.idt();
+            modelInstance.transform.translate(pos);
         }
     }
 
     public void render(PerspectiveCamera cam, Environment env){
-        if(instance != null) {
-            modelBatch.begin(cam);
-            modelBatch.render(instance, env);
-            modelBatch.end();
-        }
+        modelBatch.begin(cam);
+        if(modelInstance != null)modelBatch.render(modelInstance, env);
+        modelBatch.end();
     }
 
     public void dispose(){
         modelBatch.dispose();
-        if(model != null)model.dispose();
     }
 
 }

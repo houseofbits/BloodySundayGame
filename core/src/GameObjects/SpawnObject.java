@@ -1,8 +1,6 @@
-package objects;
+package GameObjects;
 
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -16,7 +14,6 @@ import com.mygdx.game.SceneManager;
 import java.util.Random;
 
 import events.ActorEvent;
-import events.DoorEvent;
 
 /**
  * Created by T510 on 7/31/2017.
@@ -46,9 +43,9 @@ public class SpawnObject extends GameObject {
         position = pos;
     }
 
-    public void init(SceneManager sceneManagerRef){
+    public void onCreate(SceneManager sceneManagerRef){
 
-        super.init(sceneManagerRef);
+        super.onCreate(sceneManagerRef);
 
         modelBatch = new ModelBatch();
 
@@ -65,6 +62,11 @@ public class SpawnObject extends GameObject {
         setReadyToSpawn();
     }
 
+    public void onInit(){
+
+
+    }
+
     public void onActorEvent(ActorEvent e){
         if(e.state == ActorEvent.State.REMOVED){
             setReadyToSpawn();
@@ -78,12 +80,12 @@ public class SpawnObject extends GameObject {
         nextSpawnTimer = (r.nextFloat() * 4) + 2;
     }
 
-    public void update() {
+    public void onUpdate() {
         if(state == State.READY) {
             nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
             if(nextSpawnTimer <= 0){
 
-                sceneManager.AddGameObject(new objects.ActorObject(getName(), targetDoorName, position));
+                sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
                 //System.out.println("Create new actor");
                 state = State.LIVE;
             }

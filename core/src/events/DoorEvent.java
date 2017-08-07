@@ -1,6 +1,6 @@
 package events;
 
-import objects.DoorObject;
+import GameObjects.DoorObject;
 
 /**
  * Created by T510 on 8/3/2017.

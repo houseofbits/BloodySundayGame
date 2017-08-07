@@ -1,9 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-
 import events.GameEvent;
 
 /**
@@ -16,10 +12,12 @@ public class GameObject implements events.EventListener {
     private String       name = "";
     private boolean      dispose = false;
 
-    public void init(SceneManager sceneManagerRef){
+    public void onCreate(SceneManager sceneManagerRef){
         sceneManager = sceneManagerRef;
         sceneManager.eventManager.registerListener(this);
     }
+
+    public void onInit(){   }
 
     public void setDispose(boolean d){ this.dispose = d; }
     public boolean isDisposable(){ return dispose; }
@@ -46,7 +44,7 @@ public class GameObject implements events.EventListener {
         }
     }
 
-    public void update() {  }
+    public void onUpdate() {  }
 
     public void render () { }
     public void dispose () {

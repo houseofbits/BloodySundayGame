@@ -1,7 +1,5 @@
 package events;
 
-import objects.ActorObject;
-
 /**
  * Created by T510 on 8/6/2017.
  */

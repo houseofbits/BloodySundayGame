@@ -38,26 +38,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
         sceneManager = new SceneManager();
 
-        sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-1.6f,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(1.7f,0,-0.6f)));
-
-        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.5f,0,0)));
-        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0,0,0)));
-        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(1.5f,0,0)));
-
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0,-0.05f,0), new Vector3(15,0.1f,15), new Color(0.4f,0.4f,0.4f,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0,2.8f,0), new Vector3(10,0.1f,10), new Color(1,1,1,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(-2.55f,1.5f,2), new Vector3(0.1f, 3, 5), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(2.55f,1.5f,2), new Vector3(0.1f, 3, 5), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0,2.6f,0.05f), new Vector3(5, 0.8f, 0.1f), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(-0.75f,1.1f,0.05f), new Vector3(0.6f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0.75f,1.1f,0.05f), new Vector3(0.6f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(-2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
-
-        //sceneManager.assetsManager.load("test_actor.g3dj", Model.class);
-
     }
 
 	@Override

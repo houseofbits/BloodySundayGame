@@ -94,8 +94,8 @@ public class SpawnObject extends GameObject {
 
     public void render () {
 
-        modelBatch.begin(sceneManager.cam);
-        modelBatch.render(instance, sceneManager.environment);
+        modelBatch.begin(sceneManager.scene.cam);
+        modelBatch.render(instance, sceneManager.scene.environment);
         modelBatch.end();
 
     }

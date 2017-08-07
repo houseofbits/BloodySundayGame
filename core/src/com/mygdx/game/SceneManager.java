@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.GameScenes.GameScene1;
 
 import events.EventManager;
 
@@ -29,10 +30,6 @@ public class SceneManager {
     protected long prev_frame_time = 0;
     public float frame_time_s = 0;
 
-    public Environment environment;
-    public PerspectiveCamera cam;
-    public CameraInputController camController;
-
     public AssetManager assetsManager;
     public boolean  assetsLoaded = false;
 
@@ -50,19 +47,9 @@ public class SceneManager {
         });
 
         prev_frame_time = time.millis();
-        cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(-0.7f, 1.3f, 6f);
-        cam.lookAt(0,1.7f,0);
-        cam.near = 1f;
-        cam.far = 500f;
-        cam.update();
 
-        camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(camController);
-
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+        scene = new GameScene1(this);
+        scene.onCreate();
     }
 
     public void AddGameObject(GameObject object){
@@ -94,7 +81,7 @@ public class SceneManager {
 
         if(frame_time_s > 0.025f)frame_time_s = 0.025f;
 
-        camController.update();
+        if(scene != null)scene.onUpdate();
 
         for (final GameObject go : this.gameObjectArray) {
             go.onUpdate();

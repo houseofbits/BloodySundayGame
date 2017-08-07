@@ -123,8 +123,8 @@ public class DoorObject extends GameObject {
         instance.transform.rotate(0,1,0, angle);
         instance.transform.translate(-size.x/2,0,0);
 
-        modelBatch.begin(sceneManager.cam);
-        modelBatch.render(instance, sceneManager.environment);
+        modelBatch.begin(sceneManager.scene.cam);
+        modelBatch.render(instance, sceneManager.scene.environment);
         modelBatch.end();
 
     }

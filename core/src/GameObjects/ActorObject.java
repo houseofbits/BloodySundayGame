@@ -61,8 +61,6 @@ public class ActorObject extends GameObject {
         }
     }
 
-
-
     public ActorObject(String spawn, String door, Vector3 pos){
         spawnName = spawn;
         doorName = door;
@@ -83,11 +81,11 @@ public class ActorObject extends GameObject {
         renderable.translate(position);
 
         Vector3 v = new Vector3(position);
-        v = v.sub(sceneManager.cam.position);
+        v = v.sub(sceneManager.scene.cam.position);
         Vector2 v2n1 = new Vector2(v.x,v.z);
         v2n1 = v2n1.nor();
 
-        float crs = v2n1.crs(new Vector2(sceneManager.cam.direction.x,sceneManager.cam.direction.z).nor());
+        float crs = v2n1.crs(new Vector2(sceneManager.scene.cam.direction.x,sceneManager.scene.cam.direction.z).nor());
 
         if(renderable.modelInstance != null)renderable.modelInstance.transform.rotate(0,1,0, (crs*90));
 
@@ -130,7 +128,7 @@ public class ActorObject extends GameObject {
     }
 
     public void render () {
-        renderable.render(sceneManager.cam, sceneManager.environment);
+        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
     public void dispose () {
         super.dispose();

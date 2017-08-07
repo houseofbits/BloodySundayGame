@@ -1,6 +1,7 @@
-package events;
+package GameEvents;
 
 import GameObjects.DoorObject;
+import events.GameEvent;
 
 /**
  * Created by T510 on 8/3/2017.

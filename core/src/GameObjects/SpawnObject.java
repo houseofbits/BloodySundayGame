@@ -13,7 +13,7 @@ import com.mygdx.game.SceneManager;
 
 import java.util.Random;
 
-import events.ActorEvent;
+import GameEvents.ActorEvent;
 
 /**
  * Created by T510 on 7/31/2017.

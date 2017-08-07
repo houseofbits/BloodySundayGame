@@ -6,8 +6,8 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
-import events.ActorEvent;
-import events.DoorEvent;
+import GameEvents.ActorEvent;
+import GameEvents.DoorEvent;
 
 /**
  * Created by KristsPudzens on 04.08.2017.

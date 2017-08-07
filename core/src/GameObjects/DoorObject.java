@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
-import events.DoorEvent;
+import GameEvents.DoorEvent;
 
 public class DoorObject extends GameObject {
 

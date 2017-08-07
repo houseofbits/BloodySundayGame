@@ -1,4 +1,6 @@
-package events;
+package GameEvents;
+
+import events.GameEvent;
 
 /**
  * Created by T510 on 8/6/2017.

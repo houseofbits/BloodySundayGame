@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -39,6 +41,13 @@ public class SceneManager {
 
         assetsManager = new AssetManager();
 
+        assetsManager.setErrorListener(new AssetErrorListener() {
+            @Override
+            public void error(AssetDescriptor assetDescriptor, Throwable throwable) {
+                System.out.println("ASSET: "+assetDescriptor.toString()+" - "+throwable.getMessage());
+            }
+        });
+
         prev_frame_time = time.millis();
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(-0.7f, 1.3f, 6f);
@@ -71,6 +80,9 @@ public class SceneManager {
 
         if(!assetsManager.update()){
             assetsLoaded = false;
+
+            //draw loading screen
+
             return;
         }
         assetsLoaded = true;

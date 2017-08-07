@@ -26,7 +26,6 @@ public class Renderable {
     public ModelInstance instance = null;
     //private Texture texture = null;
 
-
     public Renderable(GameObject o){
         gameObject = o;
     }
@@ -34,32 +33,31 @@ public class Renderable {
     public void init(String modelName){
 
         modelBatch = new ModelBatch();
-        //ModelBuilder modelBuilder = new ModelBuilder();
-        //ModelLoader loader = new G3dModelLoader(new JsonReader());          //new UBJsonReader() for binary
-        //model = loader.loadModel(Gdx.files.internal(modelName));
 
-        model = gameObject.sceneManager.assetsManager.get("data/ship.g3db", Model.class);
-
-        instance = new ModelInstance(model);
-
-        //texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-
+        if(gameObject.sceneManager.assetsManager.isLoaded("test_actor.g3dj")) {
+            model = gameObject.sceneManager.assetsManager.get("test_actor.g3dj", Model.class);
+            instance = new ModelInstance(model);
+        }
     }
 
     public void translate(Vector3 pos){
-        instance.transform.idt();
-        instance.transform.translate(pos);
+        if(instance != null) {
+            instance.transform.idt();
+            instance.transform.translate(pos);
+        }
     }
 
     public void render(PerspectiveCamera cam, Environment env){
-        modelBatch.begin(cam);
-        modelBatch.render(instance, env);
-        modelBatch.end();
+        if(instance != null) {
+            modelBatch.begin(cam);
+            modelBatch.render(instance, env);
+            modelBatch.end();
+        }
     }
 
     public void dispose(){
         modelBatch.dispose();
-        model.dispose();
+        if(model != null)model.dispose();
     }
 
 }

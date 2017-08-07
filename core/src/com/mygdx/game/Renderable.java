@@ -19,22 +19,26 @@ import com.badlogic.gdx.utils.JsonReader;
 
 public class Renderable {
 
+    private GameObject gameObject;
+
     public ModelBatch modelBatch = null;
     public Model model = null;
     public ModelInstance instance = null;
     //private Texture texture = null;
 
 
-    public Renderable(){
-
+    public Renderable(GameObject o){
+        gameObject = o;
     }
 
     public void init(String modelName){
 
         modelBatch = new ModelBatch();
-        ModelBuilder modelBuilder = new ModelBuilder();
-        ModelLoader loader = new G3dModelLoader(new JsonReader());          //new UBJsonReader() for binary
-        model = loader.loadModel(Gdx.files.internal(modelName));
+        //ModelBuilder modelBuilder = new ModelBuilder();
+        //ModelLoader loader = new G3dModelLoader(new JsonReader());          //new UBJsonReader() for binary
+        //model = loader.loadModel(Gdx.files.internal(modelName));
+
+        model = gameObject.sceneManager.assetsManager.get("data/ship.g3db", Model.class);
 
         instance = new ModelInstance(model);
 

@@ -32,6 +32,8 @@ public class SceneManager {
     public CameraInputController camController;
 
     public AssetManager assetsManager;
+    public boolean  assetsLoaded = false;
+
 
     public SceneManager(){
 
@@ -66,6 +68,12 @@ public class SceneManager {
     }
 
     void renderAll(){
+
+        if(!assetsManager.update()){
+            assetsLoaded = false;
+            return;
+        }
+        assetsLoaded = true;
 
         long current_time_ms = time.millis();
         frame_time_s = (current_time_ms - prev_frame_time) / 1000.0f;

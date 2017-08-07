@@ -50,13 +50,7 @@ public class MyGdxGame extends ApplicationAdapter {
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(-2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
         sceneManager.AddGameObject(new objects.StaticObject(new Vector3(2.225f,1.1f,0.05f), new Vector3(0.55f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
 
-        //sceneManager.assetsManager.load("test_actor.g3dj", Model.class);
-
-    }
-
-    private void doneLoading() {
-
-       // System.out.println("done loading");
+        sceneManager.assetsManager.load("test_actor.g3dj", Model.class);
 
     }
 
@@ -73,6 +67,8 @@ public class MyGdxGame extends ApplicationAdapter {
         //HUD
         stringBuilder.setLength(0);
         stringBuilder.append(" FPS: ").append(Gdx.graphics.getFramesPerSecond());
+
+        if(!sceneManager.assetsLoaded)stringBuilder.append("  [ LOADING ] ");
 
         label.setText(stringBuilder);
         stage.draw();

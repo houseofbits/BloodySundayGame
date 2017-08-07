@@ -81,7 +81,7 @@ public class ActorObject extends GameObject {
         spawnName = spawn;
         doorName = door;
         position = pos;
-        model = new Renderable();
+        model = new Renderable(this);
     }
 
     public void init(SceneManager sceneManagerRef){

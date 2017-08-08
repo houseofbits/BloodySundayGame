@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameScenes.GameScene1;
 
+import GUI.GUIStage;
 import events.EventManager;
 
 /**
@@ -33,6 +34,8 @@ public class SceneManager {
     public AssetManager assetsManager;
     public boolean  assetsLoaded = false;
 
+    private GUIStage guiStage;
+
     public Scene    scene = null;
 
     public SceneManager(){
@@ -48,8 +51,10 @@ public class SceneManager {
 
         prev_frame_time = time.millis();
 
-        scene = new GameScene1(this);
-        scene.onCreate();
+        guiStage = new GUIStage(this);
+
+        //scene = new GameScene1(this);
+        //scene.onCreate();
     }
 
     public void AddGameObject(GameObject object){
@@ -118,6 +123,9 @@ public class SceneManager {
             o.onInit();
         }
         createGameObjectArray.clear();
+
+        if(scene == null)guiStage.render();
+
     }
 
     public void dispose(){

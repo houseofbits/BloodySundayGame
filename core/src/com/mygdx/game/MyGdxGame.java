@@ -1,19 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-//import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-
-import GameObjects.DoorObject;
-import GameObjects.SpawnObject;
-import GameObjects.StaticObject;
+import GUI.GUIStage;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -23,9 +18,6 @@ public class MyGdxGame extends ApplicationAdapter {
     protected StringBuilder stringBuilder;
 
     protected SceneManager sceneManager;
-
-
-    public AssetManager assetsManager;
 
 	@Override
 	public void create () {
@@ -61,6 +53,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         label.setText(stringBuilder);
         stage.draw();
+
 	}
 	
 	@Override

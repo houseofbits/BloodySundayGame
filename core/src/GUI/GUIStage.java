@@ -71,9 +71,6 @@ public class GUIStage extends InputListener {
 
     public void touchUp (InputEvent e, float x, float y, int pointer, int button) {
 
-    }
-    public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {
-
         Actor a = e.getListenerActor();
 
         if(a.getName() == "BUTTON1") {
@@ -84,6 +81,10 @@ public class GUIStage extends InputListener {
             sceneManager.scene = new GameScene2(sceneManager);
             sceneManager.scene.onCreate();
         }
+    }
+    public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {
+
+
         return true;
     }
 

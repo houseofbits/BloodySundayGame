@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.height = 562;
 		config.width = 1000;
 		config.title = "Android test";
+		config.samples = 4;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

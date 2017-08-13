@@ -33,8 +33,8 @@ public class GameScene2 extends Scene {
         super.onCreate(mgr);
 
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(-0.3f, 1.3f, 6f);
-        cam.lookAt(0,1.7f,0);
+        cam.position.set(0, 0, 5);
+        cam.lookAt(0,0,0);
         cam.near = 1f;
         cam.far = 500f;
         cam.update();
@@ -46,11 +46,13 @@ public class GameScene2 extends Scene {
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(0,0,-0.6f)));
+        //sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(0,0,-0.6f)));
 
-        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(0,0,0)));
+        //sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(0,0,0), "door1.g3dj"));
 
-        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
+        //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
+
+        sceneManager.AddGameObject(new StaticObject("testquad.g3dj"));
 
     }
 

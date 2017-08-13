@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
 import GameEvents.DoorEvent;
@@ -32,7 +33,7 @@ public class DoorObject extends GameObject {
     }
 
     private Vector3  position;
-    private Vector3  size;
+    //private Vector3  size;
     public float advancement = 0;
     public float speedOpening = 1.5f;
     public float speedClosing = 2;
@@ -41,39 +42,32 @@ public class DoorObject extends GameObject {
     public float angleMin = 0;
     public float angleMax = 110;
 
-    public ModelBatch modelBatch;
-    public Model model;
-    public ModelInstance instance;
+
+    Renderable renderable;
+//    public ModelBatch modelBatch;
+//    public Model model;
+//    public ModelInstance instance;
 
     public BoundingBox boundingBox;
 
-    public DoorObject (String n, Vector3 pos){
+    public DoorObject (String n, Vector3 pos, String filename){
         this.receive_hits = true;
         this.setName(n);
         position = pos;
-        size = new Vector3(0.9f, 2.2f, 0.1f);
-        boundingBox = new BoundingBox(new Vector3(size.cpy().scl(-0.5f)), new Vector3(size.cpy().scl(0.5f)));
+        //size = new Vector3(0.9f, 2.2f, 0.1f);
+        boundingBox = new BoundingBox();
+        //boundingBox = new BoundingBox(new Vector3(size.cpy().scl(-0.5f)), new Vector3(size.cpy().scl(0.5f)));
+        renderable = new Renderable(this, filename);
     }
 
     public void onCreate(SceneManager sceneManagerRef){
-
         super.onCreate(sceneManagerRef);
-
-        modelBatch = new ModelBatch();
-
-        ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createBox(this.size.x, this.size.y, this.size.z,
-                new Material(ColorAttribute.createDiffuse(0.5f, 0.2f, 0f, 0f)),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        instance = new ModelInstance(model);
-
-        this.position.y = size.y / 2;
-
-        //this.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, State.OPEN));
+        renderable.create();
     }
 
     public void onInit() {
-
+        renderable.init();
+        renderable.modelInstance.calculateBoundingBox(boundingBox);
     }
 
     public void onDoorEvent(DoorEvent e){
@@ -82,15 +76,14 @@ public class DoorObject extends GameObject {
             if (e.state == State.CLOSED) this.closeDoor();
             if (e.state == State.OPEN) this.openDoor();
         }
-        if(e.action == DoorEvent.Action.STATE_CHANGED) {
+        //if(e.action == DoorEvent.Action.STATE_CHANGED) {
         //    if (e.state == State.CLOSED) this.openDoor();
         //    if (e.state == State.OPEN) this.closeDoor();
-        }
+        //}
     }
 
     public void openDoor(){
         if(state != State.OPEN)state = State.OPENING;
-        //System.out.println(" call openDoor "+state.toString());
     }
 
     public void closeDoor(){
@@ -123,28 +116,27 @@ public class DoorObject extends GameObject {
 
         float angle = angleMin + ((angleMax - angleMin) * advancement);
 
-        instance.transform.idt();
-        instance.transform.translate(this.position);
-        instance.transform.translate(size.x/2,0,0);
-        instance.transform.rotate(0,1,0, angle);
-        instance.transform.translate(-size.x/2,0,0);
+        if(renderable.modelInstance == null)return;
 
-        modelBatch.begin(sceneManager.scene.cam);
-        modelBatch.render(instance, sceneManager.scene.environment);
-        modelBatch.end();
+        renderable.modelInstance.transform.idt();
+        renderable.modelInstance.transform.translate(this.position);
+        //renderable.modelInstance.transform.translate(size.x/2,0,0);
+        renderable.modelInstance.transform.rotate(0,1,0, angle);
+        //renderable.modelInstance.transform.translate(-size.x/2,0,0);
 
+        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
     public void dispose () {
         super.dispose();
-        modelBatch.dispose();
-        model.dispose();
+        renderable.dispose();
     }
 
     public boolean intersectRay(Ray ray, Vector3 inter){
+        if(renderable.modelInstance == null)return false;
         Ray r = ray.cpy();
-        r.mul(instance.transform.cpy().inv());
+        r.mul(renderable.modelInstance.transform.cpy().inv());
         if (Intersector.intersectRayBounds(r, boundingBox, inter)) {
-            inter.mul(instance.transform);
+            inter.mul(renderable.modelInstance.transform);
             return true;
         }
         return false;

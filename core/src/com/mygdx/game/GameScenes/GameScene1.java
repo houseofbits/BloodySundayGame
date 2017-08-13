@@ -45,20 +45,19 @@ public class GameScene1 extends Scene {
         Gdx.input.setInputProcessor(new InputMultiplexer(this, sceneManager.guiStage.getStage(), camController));
 
         environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
+        //environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
         sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-1.8f,0,-0.6f)));
         sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
         sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(1.8f,0,-0.6f)));
 
-        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.65f,0,0)));
-        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0,0,0)));
-        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(1.6f,0,0)));
+        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj"));
+        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj"));
+        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj"));
 
         sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
-
-
 
     }
 

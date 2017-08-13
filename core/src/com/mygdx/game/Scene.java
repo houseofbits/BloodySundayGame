@@ -44,12 +44,13 @@ public class Scene  extends InputAdapter {
 
         for(int i=0; i<sceneManager.gameObjectArray.size; i++) {
             GameObject o = sceneManager.gameObjectArray.get(i);
+            if(o.receive_hits) {
+                Vector3 pt = new Vector3();
+                if (o.intersectRay(ray, pt)) {
 
-            Vector3 pt = new Vector3();
-            if(o.intersectRay(ray, pt)){
+                    sceneManager.AddGameObject(new BulletSplashObject(pt));
 
-                sceneManager.AddGameObject(new BulletSplashObject(pt));
-
+                }
             }
         }
 

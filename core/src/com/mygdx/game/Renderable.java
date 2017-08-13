@@ -51,6 +51,8 @@ public class Renderable {
         if(gameObject.sceneManager.assetsManager.isLoaded(modelName)) {
             Model model = gameObject.sceneManager.assetsManager.get(modelName, Model.class);
             modelInstance = new ModelInstance(model);
+        }else{
+            System.out.println("Renderable:init asset not loaded "+modelName);
         }
     }
 
@@ -64,6 +66,7 @@ public class Renderable {
     public void render(PerspectiveCamera cam, Environment env){
         modelBatch.begin(cam);
         if(modelInstance != null)modelBatch.render(modelInstance, env);
+        else System.out.println("Renderable:render instance not created "+modelName);
         modelBatch.end();
     }
 

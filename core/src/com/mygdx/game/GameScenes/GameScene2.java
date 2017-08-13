@@ -1,6 +1,7 @@
 package com.mygdx.game.GameScenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -23,11 +24,13 @@ public class GameScene2 extends Scene {
 
     public CameraInputController camController;
 
-    public GameScene2(SceneManager mgr){
-        super(mgr);
+    public GameScene2(){
+
     }
 
-    public void onCreate(){
+    public void onCreate(SceneManager mgr){
+
+        super.onCreate(mgr);
 
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(-0.3f, 1.3f, 6f);
@@ -37,7 +40,7 @@ public class GameScene2 extends Scene {
         cam.update();
 
         camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(camController);
+        Gdx.input.setInputProcessor(new InputMultiplexer(this, sceneManager.guiStage.getStage(), camController));
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
@@ -47,15 +50,7 @@ public class GameScene2 extends Scene {
 
         sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(0,0,0)));
 
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0,-0.05f,0), new Vector3(15,0.1f,15), new Color(0.4f,0.4f,0.4f,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0,2.8f,0), new Vector3(10,0.1f,10), new Color(1,1,1,0)));
-
-        sceneManager.AddGameObject(new StaticObject(new Vector3(-1f,1.5f,3), new Vector3(0.1f, 3, 6), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(1f,1.5f,3), new Vector3(0.1f, 3, 6), new Color(0,0.5f,0,0)));
-
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0,2.6f,0.05f), new Vector3(3, 0.8f, 0.1f), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(-0.75f,1.1f,0.05f), new Vector3(0.6f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
-        sceneManager.AddGameObject(new StaticObject(new Vector3(0.75f,1.1f,0.05f), new Vector3(0.6f, 2.2f, 0.1f), new Color(0,0.5f,0,0)));
+        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
     }
 

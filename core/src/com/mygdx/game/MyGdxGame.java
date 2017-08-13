@@ -1,16 +1,19 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
+//import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.InputAdapter;
+//import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import GUI.GUIStage;
+//import GUI.GUIStage;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class MyGdxGame extends InputAdapter implements ApplicationListener {
 
     protected Stage stage;
     protected Label label;
@@ -30,6 +33,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
         sceneManager = new SceneManager();
 
+        //Gdx.input.setInputProcessor(new InputMultiplexer(this, camController));
+
+        //Gdx.input.setInputProcessor(this);
     }
 
 	@Override
@@ -55,11 +61,23 @@ public class MyGdxGame extends ApplicationAdapter {
         stage.draw();
 
 	}
-	
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
 	@Override
 	public void dispose () {
 
         sceneManager.dispose();
 
 	}
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
 }

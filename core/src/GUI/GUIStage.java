@@ -45,23 +45,27 @@ public class GUIStage extends InputListener {
         style.up = buttonSkin.getDrawable("buttonoff");
         style.font = font;
 
-        button1 = new TextButton("LOAD SCENE 1", style);
+        button1 = new TextButton("SCENE 1", style);
         button1.setPosition(10, 145);
         button1.setHeight(30);
-        button1.setWidth(150);
+        button1.setWidth(100);
         button1.setName("BUTTON1");
         stage.addActor(button1);
         button1.addListener(this);
 
 
-        button2 = new TextButton("LOAD SCENE 2", style);
+        button2 = new TextButton("SCENE 2", style);
         button2.setPosition(10, 110);
         button2.setHeight(30);
-        button2.setWidth(150);
+        button2.setWidth(100);
         button2.setName("BUTTON2");
         stage.addActor(button2);
         button2.addListener(this);
 
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 
     public void render(){
@@ -74,18 +78,16 @@ public class GUIStage extends InputListener {
         Actor a = e.getListenerActor();
 
         if(a.getName() == "BUTTON1") {
-            sceneManager.scene = new GameScene1(sceneManager);
-            sceneManager.scene.onCreate();
+            sceneManager.CreateScene(new GameScene1());
         }
         if(a.getName() == "BUTTON2") {
-            sceneManager.scene = new GameScene2(sceneManager);
-            sceneManager.scene.onCreate();
+            sceneManager.CreateScene(new GameScene2());
         }
     }
     public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {
 
 
-        return true;
+        return true;   //return true stops event propagation
     }
 
 }

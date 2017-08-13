@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
 /**
@@ -20,43 +21,29 @@ import com.mygdx.game.SceneManager;
 
 public class StaticObject extends GameObject {
 
-    public ModelBatch modelBatch;
-    public Model model;
-    public ModelInstance instance;
+    Renderable renderable;
 
-    public StaticObject (Vector3 pos, Vector3 size, Color color){
-
-        modelBatch = new ModelBatch();
-
-        ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createBox(size.x, size.y, size.z,
-                new Material(ColorAttribute.createDiffuse(color)),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        instance = new ModelInstance(model);
-
-        instance.transform.idt();
-        instance.transform.translate(pos);
-
+    public StaticObject (String filename){
+        this.receive_hits = false;
+        renderable = new Renderable(this, filename);
     }
 
     public void onCreate(SceneManager sceneManagerRef){
         super.onCreate(sceneManagerRef);
+        renderable.create();
 
     }
 
     public void onInit(){
-
+        renderable.init();
     }
 
     public void render () {
-        modelBatch.begin(sceneManager.scene.cam);
-        modelBatch.render(instance, sceneManager.scene.environment);
-        modelBatch.end();
+        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
     public void dispose () {
         super.dispose();
-        modelBatch.dispose();
-        model.dispose();
+        renderable.dispose();
     }
 
 

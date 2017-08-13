@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
+
 import events.GameEvent;
 
 /**
@@ -11,6 +14,7 @@ public class GameObject implements events.EventListener {
     public SceneManager sceneManager = null;
     private String       name = "";
     private boolean      dispose = false;
+    public boolean     receive_hits = false;
 
     public void onCreate(SceneManager sceneManagerRef){
         sceneManager = sceneManagerRef;
@@ -49,5 +53,13 @@ public class GameObject implements events.EventListener {
     public void render () { }
     public void dispose () {
         sceneManager.eventManager.removeListener(this);
+    }
+
+
+    public boolean intersectRay(Ray ray, Vector3 inter){
+
+
+
+        return false;
     }
 }

@@ -34,7 +34,7 @@ public class SceneManager {
     public AssetManager assetsManager;
     public boolean  assetsLoaded = false;
 
-    private GUIStage guiStage;
+    public GUIStage guiStage;
 
     public Scene    scene = null;
 
@@ -124,7 +124,8 @@ public class SceneManager {
         }
         createGameObjectArray.clear();
 
-        if(scene == null)guiStage.render();
+        //if(scene == null)
+            guiStage.render();
 
     }
 
@@ -132,5 +133,14 @@ public class SceneManager {
         for (final GameObject go : this.gameObjectArray) {
             go.dispose();
         }
+        this.gameObjectArray.clear();
     }
+
+    public void CreateScene(Scene s){
+        if(scene != null)scene.onDispose();
+        dispose();
+        scene = s;
+        scene.onCreate(this);
+    }
+
 }

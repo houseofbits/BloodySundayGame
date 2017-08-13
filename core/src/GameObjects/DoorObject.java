@@ -13,7 +13,10 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
+import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
@@ -42,11 +45,14 @@ public class DoorObject extends GameObject {
     public Model model;
     public ModelInstance instance;
 
-    public DoorObject (String n, Vector3 pos){
+    public BoundingBox boundingBox;
 
+    public DoorObject (String n, Vector3 pos){
+        this.receive_hits = true;
         this.setName(n);
         position = pos;
         size = new Vector3(0.9f, 2.2f, 0.1f);
+        boundingBox = new BoundingBox(new Vector3(size.cpy().scl(-0.5f)), new Vector3(size.cpy().scl(0.5f)));
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -132,6 +138,16 @@ public class DoorObject extends GameObject {
         super.dispose();
         modelBatch.dispose();
         model.dispose();
+    }
+
+    public boolean intersectRay(Ray ray, Vector3 inter){
+        Ray r = ray.cpy();
+        r.mul(instance.transform.cpy().inv());
+        if (Intersector.intersectRayBounds(r, boundingBox, inter)) {
+            inter.mul(instance.transform);
+            return true;
+        }
+        return false;
     }
 
 }

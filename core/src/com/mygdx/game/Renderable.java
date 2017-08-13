@@ -30,9 +30,17 @@ public class Renderable {
     public Renderable(GameObject o){
         gameObject = o;
     }
+    public Renderable(GameObject o, String filename){
+        gameObject = o;
+        modelName = filename;
+    }
 
     public void create(String m){
         modelName = m;
+        gameObject.sceneManager.assetsManager.load(modelName, Model.class);
+    }
+
+    public void create(){
         gameObject.sceneManager.assetsManager.load(modelName, Model.class);
     }
 

@@ -24,6 +24,51 @@ import com.mygdx.game.SceneManager;
 
 import GameEvents.DoorEvent;
 
+/*
+    float exponentialEasing (float x, float a){
+
+      float epsilon = 0.00001;
+      float min_param_a = 0.0 + epsilon;
+      float max_param_a = 1.0 - epsilon;
+      a = max(min_param_a, min(max_param_a, a));
+
+      if (a < 0.5){
+        // emphasis
+        a = 2.0*(a);
+        float y = pow(x, a);
+        return y;
+      } else {
+        // de-emphasis
+        a = 2.0*(a-0.5);
+        float y = pow(x, 1.0/(1-a));
+        return y;
+      }
+    }
+
+
+//------------------------------------------------
+float quadraticBezier (float x, float a, float b){
+  // adapted from BEZMATH.PS (1993)
+  // by Don Lancaster, SYNERGETICS Inc.
+  // http://www.tinaja.com/text/bezmath.html
+
+  float epsilon = 0.00001;
+  a = max(0, min(1, a));
+  b = max(0, min(1, b));
+  if (a == 0.5){
+    a += epsilon;
+  }
+
+  // solve t from x (an inverse operation)
+  float om2a = 1 - 2*a;
+  float t = (sqrt(a*a + om2a*x) - a)/om2a;
+  float y = (1-2*b)*(t*t) + (2*b)*t;
+  return y;
+}
+
+ */
+
+
 public class DoorObject extends GameObject {
 
     public enum State{

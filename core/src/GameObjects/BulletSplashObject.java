@@ -55,7 +55,7 @@ public class BulletSplashObject extends GameObject {
         stateTimer = stateTimer - sceneManager.frame_time_s;
 
         if(stateTimer <= 0){
-        //    this.setDispose(true);
+            this.setDispose(true);
         }
     }
     public void render () {

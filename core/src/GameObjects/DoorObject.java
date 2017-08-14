@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
@@ -33,7 +34,6 @@ public class DoorObject extends GameObject {
     }
 
     private Vector3  position;
-    //private Vector3  size;
     public float advancement = 0;
     public float speedOpening = 1.5f;
     public float speedClosing = 2;
@@ -42,32 +42,26 @@ public class DoorObject extends GameObject {
     public float angleMin = 0;
     public float angleMax = 110;
 
-
-    Renderable renderable;
-//    public ModelBatch modelBatch;
-//    public Model model;
-//    public ModelInstance instance;
-
-    public BoundingBox boundingBox;
+    Renderable renderable = null;
+    IntersectionMesh intersectionMesh = null;
 
     public DoorObject (String n, Vector3 pos, String filename){
         this.receive_hits = true;
         this.setName(n);
         position = pos;
-        //size = new Vector3(0.9f, 2.2f, 0.1f);
-        boundingBox = new BoundingBox();
-        //boundingBox = new BoundingBox(new Vector3(size.cpy().scl(-0.5f)), new Vector3(size.cpy().scl(0.5f)));
         renderable = new Renderable(this, filename);
+        intersectionMesh = new IntersectionMesh(this, filename);
     }
 
     public void onCreate(SceneManager sceneManagerRef){
         super.onCreate(sceneManagerRef);
         renderable.create();
+        intersectionMesh.create();
     }
 
     public void onInit() {
         renderable.init();
-        renderable.modelInstance.calculateBoundingBox(boundingBox);
+        intersectionMesh.init();
     }
 
     public void onDoorEvent(DoorEvent e){
@@ -120,9 +114,7 @@ public class DoorObject extends GameObject {
 
         renderable.modelInstance.transform.idt();
         renderable.modelInstance.transform.translate(this.position);
-        //renderable.modelInstance.transform.translate(size.x/2,0,0);
         renderable.modelInstance.transform.rotate(0,1,0, angle);
-        //renderable.modelInstance.transform.translate(-size.x/2,0,0);
 
         renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
@@ -132,10 +124,12 @@ public class DoorObject extends GameObject {
     }
 
     public boolean intersectRay(Ray ray, Vector3 inter){
+
         if(renderable.modelInstance == null)return false;
+
         Ray r = ray.cpy();
         r.mul(renderable.modelInstance.transform.cpy().inv());
-        if (Intersector.intersectRayBounds(r, boundingBox, inter)) {
+        if (intersectionMesh.IntersectRay(r, inter)) {
             inter.mul(renderable.modelInstance.transform);
             return true;
         }

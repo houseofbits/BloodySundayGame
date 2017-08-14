@@ -24,13 +24,18 @@ import com.mygdx.game.SceneManager;
 
 public class StaticObject extends GameObject {
 
-    Renderable renderable;
-    IntersectionMesh intersectionMesh;
+    Renderable renderable = null;
+    IntersectionMesh intersectionMesh = null;
 
-    public StaticObject (String filename){
+    public StaticObject (String modelName){
         this.receive_hits = true;
-        renderable = new Renderable(this, filename);
-        intersectionMesh = new IntersectionMesh(this, filename);
+        renderable = new Renderable(this, modelName);
+        intersectionMesh = new IntersectionMesh(this, modelName);
+    }
+    public StaticObject (String modelName, String intName){
+        this.receive_hits = true;
+        renderable = new Renderable(this, modelName);
+        intersectionMesh = new IntersectionMesh(this, intName);
     }
 
     public void onCreate(SceneManager sceneManagerRef){

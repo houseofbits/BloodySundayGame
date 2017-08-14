@@ -2,7 +2,9 @@ package GameObjects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
@@ -31,7 +33,8 @@ public class ActorObject extends GameObject {
     String  doorName = "";
     String  spawnName = "";
 
-    Renderable renderable;
+    Renderable renderable = null;
+    IntersectionMesh intersectionMesh = null;
 
     public void setState(State s){
 
@@ -66,19 +69,22 @@ public class ActorObject extends GameObject {
         spawnName = spawn;
         doorName = door;
         position = pos;
-        renderable = new Renderable(this);
+        renderable = new Renderable(this, "test_actor.g3dj");
+        intersectionMesh = new IntersectionMesh(this, "test_actor.g3dj");
     }
 
     public void onCreate(SceneManager sceneManagerRef){
 
         super.onCreate(sceneManagerRef);
-
-        renderable.create("test_actor.g3dj");
+        renderable.create();
+        intersectionMesh.create();
     }
 
     public void onInit(){
 
         renderable.init();
+        //intersectionMesh.init(); //??
+
         renderable.translate(position);
 
         Vector3 v = new Vector3(position);
@@ -135,4 +141,18 @@ public class ActorObject extends GameObject {
         super.dispose();
         renderable.dispose();
     }
+
+    public boolean intersectRay(Ray ray, Vector3 inter){
+
+        if(renderable.modelInstance == null)return false;
+
+        Ray r = ray.cpy();
+        r.mul(renderable.modelInstance.transform.cpy().inv());
+        if (intersectionMesh.IntersectRay(r, inter)) {
+            inter.mul(renderable.modelInstance.transform);
+            return true;
+        }
+        return false;
+    }
+
 }

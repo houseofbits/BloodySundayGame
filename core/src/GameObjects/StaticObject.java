@@ -57,11 +57,7 @@ public class StaticObject extends GameObject {
         renderable.dispose();
     }
     public boolean intersectRay(Ray ray, Vector3 inter){
-        if (intersectionMesh.IntersectRay(ray, inter)) {
-
-            return true;
-        }
-        return false;
+        return intersectionMesh.IntersectRay(ray, inter);
     }
 
 }

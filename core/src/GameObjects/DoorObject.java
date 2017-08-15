@@ -172,13 +172,8 @@ public class DoorObject extends GameObject {
 
         if(renderable.modelInstance == null)return false;
 
-        Ray r = ray.cpy();
-        r.mul(renderable.modelInstance.transform.cpy().inv());
-        if (intersectionMesh.IntersectRay(r, inter)) {
-            inter.mul(renderable.modelInstance.transform);
-            return true;
-        }
-        return false;
+        intersectionMesh.transform = renderable.modelInstance.transform;
+        return intersectionMesh.IntersectRay(ray, inter);
     }
 
 }

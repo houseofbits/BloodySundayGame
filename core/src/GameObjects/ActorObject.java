@@ -83,7 +83,7 @@ public class ActorObject extends GameObject {
     public void onInit(){
 
         renderable.init();
-        //intersectionMesh.init(); //??
+        intersectionMesh.init(); //??
 
         renderable.translate(position);
 
@@ -105,9 +105,6 @@ public class ActorObject extends GameObject {
 
         //set next state
         if(state!= null && stateTimer <= 0){
-
-            //System.out.println("State finished: " + state.toString());
-
             switch(state){
                 case APPEAR:
                     setState(State.IDLE);
@@ -125,7 +122,6 @@ public class ActorObject extends GameObject {
                     setState(State.DISAPPEAR);
                     break;
                 case DISAPPEAR:
-                    //finish, delete object
                     setState(null);
                     this.setDispose(true);
                     sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnName);
@@ -146,13 +142,8 @@ public class ActorObject extends GameObject {
 
         if(renderable.modelInstance == null)return false;
 
-        Ray r = ray.cpy();
-        r.mul(renderable.modelInstance.transform.cpy().inv());
-        if (intersectionMesh.IntersectRay(r, inter)) {
-            inter.mul(renderable.modelInstance.transform);
-            return true;
-        }
-        return false;
+        intersectionMesh.transform = renderable.modelInstance.transform;
+        return intersectionMesh.IntersectRay(ray, inter);
     }
 
 }

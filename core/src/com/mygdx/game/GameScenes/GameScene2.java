@@ -52,7 +52,7 @@ public class GameScene2 extends Scene {
 
         //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
-        sceneManager.AddGameObject(new StaticObject("testquad.g3dj"));
+        sceneManager.AddGameObject(new StaticObject("test_actor.g3dj"));
 
     }
 

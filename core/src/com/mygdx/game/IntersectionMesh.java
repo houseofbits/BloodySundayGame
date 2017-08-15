@@ -64,8 +64,10 @@ public class IntersectionMesh {
 
     public boolean IntersectRay(Ray ray, Vector3 point){
 
-        if(Intersector.intersectRayTriangles(ray, vertices, indices, vertexSize, point)) {
-
+        Ray r = ray.cpy();
+        r.mul(transform.cpy().inv());
+        if(Intersector.intersectRayTriangles(r, vertices, indices, vertexSize, point)) {
+            point.mul(transform);
             return true;
         }
         return false;

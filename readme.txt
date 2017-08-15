@@ -1,11 +1,12 @@
 
 =======================================================================================================
 RESEARCH
-1) Animation
-2) Particle effects
-3) Dynamic shadows
-4) Dynamic ligting
-5) Game name and theme
+Animation
+Particle effects
+Dynamic shadows
+Dynamic ligting
+Game name and theme
+	Game in style of classic noir movie. 
 
 =======================================================================================================
 DEV
@@ -17,6 +18,7 @@ Gameplay
 	- Player lives and game over state
 	- Randomize/balance gameplay with difficulty levels
 	- Level objectives. Rare bosses.
+	- Combo moves
 	- Special items dropped by actors
 
 =======================================================================================================

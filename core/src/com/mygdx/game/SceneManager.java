@@ -52,9 +52,6 @@ public class SceneManager {
         prev_frame_time = time.millis();
 
         guiStage = new GUIStage(this);
-
-        //scene = new GameScene1(this);
-        //scene.onCreate();
     }
 
     public void AddGameObject(GameObject object){
@@ -74,9 +71,7 @@ public class SceneManager {
 
         if(!assetsManager.update()){
             assetsLoaded = false;
-
-            //draw loading screen
-
+            guiStage.renderLoader();
             return;
         }
         assetsLoaded = true;
@@ -124,9 +119,9 @@ public class SceneManager {
         }
         createGameObjectArray.clear();
 
-        //if(scene == null)
-            guiStage.render();
+        guiStage.renderMainMenu();
 
+        if(scene != null)guiStage.renderGameHud(scene);
     }
 
     public void dispose(){

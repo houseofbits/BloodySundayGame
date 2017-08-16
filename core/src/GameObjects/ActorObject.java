@@ -65,7 +65,7 @@ public class ActorObject extends GameObject {
     }
 
     public ActorObject(String spawn, String door, Vector3 pos){
-        this.receive_hits = false;
+        this.receive_hits = true;
         spawnName = spawn;
         doorName = door;
         position = pos;

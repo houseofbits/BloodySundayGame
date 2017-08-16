@@ -18,8 +18,8 @@ public class IntersectionMesh {
     private String modelName = "";
     public BoundingBox boundingBox = new BoundingBox();
     public Matrix4  transform = new Matrix4();
-    float[] vertices;
-    short[] indices;
+    float[] vertices = null;
+    short[] indices = null;
     int   vertexSize = 0;
 
     public IntersectionMesh(GameObject o){
@@ -45,7 +45,8 @@ public class IntersectionMesh {
             model.calculateBoundingBox(boundingBox);
 
             model.calculateTransforms();
-            if(model.meshes.size > 0)LoadMeshes(model.meshes.get(0).copy(true, true, null), model.nodes.get(0).globalTransform);
+
+            if(model.meshes.size > 0)LoadMeshes(model.meshes.get(0).copy(true), model.nodes.get(0).globalTransform);
 
         }else{
             System.out.println("IntersectionMesh:init asset not loaded "+modelName);
@@ -63,6 +64,8 @@ public class IntersectionMesh {
     }
 
     public boolean IntersectRay(Ray ray, Vector3 point){
+
+        if(vertices == null || vertexSize == 0)return false;
 
         Ray r = ray.cpy();
         r.mul(transform.cpy().inv());

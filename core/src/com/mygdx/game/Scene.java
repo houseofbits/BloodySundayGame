@@ -18,6 +18,8 @@ public class Scene  extends InputAdapter {
     public Environment environment = null;
     public PerspectiveCamera cam = null;
 
+    public float    playerHealth = 100;
+
     public Scene(){
 
     }
@@ -50,10 +52,17 @@ public class Scene  extends InputAdapter {
 
                     sceneManager.AddGameObject(new BulletSplashObject(pt));
 
+                    o.onIntersection(pt.cpy());
+
                 }
             }
         }
 
         return false;   //return true stops event propagation
     }
+
+    public float getPlayerHealth(){
+        return playerHealth;
+    }
+
 }

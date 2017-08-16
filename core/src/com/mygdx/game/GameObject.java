@@ -62,4 +62,9 @@ public class GameObject implements events.EventListener {
 
         return false;
     }
+
+    public void onIntersection(Vector3 point){
+
+
+    }
 }

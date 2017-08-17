@@ -51,12 +51,18 @@ public class ActorObject extends GameObject {
                 case APPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN), doorName);
                     //System.out.println("Open door event sent "+doorName);
+                    renderable.setColor(0.5f,0.5f,0.5f);
                     break;
                 case IDLE:
-
+                    renderable.setColor(0.3f,0.3f,0.5f);
                     break;
                 case ACTION:
                     sendEvent(new ActorActionEvent(ActorActionEvent.State.SHOOT));
+                    renderable.setColor(0.5f,0.5f,0.3f);
+                    break;
+                case DIE:
+                    sendEvent(new ActorActionEvent(ActorActionEvent.State.SHOOT));
+                    renderable.setColor(0.5f,0.2f,0.2f);
                     break;
                 case DISAPPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
@@ -145,6 +151,10 @@ public class ActorObject extends GameObject {
 
         intersectionMesh.transform = renderable.modelInstance.transform;
         return intersectionMesh.IntersectRay(ray, inter);
+    }
+
+    public void onIntersection(Vector3 point){
+        setState(State.DIE);
     }
 
 }

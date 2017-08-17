@@ -8,7 +8,6 @@ import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
-import GameEvents.ActorActionEvent;
 import GameEvents.ActorEvent;
 import GameEvents.DoorEvent;
 
@@ -57,11 +56,14 @@ public class ActorObject extends GameObject {
                     renderable.setColor(0.3f,0.3f,0.5f);
                     break;
                 case ACTION:
-                    sendEvent(new ActorActionEvent(ActorActionEvent.State.SHOOT));
+                    sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
                     renderable.setColor(0.5f,0.5f,0.3f);
                     break;
+                case HIT:
+                    renderable.setColor(0.5f,0.3f,0.3f);
+                    break;
                 case DIE:
-                    sendEvent(new ActorActionEvent(ActorActionEvent.State.SHOOT));
+                    sendEvent(new ActorEvent(ActorEvent.State.DIE));
                     renderable.setColor(0.5f,0.2f,0.2f);
                     break;
                 case DISAPPEAR:
@@ -90,7 +92,7 @@ public class ActorObject extends GameObject {
     public void onInit(){
 
         renderable.init();
-        intersectionMesh.init(); //??
+        intersectionMesh.init();
 
         renderable.translate(position);
 
@@ -123,7 +125,7 @@ public class ActorObject extends GameObject {
                     setState(State.DISAPPEAR);
                     break;
                 case HIT:
-                    setState(State.DISAPPEAR);
+                    setState(State.DIE);
                     break;
                 case DIE:
                     setState(State.DISAPPEAR);
@@ -154,7 +156,8 @@ public class ActorObject extends GameObject {
     }
 
     public void onIntersection(Vector3 point){
-        setState(State.DIE);
+        if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR)
+            setState(State.HIT);
     }
 
 }

@@ -9,12 +9,16 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameScenes.GameScene1;
 
 import GUI.GUIStage;
+import GameObjects.BulletSplashObject;
 import events.EventManager;
+import events.GameEvent;
 
 /**
  * Created by T510 on 8/2/2017.
@@ -26,6 +30,7 @@ public class SceneManager {
 
     protected Array<GameObject> gameObjectArray = new Array<GameObject>();
     protected Array<GameObject> createGameObjectArray = new Array<GameObject>();
+    protected Array<Ray> shootRays = new Array<Ray>();
 
     protected TimeUtils time = new TimeUtils();
     protected long prev_frame_time = 0;
@@ -111,12 +116,15 @@ public class SceneManager {
             assetsManager.finishLoading();
         }
 
+        traceShootRays();
+
         //Add new game GameObjects
         for (int i = 0; i < createGameObjectArray.size; i++) {
             GameObject o = createGameObjectArray.get(i);
             gameObjectArray.add(o);
             o.onInit();
         }
+
         createGameObjectArray.clear();
 
         guiStage.renderMainMenu();
@@ -138,4 +146,39 @@ public class SceneManager {
         scene.onCreate(this);
     }
 
+    public void sendEvent(GameEvent e){
+        eventManager.addEvent(null, e, null);
+    }
+
+    public void sendEvent(GameEvent e, String targetName){
+        eventManager.addEvent(null, e, getObjectByName(targetName));
+    }
+
+    public void sendEvent(GameEvent e, GameObject target){
+        eventManager.addEvent(null, e, target);
+    }
+    public void castShootRay(Ray ray){
+        shootRays.add(ray);
+    }
+    private void traceShootRays(){
+
+        if(shootRays.size > 0) {
+            Ray ray = shootRays.pop();
+
+            for (int i = 0; i < gameObjectArray.size; i++) {
+                GameObject o = gameObjectArray.get(i);
+                if (o.receive_hits) {
+                    Vector3 pt = new Vector3();
+                    if (o.intersectRay(ray, pt)) {
+
+                        AddGameObject(new BulletSplashObject(pt));
+
+                        o.onIntersection(pt.cpy());
+
+                    }
+                }
+            }
+            shootRays.clear();
+        }
+    }
 }

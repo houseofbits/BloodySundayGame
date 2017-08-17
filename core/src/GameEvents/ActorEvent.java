@@ -10,6 +10,8 @@ public class ActorEvent extends GameEvent {
 
     public enum State{
         REMOVED,
+        SHOOT,
+        DIE
     }
     public ActorEvent.State state = null;
 

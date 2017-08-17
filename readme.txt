@@ -11,11 +11,11 @@ Game name and theme
 =======================================================================================================
 DEV
 Gameplay
-	- Shooting actors
+	+ Shooting actors
 	+ Actor shooting player
-		- Visual representation
+		+ Visual representation
 	- Different actor types
-	- Reloading and player hud
+	+ Reloading and player hud
 	- Player lives and game over state
 	- Randomize/balance gameplay with difficulty levels
 	- Level objectives. Rare bosses.

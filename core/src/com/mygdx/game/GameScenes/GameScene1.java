@@ -42,7 +42,7 @@ public class GameScene1 extends Scene {
         cam.far = 500f;
         cam.update();
 
-        //camController = new CameraInputController(cam);
+        camController = new CameraInputController(cam);
         Gdx.input.setInputProcessor(new InputMultiplexer(this, sceneManager.guiStage.getStage()));  //, camController
 
         environment = new Environment();
@@ -60,7 +60,7 @@ public class GameScene1 extends Scene {
 
         sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
-        sceneManager.AddGameObject(new PlayerObject("player"));
+        sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
 
     }
 

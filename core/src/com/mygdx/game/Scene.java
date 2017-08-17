@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
+import GameEvents.PlayerEvent;
 import GameObjects.BulletSplashObject;
 
 /**
@@ -40,25 +41,9 @@ public class Scene  extends InputAdapter {
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
-        Ray ray = cam.getPickRay(screenX, screenY);
+        sceneManager.sendEvent(new PlayerEvent(PlayerEvent.State.FIRE, cam.getPickRay(screenX, screenY)));
 
-        //System.out.println("touch "+screenX+","+screenY);
-
-        for(int i=0; i<sceneManager.gameObjectArray.size; i++) {
-            GameObject o = sceneManager.gameObjectArray.get(i);
-            if(o.receive_hits) {
-                Vector3 pt = new Vector3();
-                if (o.intersectRay(ray, pt)) {
-
-                    sceneManager.AddGameObject(new BulletSplashObject(pt));
-
-                    o.onIntersection(pt.cpy());
-
-                }
-            }
-        }
-
-        return false;   //return true stops event propagation
+        return false;
     }
 
     public float getPlayerHealth(){

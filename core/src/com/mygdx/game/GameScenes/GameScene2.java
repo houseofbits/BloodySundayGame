@@ -13,6 +13,7 @@ import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
 import GameObjects.DoorObject;
+import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
 
@@ -52,7 +53,9 @@ public class GameScene2 extends Scene {
 
         //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
-        sceneManager.AddGameObject(new StaticObject("test_actor.g3dj"));
+        //sceneManager.AddGameObject(new StaticObject("test_actor.g3dj"));
+
+        sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
 
     }
 

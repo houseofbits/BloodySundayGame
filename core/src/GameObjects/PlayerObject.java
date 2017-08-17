@@ -1,13 +1,15 @@
 package GameObjects;
 
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameObject;
-import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
-import GameEvents.ActorActionEvent;
+import GameEvents.ActorEvent;
+import GameEvents.PlayerEvent;
 
 /**
  * Created by T510 on 7/30/2017.
@@ -15,41 +17,126 @@ import GameEvents.ActorActionEvent;
 
 public class PlayerObject extends GameObject {
 
-    //Renderable renderable = null; //player hand+gun model
+    Renderable renderable = null;
+
+    public int  actorsShot = 0;
+
+    public int bulletsInMag = 8;
+    public float shotDelayTime = 0.5f;
+    public float reloadDelayTime = 1.5f;
+
+    public float timer = 0;
+    public int magazine = bulletsInMag;
+
+    public Vector3 gunPosition;
 
     public PlayerObject(String modelName){
         this.receive_hits = false;
-//        renderable = new Renderable(this, modelName);
+        renderable = new Renderable(this, modelName);
     }
     public PlayerObject(String modelName, String intName){
         this.receive_hits = true;
-//        renderable = new Renderable(this, modelName);
+        renderable = new Renderable(this, modelName);
     }
 
-    public void onActorActionEvent(ActorActionEvent e){
+    public void Fire(Ray r){
 
+        //cast some effects
+
+        //Raycast to other objects
+        sceneManager.castShootRay(r);
+    }
+
+    public void onActorEvent(ActorEvent e){
         switch(e.state){
             case SHOOT:
                 sceneManager.scene.decreasePlayerHealth(10);
                 //invoke PlayerShot animation
                 break;
+            case DIE:
+                actorsShot++;
+                sceneManager.guiStage.addInfoString1 = ""+actorsShot;
+                break;
         }
+    }
+
+    public void onPlayerEvent(PlayerEvent e){
+
+        LookAt(e.sight);
+
+        switch(e.state){
+            case FIRE:
+                if(timer <= 0){
+                    timer = shotDelayTime;
+
+                    Fire(e.sight);
+
+                    magazine--;
+                    if(magazine <= 0){
+                        timer = reloadDelayTime;
+                    }
+                }
+                break;
+        }
+    }
+
+    public void onUpdate() {
+
+        timer = timer - sceneManager.frame_time_s;
+
+        if(timer <= 0 && magazine <= 0)magazine = bulletsInMag;
+
+        sceneManager.guiStage.addInfoString2 = magazine+" / "+bulletsInMag;
+
     }
 
     public void onCreate(SceneManager sceneManagerRef){
         super.onCreate(sceneManagerRef);
-  //      renderable.create();
+        renderable.create();
+
+        Vector3 gunLocalPos = new Vector3(0.3f, -0.4f, -1.0f);
+
+        gunPosition = sceneManager.scene.cam.position.add(gunLocalPos);
+
+    }
+
+    public void LookAt(Ray r){
+
+        Vector3 up = new Vector3(0,1,0);
+        Vector3 to = r.direction.cpy();
+
+        to.nor().scl(1,1,-1);
+
+        Vector3 left = up.cpy().crs(to);
+
+        left.nor();
+
+        up = to.cpy().crs(left);
+
+        up.nor();
+
+//        System.out.println("x: "+left);
+//        System.out.println("y: "+up);
+//        System.out.println("z: "+to);
+
+        Matrix4 mat = new Matrix4();
+        mat.idt();
+        mat.set(left, up, to, gunPosition);
+
+        renderable.modelInstance.transform = mat;
     }
 
     public void onInit(){
-//        renderable.init();
+        renderable.init();
+
+        LookAt(new Ray(new Vector3(0,0,0), new Vector3(0,0,-5)));
     }
 
     public void render () {
-//        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
     public void dispose () {
         super.dispose();
- //       renderable.dispose();
+        renderable.dispose();
     }
 }

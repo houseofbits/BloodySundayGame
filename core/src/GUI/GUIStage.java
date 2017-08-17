@@ -39,6 +39,9 @@ public class GUIStage extends InputListener {
     private Label fpsLabel;
     private Label loadingLabel;
 
+    public String addInfoString1 = "";
+    public String addInfoString2 = "";
+
     SceneManager sceneManager = null;
 
     public GUIStage(SceneManager mgr){
@@ -114,8 +117,8 @@ public class GUIStage extends InputListener {
     public void renderGameHud(Scene scene) {
 
         healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"%\n"
-                           // +"TOTAL SPAWNED: 0\n"
-                           // +"SHOT GOOD: 0 \n"
+                            +"AMMO: "+addInfoString2+"\n"
+                            +"TOTAL SHOT: "+addInfoString1+"\n"
                            // +"SHOT BAD: 0"
                             );
 

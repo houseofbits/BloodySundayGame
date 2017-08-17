@@ -12,7 +12,8 @@ Game name and theme
 DEV
 Gameplay
 	- Shooting actors
-	- Actor shooting player
+	+ Actor shooting player
+		- Visual representation
 	- Different actor types
 	- Reloading and player hud
 	- Player lives and game over state

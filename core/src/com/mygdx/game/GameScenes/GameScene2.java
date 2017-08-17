@@ -63,6 +63,6 @@ public class GameScene2 extends Scene {
     }
 
     public void onDispose(){
-
+        super.onDispose();
     }
 }

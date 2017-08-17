@@ -8,6 +8,7 @@ import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
+import GameEvents.ActorActionEvent;
 import GameEvents.ActorEvent;
 import GameEvents.DoorEvent;
 
@@ -55,7 +56,7 @@ public class ActorObject extends GameObject {
 
                     break;
                 case ACTION:
-
+                    sendEvent(new ActorActionEvent(ActorActionEvent.State.SHOOT));
                     break;
                 case DISAPPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);

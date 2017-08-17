@@ -65,4 +65,13 @@ public class Scene  extends InputAdapter {
         return playerHealth;
     }
 
+    public float decreasePlayerHealth(float val){
+        if(playerHealth <= 0){
+
+            return 0;
+        }
+        playerHealth = playerHealth - val;
+        return playerHealth;
+    }
+
 }

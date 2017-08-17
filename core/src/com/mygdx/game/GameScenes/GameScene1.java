@@ -15,6 +15,7 @@ import com.mygdx.game.SceneManager;
 import GUI.GUIStage;
 import GameObjects.BulletSplashObject;
 import GameObjects.DoorObject;
+import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
 
@@ -59,6 +60,8 @@ public class GameScene1 extends Scene {
 
         sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
+        sceneManager.AddGameObject(new PlayerObject("player"));
+
     }
 
     public void onUpdate(){
@@ -68,6 +71,6 @@ public class GameScene1 extends Scene {
     }
 
     public void onDispose(){
-
+        super.onDispose();
     }
 }

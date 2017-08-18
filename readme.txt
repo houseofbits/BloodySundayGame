@@ -7,6 +7,7 @@ Dynamic shadows
 Dynamic ligting
 Game name and theme
 	Game in style of classic noir movie. 
+Game level design and story telling
 
 =======================================================================================================
 DEV

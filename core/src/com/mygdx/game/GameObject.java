@@ -49,22 +49,10 @@ public class GameObject implements events.EventListener {
     }
 
     public void onUpdate() {  }
-
     public void render () { }
     public void dispose () {
         sceneManager.eventManager.removeListener(this);
     }
-
-
-    public boolean intersectRay(Ray ray, Vector3 inter){
-
-
-
-        return false;
-    }
-
-    public void onIntersection(Vector3 point){
-
-
-    }
+    public boolean intersectRay(Ray ray, Vector3 inter){ return false; }
+    public void onIntersection(Vector3 point){  }
 }

@@ -107,17 +107,9 @@ public class PlayerObject extends GameObject {
 
         to.nor().scl(1,1,-1);
 
-        Vector3 left = up.cpy().crs(to);
+        Vector3 left = up.cpy().crs(to).nor();
 
-        left.nor();
-
-        up = to.cpy().crs(left);
-
-        up.nor();
-
-//        System.out.println("x: "+left);
-//        System.out.println("y: "+up);
-//        System.out.println("z: "+to);
+        up = to.cpy().crs(left).nor();
 
         Matrix4 mat = new Matrix4();
         mat.idt();

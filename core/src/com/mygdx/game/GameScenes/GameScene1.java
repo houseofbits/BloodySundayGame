@@ -65,9 +65,7 @@ public class GameScene1 extends Scene {
     }
 
     public void onUpdate(){
-
         if(camController != null)camController.update();
-
     }
 
     public void onDispose(){

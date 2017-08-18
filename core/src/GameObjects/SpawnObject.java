@@ -78,13 +78,46 @@ public class SpawnObject extends GameObject {
         state = State.READY;
 
         Random r = new Random();
-        nextSpawnTimer = (r.nextFloat() * 4) + 2;
+        nextSpawnTimer = (r.nextFloat() * 4);
     }
 
     public void onUpdate() {
         if(state == State.READY) {
             nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
             if(nextSpawnTimer <= 0){
+
+                //random actor type
+                /*
+
+                class SpawnFactor{
+                    public ActorType    actorType;
+                    public float        chance;
+                    public int          spawned;
+                    public float        factor;
+                }
+
+
+                a1 - 0.1
+                a2 - 0.5
+                a3 - 0.2
+
+                a1s - 3 0.3
+                a2s - 1 0.1
+                a3s - 6 0.6
+
+                total spawned - 10
+
+                chance factor = a / s
+
+                a1 chance = 0.1 / 0.3 = 0.33;
+                a2 chance = 0.5 / 0.1 = 5;
+                a3 chance = 0.2 / 0.6 = 0.33;
+
+                randomize chance of each being spawned
+                when each factor gets closer to 1.0 random
+                chance will matter
+
+                */
 
                 sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
                 //System.out.println("Create new actor");

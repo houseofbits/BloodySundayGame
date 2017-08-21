@@ -23,6 +23,7 @@ import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
 import GameEvents.DoorEvent;
+import Utils.ParametricFunctions;
 
 /*
     float exponentialEasing (float x, float a){
@@ -153,7 +154,11 @@ public class DoorObject extends GameObject {
 
     public void render () {
 
-        float angle = angleMin + ((angleMax - angleMin) * advancement);
+        float advy = ParametricFunctions.exponentialEasing(advancement, 0.3f);
+
+        if(state == State.CLOSING)advy = ParametricFunctions.exponentialEasing(advancement, 0.7f);
+
+        float angle = angleMin + ((angleMax - angleMin) * advy);
 
         if(renderable.modelInstance == null)return;
 

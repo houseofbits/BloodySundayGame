@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL30;
 
 import java.util.Random;
 
+import Utils.RandomDistribution;
+
 public class MyGdxGame implements ApplicationListener {
 
     protected SceneManager sceneManager;
@@ -15,76 +17,29 @@ public class MyGdxGame implements ApplicationListener {
         sceneManager = new SceneManager();
 
 
-        float a1 = 0.8f;
-        float a2 = 0.1f;
-        float a3 = 0.1f;
+        /*
+        RandomDistribution<String> dstr = new RandomDistribution<String>();
 
-        a1 = a1 / (a1 + a2 + a3);
-        a2 = a2 / (a1 + a2 + a3);
-        a3 = a3 / (a1 + a2 + a3);
+        dstr.add("A", 0.1f);
+        dstr.add("B", 0.1f);
+        dstr.add("C", 0.1f);
+        dstr.add("D", 0.1f);
+        dstr.add("E", 0.1f);
+        dstr.add("F", 0.1f);
+        dstr.add("G", 0.1f);
+        dstr.add("H", 0.1f);
+        dstr.add("I", 0.1f);
 
-        float sp1 = 1;
-        float sp2 = 1;
-        float sp3 = 1;
-
-        float fact1 = 0;
-        float fact2 = 0;
-        float fact3 = 0;
-
-        Random r = new Random();
-
-        for(int i = 0; i<200; i++){
-
-            float spf1 = sp1 / (sp1 + sp2 + sp3);
-            float spf2 = sp2 / (sp1 + sp2 + sp3);
-            float spf3 = sp3 / (sp1 + sp2 + sp3);
-
-            fact1 = a1 / spf1;
-            fact2 = a2 / spf2;
-            fact3 = a3 / spf3;
-
-            if(sp1 == 0)fact1 = 0;
-            if(sp2 == 0)fact2 = 0;
-            if(sp3 == 0)fact3 = 0;
-
-            float treshold = 1.1f;
-
-            if(fact3 >= treshold){
-                sp3++;
-                System.out.print("[ ]" + "[ ]" + "[x]");
-                System.out.println(" "+spf3+", "+fact3);
-            }else
-            if(fact2 >= treshold){
-                sp2++;
-                System.out.print("[ ]" + "[x]" + "[ ]");
-                System.out.println(" "+spf2+", "+fact2);
-            }else
-            if(fact1 >= treshold){
-                sp1++;
-                System.out.print("[x]" + "[ ]" + "[ ]");
-                System.out.println(" "+spf1+", "+fact1);
-            }else{
-                float rv = r.nextFloat();
-
-                if(rv > 0.8){
-                    sp1++;
-                    System.out.print("[x]" + "[ ]" + "[ ]");
-                    System.out.println(" "+spf1+", "+fact1);
-                }else if(rv > 0.4){
-                    sp2++;
-                    System.out.print("[ ]" + "[x]" + "[ ]");
-                    System.out.println(" "+spf2+", "+fact2);
-                }else{
-                    sp3++;
-                    System.out.print("[ ]" + "[ ]" + "[x]");
-                    System.out.println(" "+spf3+", "+fact3);
-                }
+        for(int i = 0; i<200; i++) {
+            RandomDistribution<String>.Node g = dstr.get();
+            if(g != null){
+                dstr.saveDebugLine(g);
             }
-
-
-
         }
 
+        dstr.saveDebugFile("dstr_debug.html");
+
+        */
     }
 
 	@Override

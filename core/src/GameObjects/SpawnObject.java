@@ -14,6 +14,7 @@ import com.mygdx.game.SceneManager;
 import java.util.Random;
 
 import GameEvents.ActorEvent;
+import Utils.RandomDistribution;
 
 /**
  * Created by T510 on 7/31/2017.
@@ -26,12 +27,23 @@ public class SpawnObject extends GameObject {
         LIVE,               //Object is live
     }
 
+    private enum SpawnType{
+        ENEMY1,
+        ENEMY2,
+        ENEMY3,
+        NPC1,
+        NPC2,
+        NPC3
+    }
+
     public String targetDoorName = null;
     public Vector3 position;
 
     public State state = null;
 
     float   nextSpawnTimer = 0;
+
+    private RandomDistribution<SpawnType> randomDistribution = new RandomDistribution<SpawnType>();
 
     public ModelBatch modelBatch;
     public Model model;
@@ -87,37 +99,7 @@ public class SpawnObject extends GameObject {
             if(nextSpawnTimer <= 0){
 
                 //random actor type
-                /*
-
-                class SpawnFactor{
-                    public ActorType    actorType;
-                    public float        chance;
-                    public int          spawned;
-                    public float        factor;
-                }
-
-
-                a1 - 0.1
-                a2 - 0.5
-                a3 - 0.2
-
-                a1s - 3 0.3
-                a2s - 1 0.1
-                a3s - 6 0.6
-
-                total spawned - 10
-
-                chance factor = a / s
-
-                a1 chance = 0.1 / 0.3 = 0.33;
-                a2 chance = 0.5 / 0.1 = 5;
-                a3 chance = 0.2 / 0.6 = 0.33;
-
-                randomize chance of each being spawned
-                when each factor gets closer to 1.0 random
-                chance will matter
-
-                */
+                RandomDistribution<SpawnType>.Node node = randomDistribution.get();
 
                 sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
                 //System.out.println("Create new actor");

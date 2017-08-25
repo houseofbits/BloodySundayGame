@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
+import GameObjects.AnimatedObject;
 import GameObjects.DoorObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
@@ -41,7 +42,7 @@ public class GameScene2 extends Scene {
         cam.update();
 
         camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this, sceneManager.guiStage.getStage(), camController));
+        Gdx.input.setInputProcessor(new InputMultiplexer(this, camController)); //, sceneManager.guiStage.getStage()
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
@@ -53,9 +54,9 @@ public class GameScene2 extends Scene {
 
         //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
-        //sceneManager.AddGameObject(new StaticObject("test_actor.g3dj"));
+        sceneManager.AddGameObject(new AnimatedObject("anim_b.g3dj"));
 
-        sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
+        //sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
 
     }
 

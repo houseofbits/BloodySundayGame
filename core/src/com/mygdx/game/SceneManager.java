@@ -127,7 +127,7 @@ public class SceneManager {
 
         createGameObjectArray.clear();
 
-        guiStage.renderMainMenu();
+        if(scene == null)guiStage.renderMainMenu();
 
         if(scene != null)guiStage.renderGameHud(scene);
     }

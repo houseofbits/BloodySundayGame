@@ -43,7 +43,7 @@ public class GameScene1 extends Scene {
         cam.update();
 
         camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this, sceneManager.guiStage.getStage()));  //, camController
+        Gdx.input.setInputProcessor(new InputMultiplexer(this));  //, camController, , sceneManager.guiStage.getStage()
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));

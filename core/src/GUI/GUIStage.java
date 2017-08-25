@@ -52,6 +52,8 @@ public class GUIStage extends InputListener {
 
         font = new BitmapFont();
 
+        font.getData().setScale(1.5f, 1.5f);
+
         TextureAtlas buttonsAtlas = new TextureAtlas("gui.pack");
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(buttonsAtlas);
@@ -64,17 +66,17 @@ public class GUIStage extends InputListener {
         style.font = font;
 
         button1 = new TextButton("SCENE 1", style);
-        button1.setPosition(10, 145);
-        button1.setHeight(30);
-        button1.setWidth(100);
+        button1.setPosition(10, 200);
+        button1.setHeight(80);
+        button1.setWidth(300);
         button1.setName("BUTTON1");
         mainMenuStage.addActor(button1);
         button1.addListener(this);
 
         button2 = new TextButton("SCENE 2", style);
-        button2.setPosition(10, 110);
-        button2.setHeight(30);
-        button2.setWidth(100);
+        button2.setPosition(10, 100);
+        button2.setHeight(80);
+        button2.setWidth(300);
         button2.setName("BUTTON2");
         mainMenuStage.addActor(button2);
         button2.addListener(this);

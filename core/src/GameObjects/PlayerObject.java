@@ -66,7 +66,7 @@ public class PlayerObject extends GameObject {
 
         if (e.state == PlayerEvent.State.TOUCH_DOWN) {
 
-            sceneManager.AddGameObject(new BulletSplashObject(e.pointOfInterest.cpy()));
+            //sceneManager.AddGameObject(new BulletSplashObject(e.pointOfInterest.cpy()));
 
             Ray r = new Ray(gunPosition, e.pointOfInterest.sub(gunPosition).nor());
 

@@ -18,10 +18,10 @@ import com.mygdx.game.SceneManager;
 
 public class BulletObject extends GameObject {
 
-    private float t = 0;
-    private float tPrev = 0;
+    public float t = 0;
+    public float tPrev = 0;
     private Vector3  position = new Vector3(0,0,0);
-    private Ray ray;
+    public Ray ray;
 
     public ModelBatch modelBatch;
     public Model model;
@@ -75,5 +75,10 @@ public class BulletObject extends GameObject {
         model.dispose();
     }
 
+    public void onCollision(GameObject o, Vector3 p){
+        System.out.println("Bullet hit");
+        this.setDispose(true);
+    //    sceneManager.AddGameObject(new BulletSplashObject(p.cpy()));
+    }
 
 }

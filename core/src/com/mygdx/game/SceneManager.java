@@ -37,6 +37,7 @@ public class SceneManager {
 
     public AssetManager assetsManager;
     public boolean  assetsLoaded = false;
+    public CollisionManager collisionManager = new CollisionManager();
 
     public GUIStage guiStage;
 
@@ -165,7 +166,8 @@ public class SceneManager {
                     GameObject bo = gameObjectArray.get(b);
                     if(ao.collide && bo.collide) {
                         Vector3 pt = new Vector3();
-                        if (CollisionManager.Collide(ao, bo, pt)) {
+                        if (collisionManager.Collide(ao, bo, pt)) {
+//                            System.out.println("collide "+ao.getClass()+" "+bo.getClass());
                             ao.onCollision(bo, pt);
                             bo.onCollision(ao, pt);
                         }

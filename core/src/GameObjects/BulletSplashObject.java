@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -22,12 +23,18 @@ public class BulletSplashObject extends GameObject {
     public ModelBatch modelBatch;
     public Model model;
     public ModelInstance instance;
+    public Color color = new Color(1, 0.4f, 0f, 0f);
 
     float   stateTimer = 0;
 
     public BulletSplashObject(Vector3 pos){
         this.collide = false;
         position = pos;
+    }
+    public BulletSplashObject(Vector3 pos, Color c){
+        this.collide = false;
+        position = pos;
+        color = c;
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -37,7 +44,7 @@ public class BulletSplashObject extends GameObject {
 
         ModelBuilder modelBuilder = new ModelBuilder();
         model = modelBuilder.createSphere(0.1f, 0.1f, 0.1f, 6, 6,
-                new Material(ColorAttribute.createDiffuse(1, 0.4f, 0f, 0f)),
+                new Material(ColorAttribute.createDiffuse(color)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         instance = new ModelInstance(model);
 
@@ -53,6 +60,12 @@ public class BulletSplashObject extends GameObject {
     public void onUpdate() {
 
         stateTimer = stateTimer - sceneManager.frame_time_s;
+
+        float s = 0.5f + ((0.5f - stateTimer) * 5);
+
+        instance.transform.idt();
+        instance.transform.translate(this.position);
+        instance.transform.scale(s,s,s);
 
         if(stateTimer <= 0){
             this.setDispose(true);

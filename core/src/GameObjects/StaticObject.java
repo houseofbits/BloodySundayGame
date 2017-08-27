@@ -59,5 +59,9 @@ public class StaticObject extends GameObject {
     public boolean intersectRay(Ray ray, Vector3 inter){
         return intersectionMesh.IntersectRay(ray, inter);
     }
-
+    public void onCollision(GameObject o, Vector3 p){
+        if(o.getClass() == BulletObject.class) {
+            sceneManager.AddGameObject(new BulletSplashObject(p.cpy(), new Color(0.3f, 0.3f,0.5f,0)));
+        }
+    }
 }

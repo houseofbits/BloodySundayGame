@@ -54,8 +54,5 @@ public class GameObject implements events.EventListener {
         sceneManager.eventManager.removeListener(this);
     }
     public boolean intersectRay(Ray ray, Vector3 inter){ return false; }
-
-    public void onCollision(GameObject o, Vector3 p){
-
-    }
+    public void onCollision(GameObject o, Vector3 p){}
 }

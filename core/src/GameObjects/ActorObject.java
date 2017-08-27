@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -156,6 +157,7 @@ public class ActorObject extends GameObject {
     public void onCollision(GameObject o, Vector3 p){
         if(o.getClass() == BulletObject.class){
             if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
+            sceneManager.AddGameObject(new BulletSplashObject(p.cpy(), new Color(0.6f, 0, 0, 0)));
         }
     }
 }

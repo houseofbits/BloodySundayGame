@@ -35,14 +35,18 @@ public class GameScene2 extends Scene {
         super.onCreate(mgr);
 
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(0, 0, 5);
-        cam.lookAt(0,0,0);
+//        cam.position.set(0, 0, 5);
+//        cam.lookAt(0,0,0);
+
+        cam.position.set(-0.7f, 1.3f, 6f);
+        cam.lookAt(0,1.7f,0);
+
         cam.near = 1f;
         cam.far = 500f;
         cam.update();
 
         camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this, camController)); //, sceneManager.guiStage.getStage()
+        Gdx.input.setInputProcessor(new InputMultiplexer(this)); //camController, sceneManager.guiStage.getStage()
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
@@ -52,11 +56,11 @@ public class GameScene2 extends Scene {
 
         //sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(0,0,0), "door1.g3dj"));
 
-        //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
+        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
-        sceneManager.AddGameObject(new AnimatedObject("anim_b.g3dj"));
+        //sceneManager.AddGameObject(new AnimatedObject("anim_b.g3dj"));
 
-        //sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
+        sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
 
     }
 

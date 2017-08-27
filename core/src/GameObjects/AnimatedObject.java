@@ -18,12 +18,12 @@ public class AnimatedObject extends GameObject {
     IntersectionMesh intersectionMesh = null;
 
     public AnimatedObject(String modelName){
-        this.receive_hits = true;
+        this.collide = true;
         renderable = new AnimatedRenderable(this, modelName);
         intersectionMesh = new IntersectionMesh(this, modelName);
     }
     public AnimatedObject(String modelName, String intName){
-        this.receive_hits = true;
+        this.collide = true;
         renderable = new AnimatedRenderable(this, modelName);
         intersectionMesh = new IntersectionMesh(this, intName);
     }

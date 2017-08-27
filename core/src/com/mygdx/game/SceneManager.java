@@ -30,7 +30,6 @@ public class SceneManager {
 
     protected Array<GameObject> gameObjectArray = new Array<GameObject>();
     protected Array<GameObject> createGameObjectArray = new Array<GameObject>();
-    protected Array<Ray> shootRays = new Array<Ray>();
 
     protected TimeUtils time = new TimeUtils();
     protected long prev_frame_time = 0;
@@ -116,7 +115,7 @@ public class SceneManager {
             assetsManager.finishLoading();
         }
 
-        traceShootRays();
+        CollisionTest();
 
         //Add new game GameObjects
         for (int i = 0; i < createGameObjectArray.size; i++) {
@@ -157,28 +156,45 @@ public class SceneManager {
     public void sendEvent(GameEvent e, GameObject target){
         eventManager.addEvent(null, e, target);
     }
-    public void castShootRay(Ray ray){
-        shootRays.add(ray);
-    }
-    private void traceShootRays(){
 
-        if(shootRays.size > 0) {
-            Ray ray = shootRays.pop();
-
-            for (int i = 0; i < gameObjectArray.size; i++) {
-                GameObject o = gameObjectArray.get(i);
-                if (o.receive_hits) {
-                    Vector3 pt = new Vector3();
-                    if (o.intersectRay(ray, pt)) {
-
-                        AddGameObject(new BulletSplashObject(pt));
-
-                        o.onIntersection(pt.cpy());
-
+    private void CollisionTest(){
+        for (int a = 0; a < gameObjectArray.size; a++) {
+            for (int b = a; b < gameObjectArray.size; b++) {
+                if(a != b){
+                    GameObject ao = gameObjectArray.get(a);
+                    GameObject bo = gameObjectArray.get(b);
+                    if(ao.collide && bo.collide) {
+                        Vector3 pt = new Vector3();
+                        if (CollisionManager.Collide(ao, bo, pt)) {
+                            ao.onCollision(bo, pt);
+                            bo.onCollision(ao, pt);
+                        }
                     }
                 }
             }
-            shootRays.clear();
         }
+    }
+
+    //TODO: bounding box check
+    public boolean traceRay(Ray ray, Vector3 out){
+
+        float prevT = 100000;
+        Vector3 inter = new Vector3();
+        boolean hasInt = false;
+
+        for (int i = 0; i < gameObjectArray.size; i++) {
+            GameObject o = gameObjectArray.get(i);
+            if (o.collide) {
+                if (o.intersectRay(ray, inter)) {
+                    float l = out.cpy().sub(ray.origin).len2();
+                    if(l < prevT){
+                        prevT = l;
+                        out.set(inter);
+                        hasInt = true;
+                    }
+                }
+            }
+        }
+        return hasInt;
     }
 }

@@ -8,26 +8,30 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameObject;
-import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
 /**
  * Created by T510 on 7/30/2017.
  */
 
-public class BulletSplashObject extends GameObject {
+public class BulletObject extends GameObject {
 
-    private Vector3  position;
+    private float t = 0;
+    private float tPrev = 0;
+    private Vector3  position = new Vector3(0,0,0);
+    private Ray ray;
+
     public ModelBatch modelBatch;
     public Model model;
     public ModelInstance instance;
 
-    float   stateTimer = 0;
+    public BulletObject(Ray r){
+        this.collide = true;
+        ray = r.cpy();
 
-    public BulletSplashObject(Vector3 pos){
-        this.collide = false;
-        position = pos;
+        //System.out.println(ray);
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -36,29 +40,30 @@ public class BulletSplashObject extends GameObject {
         modelBatch = new ModelBatch();
 
         ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createSphere(0.1f, 0.1f, 0.1f, 6, 6,
-                new Material(ColorAttribute.createDiffuse(1, 0.4f, 0f, 0f)),
+        model = modelBuilder.createSphere(0.1f, 0.1f, 0.1f, 2, 2,
+                new Material(ColorAttribute.createDiffuse(1, 1, 1, 0f)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         instance = new ModelInstance(model);
 
-        instance.transform.idt();
-        instance.transform.translate(this.position);
     }
 
     public void onInit(){
 
-        stateTimer = 0.5f;
-
     }
     public void onUpdate() {
 
-        stateTimer = stateTimer - sceneManager.frame_time_s;
+        tPrev = t;
+        t = t + sceneManager.frame_time_s * 20; //m/s
 
-        if(stateTimer <= 0){
-            this.setDispose(true);
-        }
+        ray.getEndPoint(this.position, t);
+
+        if(t > 20)this.setDispose(true);
     }
     public void render () {
+
+        instance.transform.idt();
+        instance.transform.translate(this.position);
+
         modelBatch.begin(sceneManager.scene.cam);
         modelBatch.render(instance, sceneManager.scene.environment);
         modelBatch.end();

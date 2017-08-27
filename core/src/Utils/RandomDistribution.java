@@ -37,7 +37,7 @@ public class RandomDistribution<T> {
     public void add(T data, float weight){
         if(weight <= 0)return;
         nodes.add(new Node(data, weight));
-        recalculateWeights();
+        normalizeWeights();
     }
 
     public void remove(T data){
@@ -47,10 +47,10 @@ public class RandomDistribution<T> {
                 break;
             }
         }
-        recalculateWeights();
+        normalizeWeights();
     }
 
-    protected void recalculateWeights(){
+    protected void normalizeWeights(){
         float weightSum = 0;
         for(int i=0; i<nodes.size; i++){
             weightSum += nodes.get(i).initWeight;

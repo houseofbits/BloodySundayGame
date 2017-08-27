@@ -28,12 +28,12 @@ public class StaticObject extends GameObject {
     IntersectionMesh intersectionMesh = null;
 
     public StaticObject (String modelName){
-        this.receive_hits = true;
+        this.collide = true;
         renderable = new Renderable(this, modelName);
         intersectionMesh = new IntersectionMesh(this, modelName);
     }
     public StaticObject (String modelName, String intName){
-        this.receive_hits = true;
+        this.collide = true;
         renderable = new Renderable(this, modelName);
         intersectionMesh = new IntersectionMesh(this, intName);
     }

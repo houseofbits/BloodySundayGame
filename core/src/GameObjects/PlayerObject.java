@@ -31,11 +31,11 @@ public class PlayerObject extends GameObject {
     public Vector3 gunPosition;
 
     public PlayerObject(String modelName){
-        this.receive_hits = false;
+        this.collide = false;
         renderable = new Renderable(this, modelName);
     }
     public PlayerObject(String modelName, String intName){
-        this.receive_hits = true;
+        this.collide = true;
         renderable = new Renderable(this, modelName);
     }
 
@@ -44,7 +44,9 @@ public class PlayerObject extends GameObject {
         //cast some effects
 
         //Raycast to other objects
-        sceneManager.castShootRay(r);
+        //sceneManager.castShootRay(r);
+
+//        sceneManager.AddGameObject(new BulletObject(r));
     }
 
     public void onActorEvent(ActorEvent e){
@@ -60,10 +62,20 @@ public class PlayerObject extends GameObject {
         }
     }
 
-    public void onPlayerEvent(PlayerEvent e){
+    public void onPlayerEvent(PlayerEvent e) {
 
-        LookAt(e.sight);
+        if (e.state == PlayerEvent.State.TOUCH_DOWN) {
 
+            sceneManager.AddGameObject(new BulletSplashObject(e.pointOfInterest.cpy()));
+
+            Ray r = new Ray(gunPosition, e.pointOfInterest.sub(gunPosition).nor());
+
+            LookAt(r);
+
+            sceneManager.AddGameObject(new BulletObject(r));
+
+        }
+        /*
         switch(e.state){
             case FIRE:
                 if(timer <= 0){
@@ -77,7 +89,7 @@ public class PlayerObject extends GameObject {
                     }
                 }
                 break;
-        }
+        }*/
     }
 
     public void onUpdate() {

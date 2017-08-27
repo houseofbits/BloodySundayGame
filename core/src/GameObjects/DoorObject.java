@@ -92,7 +92,7 @@ public class DoorObject extends GameObject {
     IntersectionMesh intersectionMesh = null;
 
     public DoorObject (String n, Vector3 pos, String filename){
-        this.receive_hits = true;
+        this.collide = true;
         this.setName(n);
         position = pos;
         renderable = new Renderable(this, filename);

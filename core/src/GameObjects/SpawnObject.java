@@ -50,7 +50,7 @@ public class SpawnObject extends GameObject {
     public ModelInstance instance;
 
     public SpawnObject(String name, String doorName, Vector3 pos){
-        this.receive_hits = false;
+        this.collide = false;
         this.setName(name);
         targetDoorName = doorName;
         position = pos;

@@ -1,5 +1,6 @@
 package GameEvents;
 
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
 import events.GameEvent;
@@ -11,15 +12,18 @@ import events.GameEvent;
 public class PlayerEvent extends GameEvent {
 
     public enum State{
+        TOUCH_DOWN,
         FIRE,
     }
     public PlayerEvent.State state = null;
     public Ray sight = null;
+    public Vector3 pointOfInterest = null;
 
     public PlayerEvent(PlayerEvent.State s){ state = s; }
-    public PlayerEvent(PlayerEvent.State s, Ray r){
+    public PlayerEvent(PlayerEvent.State s, Ray r, Vector3 poi){
         state = s;
         sight = r;
+        pointOfInterest = poi;
     }
 
 }

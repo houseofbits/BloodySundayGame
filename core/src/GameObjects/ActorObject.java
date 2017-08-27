@@ -74,7 +74,7 @@ public class ActorObject extends GameObject {
     }
 
     public ActorObject(String spawn, String door, Vector3 pos){
-        this.receive_hits = true;
+        this.collide = true;
         spawnName = spawn;
         doorName = door;
         position = pos;
@@ -148,16 +148,14 @@ public class ActorObject extends GameObject {
     }
 
     public boolean intersectRay(Ray ray, Vector3 inter){
-
         if(renderable.modelInstance == null)return false;
-
         intersectionMesh.transform = renderable.modelInstance.transform;
         return intersectionMesh.IntersectRay(ray, inter);
     }
 
-    public void onIntersection(Vector3 point){
-        if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR)
-            setState(State.HIT);
+    public void onCollision(GameObject o, Vector3 p){
+        if(o.getClass() == BulletObject.class){
+            if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
+        }
     }
-
 }

@@ -41,7 +41,16 @@ public class Scene  extends InputAdapter {
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
-        sceneManager.sendEvent(new PlayerEvent(PlayerEvent.State.FIRE, cam.getPickRay(screenX, screenY)));
+        //Get pick ray
+        Ray r = cam.getPickRay(screenX, screenY);
+
+        //Get point of interest
+        Vector3 poi = new Vector3();
+        r.getEndPoint(poi, 20); //end point if does not hit anything
+        sceneManager.traceRay(r,poi);
+
+        //Send event to player
+        sceneManager.sendEvent(new PlayerEvent(PlayerEvent.State.TOUCH_DOWN, r, poi));
 
         return false;
     }

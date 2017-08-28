@@ -76,9 +76,7 @@ public class BulletObject extends GameObject {
     }
 
     public void onCollision(GameObject o, Vector3 p){
-        System.out.println("Bullet hit");
         this.setDispose(true);
-    //    sceneManager.AddGameObject(new BulletSplashObject(p.cpy()));
     }
 
 }

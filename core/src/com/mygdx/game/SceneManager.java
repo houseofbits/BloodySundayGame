@@ -167,7 +167,6 @@ public class SceneManager {
                     if(ao.collide && bo.collide) {
                         Vector3 pt = new Vector3();
                         if (collisionManager.Collide(ao, bo, pt)) {
-//                            System.out.println("collide "+ao.getClass()+" "+bo.getClass());
                             ao.onCollision(bo, pt);
                             bo.onCollision(ao, pt);
                         }

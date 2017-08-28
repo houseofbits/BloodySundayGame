@@ -22,8 +22,8 @@ public class PlayerObject extends GameObject {
     public int  actorsShot = 0;
 
     public int bulletsInMag = 8;
-    public float shotDelayTime = 0.5f;
-    public float reloadDelayTime = 1.5f;
+    public float shotDelayTime = 0.2f;
+    public float reloadDelayTime = 0.5f;
 
     public float timer = 0;
     public int magazine = bulletsInMag;
@@ -43,10 +43,7 @@ public class PlayerObject extends GameObject {
 
         //cast some effects
 
-        //Raycast to other objects
-        //sceneManager.castShootRay(r);
-
-//        sceneManager.AddGameObject(new BulletObject(r));
+        sceneManager.AddGameObject(new BulletObject(r));
     }
 
     public void onActorEvent(ActorEvent e){
@@ -66,30 +63,21 @@ public class PlayerObject extends GameObject {
 
         if (e.state == PlayerEvent.State.TOUCH_DOWN) {
 
-            //sceneManager.AddGameObject(new BulletSplashObject(e.pointOfInterest.cpy()));
-
             Ray r = new Ray(gunPosition, e.pointOfInterest.sub(gunPosition).nor());
 
             LookAt(r);
 
-            sceneManager.AddGameObject(new BulletObject(r));
+            if (timer <= 0) {
+                timer = shotDelayTime;
 
-        }
-        /*
-        switch(e.state){
-            case FIRE:
-                if(timer <= 0){
-                    timer = shotDelayTime;
+                Fire(r);
 
-                    Fire(e.sight);
-
-                    magazine--;
-                    if(magazine <= 0){
-                        timer = reloadDelayTime;
-                    }
+                magazine--;
+                if (magazine <= 0) {
+                    timer = reloadDelayTime;
                 }
-                break;
-        }*/
+            }
+        }
     }
 
     public void onUpdate() {

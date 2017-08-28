@@ -81,6 +81,8 @@ public class ActorObject extends GameObject {
         position = pos;
         renderable = new Renderable(this, "test_actor.g3dj");
         intersectionMesh = new IntersectionMesh(this, "test_actor.g3dj");
+
+        setName("actor_"+System.identityHashCode(this));
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -115,11 +117,21 @@ public class ActorObject extends GameObject {
 
         //set next state
         if(state!= null && stateTimer <= 0){
+
+            DoorObject dobj = (DoorObject)sceneManager.getObjectByName(doorName);
+            if(dobj != null
+                    && (dobj.state == DoorObject.State.CLOSED || dobj.state == DoorObject.State.CLOSING)
+                    && (state == State.IDLE || state == State.APPEAR)){
+
+                setState(State.DISAPPEAR);
+            }
+
             switch(state){
                 case APPEAR:
                     setState(State.IDLE);
                     break;
                 case IDLE:
+                    //if doo is closed or closing, set state dissapear
                     setState(State.ACTION);
                     break;
                 case ACTION:
@@ -137,6 +149,14 @@ public class ActorObject extends GameObject {
                     sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnName);
                     break;
             }
+        }
+    }
+
+    public void onActorEvent(ActorEvent e){
+        switch(e.state){
+            case SET_DISAPPEAR:
+                setState(State.DISAPPEAR);
+                break;
         }
     }
 

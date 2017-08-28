@@ -11,7 +11,8 @@ public class ActorEvent extends GameEvent {
     public enum State{
         REMOVED,
         SHOOT,
-        DIE
+        DIE,
+        SET_DISAPPEAR
     }
     public ActorEvent.State state = null;
 

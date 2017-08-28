@@ -90,7 +90,7 @@ public class SpawnObject extends GameObject {
         state = State.READY;
 
         Random r = new Random();
-        nextSpawnTimer = (r.nextFloat() * 4);
+        nextSpawnTimer = (r.nextFloat() * 3);
     }
 
     public void onUpdate() {

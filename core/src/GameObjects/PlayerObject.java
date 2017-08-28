@@ -30,6 +30,8 @@ public class PlayerObject extends GameObject {
 
     public Vector3 gunPosition;
 
+    private float fadeTimer = 0;
+
     public PlayerObject(String modelName){
         this.collide = false;
         renderable = new Renderable(this, modelName);
@@ -67,6 +69,8 @@ public class PlayerObject extends GameObject {
 
             LookAt(r);
 
+            fadeTimer = 0.5f;
+
             if (timer <= 0) {
                 timer = shotDelayTime;
 
@@ -87,7 +91,17 @@ public class PlayerObject extends GameObject {
         if(timer <= 0 && magazine <= 0)magazine = bulletsInMag;
 
         sceneManager.guiStage.addInfoString2 = magazine+" / "+bulletsInMag;
+        /*
+        if(fadeTimer > 0){
+            fadeTimer = fadeTimer - (sceneManager.frame_time_s * 0.1f);
 
+            Matrix4 mnorm = sceneManager.scene.cam.view.cpy();
+            mnorm.setToTranslation(gunPosition);
+
+            float f = (0.5f - fadeTimer) / 0.5f;
+
+            renderable.modelInstance.transform.lerp(mnorm, f);
+        }*/
     }
 
     public void onCreate(SceneManager sceneManagerRef){

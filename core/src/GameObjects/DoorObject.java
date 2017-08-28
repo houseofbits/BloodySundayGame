@@ -23,6 +23,7 @@ import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
+import GameEvents.ActorEvent;
 import GameEvents.DoorEvent;
 import Utils.ParametricFunctions;
 

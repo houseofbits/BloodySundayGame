@@ -108,7 +108,7 @@ public class PlayerObject extends GameObject {
         super.onCreate(sceneManagerRef);
         renderable.create();
 
-        Vector3 gunLocalPos = new Vector3(0.3f, -0.4f, -1.0f);
+        Vector3 gunLocalPos = new Vector3(0.3f, -0.5f, -1.0f);
 
         gunPosition = sceneManager.scene.cam.position.add(gunLocalPos);
 

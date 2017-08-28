@@ -73,10 +73,6 @@ public class DoorObject extends GameObject {
             if (e.state == State.CLOSED) this.closeDoor();
             if (e.state == State.OPEN) this.openDoor();
         }
-        //if(e.action == DoorEvent.Action.STATE_CHANGED) {
-        //    if (e.state == State.CLOSED) this.openDoor();
-        //    if (e.state == State.OPEN) this.closeDoor();
-        //}
     }
 
     public void openDoor(){

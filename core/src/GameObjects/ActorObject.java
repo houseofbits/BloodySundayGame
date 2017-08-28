@@ -124,6 +124,7 @@ public class ActorObject extends GameObject {
                     && (state == State.IDLE || state == State.APPEAR)){
 
                 setState(State.DISAPPEAR);
+                return;
             }
 
             switch(state){
@@ -131,7 +132,6 @@ public class ActorObject extends GameObject {
                     setState(State.IDLE);
                     break;
                 case IDLE:
-                    //if doo is closed or closing, set state dissapear
                     setState(State.ACTION);
                     break;
                 case ACTION:

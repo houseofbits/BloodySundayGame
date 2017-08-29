@@ -36,11 +36,8 @@ public class GameScene2 extends Scene {
         super.onCreate(mgr);
 
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        cam.position.set(0, 0, 5);
-//        cam.lookAt(0,0,0);
-
         cam.position.set(-0.7f, 1.3f, 6f);
-        cam.lookAt(0,1.7f,0);
+        cam.lookAt(0,1.3f,0);
 
         cam.near = 1f;
         cam.far = 500f;
@@ -67,13 +64,13 @@ public class GameScene2 extends Scene {
 
 
         sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-2.4f,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(-0.9f,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(0.8f,0,-0.6f)));
+        sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(-0.9f,0,-5.6f)));
+        sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(0.8f,0,-5.6f)));
         sceneManager.AddGameObject(new SpawnObject("spawn_4", "door_4", new Vector3(2.4f,0,-0.6f)));
 
         sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.6f,0.011f,0.045f), "door2.g3dj"));
-        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(-0.3f,0.011f,0.045f), "door2.g3dj"));
-        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(1.2f,0.011f,0.045f), "door2.g3dj"));
+        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(-0.3f,0.011f,-5), "door2.g3dj"));
+        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(1.2f,0.011f,-5), "door2.g3dj"));
         sceneManager.AddGameObject(new DoorObject("door_4", new Vector3(2.7f,0.011f,0.045f), "door2.g3dj"));
 
 

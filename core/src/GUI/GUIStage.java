@@ -82,12 +82,12 @@ public class GUIStage extends InputListener {
         button2.addListener(this);
 
         healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-        healthLabel.setPosition(10, 500);
+        healthLabel.setPosition(10, 10);
         gameStage.addActor(healthLabel);
 
-        fpsLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-        fpsLabel.setPosition(10, 10);
-        gameStage.addActor(fpsLabel);
+       // fpsLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
+      //  fpsLabel.setPosition(10, 10);
+       // gameStage.addActor(fpsLabel);
 
         loadingLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
         loadingLabel.setPosition(500, 260);
@@ -110,7 +110,7 @@ public class GUIStage extends InputListener {
 
     public void renderMainMenu(){
 
-        fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond());
+       // fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond());
 
         mainMenuStage.draw();
         mainMenuStage.act();
@@ -118,9 +118,9 @@ public class GUIStage extends InputListener {
 
     public void renderGameHud(Scene scene) {
 
-        healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"%\n"
-                            +"AMMO: "+addInfoString2+"\n"
-                            +"TOTAL SHOT: "+addInfoString1+"\n"
+        healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% "
+                            +"AMMO: "+addInfoString2+" "
+                            +"TOTAL SHOT: "+addInfoString1+" "
                            // +"SHOT BAD: 0"
                             );
 

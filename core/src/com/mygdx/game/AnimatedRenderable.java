@@ -53,7 +53,7 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
         }else{
             System.out.println("AnimatedRenderable:init asset not loaded "+modelName);
         }
-        PlayAnim();
+        //PlayAnim();
     }
 
     public void translate(Vector3 pos){
@@ -63,9 +63,9 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
         }
     }
 
-    public void PlayAnim(){
+    public void PlayAnim(String name){
 
-        controller.setAnimation("Take1",-1, 0.1f, this);
+        controller.setAnimation(name,1, 0.7f, this);
 
     }
 

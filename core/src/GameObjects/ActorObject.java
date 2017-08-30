@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.mygdx.game.AnimatedRenderable;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
@@ -34,7 +35,8 @@ public class ActorObject extends GameObject {
     String  doorName = "";
     String  spawnName = "";
 
-    Renderable renderable = null;
+   // Renderable renderable = null;
+    AnimatedRenderable animatedRederable = null;
     IntersectionMesh intersectionMesh = null;
 
     public void setState(State s){
@@ -50,22 +52,22 @@ public class ActorObject extends GameObject {
             switch (state) {
                 case APPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN), doorName);
-                    //System.out.println("Open door event sent "+doorName);
-                    renderable.setColor(0.5f,0.5f,0.5f);
+                    animatedRederable.setColor(0.2f,0.2f,0.2f);
+                    animatedRederable.PlayAnim("anim1");
                     break;
                 case IDLE:
-                    renderable.setColor(0.3f,0.3f,0.5f);
+                    animatedRederable.setColor(0.3f,0.3f,0.5f);
                     break;
                 case ACTION:
                     sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
-                    renderable.setColor(0.5f,0.5f,0.3f);
+                    animatedRederable.setColor(0.5f,0.5f,0.3f);
                     break;
                 case HIT:
-                    renderable.setColor(0.5f,0.3f,0.3f);
+                    animatedRederable.setColor(0.5f,0.3f,0.3f);
                     break;
                 case DIE:
                     sendEvent(new ActorEvent(ActorEvent.State.DIE));
-                    renderable.setColor(0.5f,0.2f,0.2f);
+                    animatedRederable.setColor(0.5f,0.2f,0.2f);
                     break;
                 case DISAPPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
@@ -79,8 +81,9 @@ public class ActorObject extends GameObject {
         spawnName = spawn;
         doorName = door;
         position = pos;
-        renderable = new Renderable(this, "test_actor.g3dj");
+       // renderable = new Renderable(this, "test_actor.g3dj");
         intersectionMesh = new IntersectionMesh(this, "test_actor.g3dj");
+        animatedRederable = new AnimatedRenderable(this, "test_actor_anim.g3dj");
 
         setName("actor_"+System.identityHashCode(this));
     }
@@ -88,16 +91,18 @@ public class ActorObject extends GameObject {
     public void onCreate(SceneManager sceneManagerRef){
 
         super.onCreate(sceneManagerRef);
-        renderable.create();
+       // renderable.create();
+        animatedRederable.create();
         intersectionMesh.create();
     }
 
     public void onInit(){
 
-        renderable.init();
+       // renderable.init();
         intersectionMesh.init();
-
-        renderable.translate(position);
+        animatedRederable.init();
+        animatedRederable.translate(position);
+        //renderable.translate(position);
 
         Vector3 v = new Vector3(position);
         v = v.sub(sceneManager.scene.cam.position);
@@ -106,7 +111,9 @@ public class ActorObject extends GameObject {
 
         float crs = v2n1.crs(new Vector2(sceneManager.scene.cam.direction.x,sceneManager.scene.cam.direction.z).nor());
 
-        if(renderable.modelInstance != null)renderable.modelInstance.transform.rotate(0,1,0, (crs*90));
+       // if(renderable.modelInstance != null)renderable.modelInstance.transform.rotate(0,1,0, (crs*90));
+
+        if(animatedRederable.modelInstance != null)animatedRederable.modelInstance.transform.rotate(0,1,0, (crs*90));
 
         setState(State.APPEAR);
     }
@@ -161,16 +168,18 @@ public class ActorObject extends GameObject {
     }
 
     public void render () {
-        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+//        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        animatedRederable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
     public void dispose () {
         super.dispose();
-        renderable.dispose();
+    //    renderable.dispose();
+        animatedRederable.dispose();
     }
 
     public boolean intersectRay(Ray ray, Vector3 inter){
-        if(renderable.modelInstance == null)return false;
-        intersectionMesh.transform = renderable.modelInstance.transform;
+        if(animatedRederable.modelInstance == null)return false;
+        intersectionMesh.transform = animatedRederable.modelInstance.transform;
         return intersectionMesh.IntersectRay(ray, inter);
     }
 

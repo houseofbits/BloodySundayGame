@@ -36,8 +36,8 @@ public class GameScene1 extends Scene {
         super.onCreate(mgr);
 
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(-0.7f, 1.3f, 6f);
-        cam.lookAt(0,1.3f,0);
+        cam.position.set(-0.7f, 1.4f, 6f);
+        cam.lookAt(0,1.1f,0);
         cam.near = 1f;
         cam.far = 500f;
         cam.update();

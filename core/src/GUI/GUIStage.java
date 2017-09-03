@@ -2,18 +2,27 @@ package GUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.mygdx.game.GameScenes.GameScene1;
 import com.mygdx.game.GameScenes.GameScene2;
+import com.mygdx.game.GameScenes.GameScene3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
@@ -38,6 +47,9 @@ public class GUIStage extends InputListener {
     private Label healthLabel;
     private Label fpsLabel;
     private Label loadingLabel;
+    private Table gameTable;
+
+    private ProgressBar progressBar;
 
     public String addInfoString1 = "";
     public String addInfoString2 = "";
@@ -66,24 +78,29 @@ public class GUIStage extends InputListener {
         style.font = font;
 
         button1 = new TextButton("SCENE 1", style);
-        button1.setPosition(10, 200);
-        button1.setHeight(80);
-        button1.setWidth(300);
+        //button1.setPosition(10, 200);
         button1.setName("BUTTON1");
-        mainMenuStage.addActor(button1);
         button1.addListener(this);
 
         button2 = new TextButton("SCENE 2", style);
-        button2.setPosition(10, 100);
-        button2.setHeight(80);
-        button2.setWidth(300);
+        //button2.setPosition(10, 100);
         button2.setName("BUTTON2");
-        mainMenuStage.addActor(button2);
         button2.addListener(this);
 
+        TextButton button3 = new TextButton("SCENE 3", style);
+        //button3.setPosition(10, 100);
+        button3.setName("BUTTON3");
+        button3.addListener(this);
+
         healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-        healthLabel.setPosition(10, 10);
         gameStage.addActor(healthLabel);
+
+        Table gtable = new Table();
+        gtable.setDebug(true);
+        gtable.setFillParent(true);
+        //gameStage.addActor(gtable);
+        //gtable.add(healthLabel).bottom().left();
+
 
        // fpsLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
       //  fpsLabel.setPosition(10, 10);
@@ -91,7 +108,71 @@ public class GUIStage extends InputListener {
 
         loadingLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
         loadingLabel.setPosition(500, 260);
-        loaderStage.addActor(loadingLabel);
+
+        gameTable = new Table();
+        gameTable.setFillParent(true);
+        gameStage.addActor(gameTable);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        mainMenuStage.addActor(table);
+
+        //table.setDebug(true);
+        table.add(button1)
+                .width(Value.percentWidth(0.4f, table))
+                .height(Value.percentHeight(0.2f, table));
+        table.add(button3)
+                .width(Value.percentWidth(0.4f, table))
+                .height(Value.percentHeight(0.2f, table));
+        table.row().pad(10, 10, 10, 10);
+        table.add(button2)
+                .width(Value.percentWidth(0.4f, table))
+                .height(Value.percentHeight(0.2f, table));
+        //table.row().pad(10, 0, 10, 0);
+
+
+        Texture board = new Texture(Gdx.files.internal("menu_background.jpg"));
+        table.background(new TextureRegionDrawable(new TextureRegion(board)));
+
+
+        Table table2 = new Table();
+        table2.setFillParent(true);
+        loaderStage.addActor(table2);
+
+        //table.setDebug(true);
+        table2.add(loadingLabel).center();
+        Texture board2 = new Texture(Gdx.files.internal("loading.jpg"));
+        table2.background(new TextureRegionDrawable(new TextureRegion(board2)));
+
+        gameTable.background(new TextureRegionDrawable(new TextureRegion(board2)));
+        gameTable.addAction(Actions.fadeOut(1));
+
+        //Progress bar
+        Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.fill();
+
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
+        progressBarStyle.background = drawable;
+
+        pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.DARK_GRAY);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knobBefore = drawable;
+
+        progressBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle);
+
+        table2.row().pad(10, 0, 10, 0);
+        table2.add(progressBar)
+                .width(Value.percentWidth(1, table))
+                .height(Value.percentHeight(0.3f, table));
+
 
     }
 
@@ -103,7 +184,9 @@ public class GUIStage extends InputListener {
 
         float progress = sceneManager.assetsManager.getProgress() * 100;
 
-        loadingLabel.setText("  [ LOADING "+progress+"% ] ");
+        loadingLabel.setText(""+(int)progress+"%");
+
+        progressBar.setValue(progress);
 
         loaderStage.draw();
     }
@@ -117,6 +200,8 @@ public class GUIStage extends InputListener {
     }
 
     public void renderGameHud(Scene scene) {
+
+        gameTable.act(Gdx.graphics.getDeltaTime());
 
         healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% "
                             +"AMMO: "+addInfoString2+" "
@@ -137,6 +222,9 @@ public class GUIStage extends InputListener {
         }
         if(a.getName() == "BUTTON2") {
             sceneManager.CreateScene(new GameScene2());
+        }
+        if(a.getName() == "BUTTON3") {
+            sceneManager.CreateScene(new GameScene3());
         }
     }
     public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {

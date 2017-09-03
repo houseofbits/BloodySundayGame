@@ -2,7 +2,6 @@ package com.mygdx.game.GameScenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -12,8 +11,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
-import GUI.GUIStage;
-import GameObjects.BulletSplashObject;
 import GameObjects.DoorObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
@@ -23,11 +20,11 @@ import GameObjects.StaticObject;
  * Created by KristsPudzens on 07.08.2017.
  */
 
-public class GameScene1 extends Scene {
+public class GameScene3 extends Scene {
 
     public CameraInputController camController;
 
-    public GameScene1(){
+    public GameScene3(){
 
     }
 
@@ -47,18 +44,14 @@ public class GameScene1 extends Scene {
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
-        //environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-1.8f,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(1.8f,0,-0.6f)));
+        //sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
 
-        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj", false));
-        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj", false));
-        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj", false));
+       // sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj"));
+        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(0,0,0), "ldoor1.g3dj", true));
 
-        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
+        //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
         sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
 

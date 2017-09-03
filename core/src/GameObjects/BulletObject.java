@@ -53,7 +53,7 @@ public class BulletObject extends GameObject {
     public void onUpdate() {
 
         tPrev = t;
-        t = t + sceneManager.frame_time_s * 20; //m/s
+        t = t + sceneManager.frame_time_s * 40; //m/s
 
         ray.getEndPoint(this.position, t);
 

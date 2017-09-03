@@ -68,6 +68,11 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
         controller.setAnimation(name,1, 0.7f, this);
 
     }
+    public void StopAnim(){
+
+        controller.setAnimation(null);
+
+    }
 
     public void setColor(float r, float g, float b){
         if(modelInstance != null)modelInstance.materials.get(0).set(ColorAttribute.createDiffuse(r,g,b,1));

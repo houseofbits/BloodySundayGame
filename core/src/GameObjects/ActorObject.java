@@ -52,22 +52,22 @@ public class ActorObject extends GameObject {
             switch (state) {
                 case APPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN), doorName);
-                    animatedRederable.setColor(0.2f,0.2f,0.2f);
+                    //animatedRederable.setColor(0.2f,0.2f,0.2f);
                     animatedRederable.PlayAnim("anim1");
                     break;
                 case IDLE:
-                    animatedRederable.setColor(0.3f,0.3f,0.5f);
+                    //animatedRederable.setColor(0.3f,0.3f,0.5f);
                     break;
                 case ACTION:
                     sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
                     animatedRederable.setColor(0.5f,0.5f,0.3f);
                     break;
                 case HIT:
-                    animatedRederable.setColor(0.5f,0.3f,0.3f);
+                    animatedRederable.setColor(0.5f,0,0);
                     break;
                 case DIE:
                     sendEvent(new ActorEvent(ActorEvent.State.DIE));
-                    animatedRederable.setColor(0.5f,0.2f,0.2f);
+                    //animatedRederable.setColor(0.5f,0.2f,0.2f);
                     break;
                 case DISAPPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
@@ -131,6 +131,8 @@ public class ActorObject extends GameObject {
                     && (state == State.IDLE || state == State.APPEAR)){
 
                 setState(State.DISAPPEAR);
+                animatedRederable.StopAnim();
+
                 return;
             }
 

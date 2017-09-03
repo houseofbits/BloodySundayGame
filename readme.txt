@@ -6,7 +6,10 @@ Particle effects
 Dynamic shadows
 Dynamic ligting
 Game name and theme
-	Game in style of classic noir movie. 
+	"Bloody sunday"
+	Film noire graphical style, with red accents and dark contrasting shadows
+	
+
 Game level design and story telling
 
 =======================================================================================================

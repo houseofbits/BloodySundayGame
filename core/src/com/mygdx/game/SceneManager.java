@@ -31,9 +31,8 @@ public class SceneManager {
     protected Array<GameObject> gameObjectArray = new Array<GameObject>();
     protected Array<GameObject> createGameObjectArray = new Array<GameObject>();
 
-    protected TimeUtils time = new TimeUtils();
-    protected long prev_frame_time = 0;
     public float frame_time_s = 0;
+    public boolean gamePaused = false;
 
     public AssetManager assetsManager;
     public boolean  assetsLoaded = false;
@@ -54,8 +53,6 @@ public class SceneManager {
             }
         });
 
-        prev_frame_time = time.millis();
-
         guiStage = new GUIStage(this);
     }
 
@@ -72,52 +69,51 @@ public class SceneManager {
         return null;
     }
 
-    void processFrame(){
+    void processFrame() {
 
-        if(!assetsManager.update()){
+        if (!assetsManager.update()) {
             assetsLoaded = false;
             guiStage.renderLoader();
             return;
         }
         assetsLoaded = true;
 
-        long current_time_ms = time.millis();
-        frame_time_s = (current_time_ms - prev_frame_time) / 1000.0f;
+        frame_time_s = Gdx.graphics.getDeltaTime();
 
-        if(frame_time_s > 0.025f)frame_time_s = 0.025f;
-
-        if(scene != null)scene.onUpdate();
-
-        for (final GameObject go : this.gameObjectArray) {
-            go.onUpdate();
-        }
+        if (frame_time_s > 0.025f) frame_time_s = 0.025f;
 
         for (final GameObject go : this.gameObjectArray) {
             go.render();
         }
 
-        prev_frame_time = current_time_ms;
+        if(gamePaused != true) {
 
-        //Process events
-        eventManager.process();
+            if (scene != null) scene.onUpdate();
 
-        //Remove marked GameObjects
-        for(int i=0; i<gameObjectArray.size; i++){
-            GameObject o = gameObjectArray.get(i);
-            if(o.isDisposable()){
-                o.dispose();
-                o = null;
-                gameObjectArray.removeIndex(i);
+            for (final GameObject go : this.gameObjectArray) {
+                go.onUpdate();
             }
+
+            //Process events
+            eventManager.process();
+
+            //Remove marked GameObjects
+            for (int i = 0; i < gameObjectArray.size; i++) {
+                GameObject o = gameObjectArray.get(i);
+                if (o.isDisposable()) {
+                    o.dispose();
+                    o = null;
+                    gameObjectArray.removeIndex(i);
+                }
+            }
+
+            //Load all assets before creating new objects
+            if (assetsManager.getQueuedAssets() > 0 && createGameObjectArray.size > 0) {
+                assetsManager.finishLoading();
+            }
+
+            CollisionTest();
         }
-
-        //Load all assets before creating new objects
-        if(assetsManager.getQueuedAssets() > 0 && createGameObjectArray.size > 0) {
-            assetsManager.finishLoading();
-        }
-
-        CollisionTest();
-
         //Add new game GameObjects
         for (int i = 0; i < createGameObjectArray.size; i++) {
             GameObject o = createGameObjectArray.get(i);

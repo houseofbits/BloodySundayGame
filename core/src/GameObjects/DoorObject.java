@@ -45,15 +45,18 @@ public class DoorObject extends GameObject {
     public float angleMin = 0;
     public float angleMax = 110;
 
+    public boolean inverted = false;
+
     Renderable renderable = null;
     IntersectionMesh intersectionMesh = null;
 
-    public DoorObject (String n, Vector3 pos, String filename){
+    public DoorObject (String n, Vector3 pos, String filename, boolean inv){
         this.collide = true;
         this.setName(n);
         position = pos;
         renderable = new Renderable(this, filename);
         intersectionMesh = new IntersectionMesh(this, filename);
+        inverted = inv;
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -113,6 +116,8 @@ public class DoorObject extends GameObject {
 
         float angle = angleMin + ((angleMax - angleMin) * advy);
 
+        if(inverted)angle = -angle;
+
         if(renderable.modelInstance == null)return;
 
         renderable.modelInstance.transform.idt();
@@ -136,7 +141,11 @@ public class DoorObject extends GameObject {
     public void onCollision(GameObject o, Vector3 p){
         if(o.getClass() == BulletObject.class) {
             sceneManager.AddGameObject(new BulletSplashObject(p.cpy(), new Color(0.3f, 0.5f,0.3f,0)));
+
             closeDoor();
+
+            //if(state == State.CLOSED)openDoor();
+            //else closeDoor();
         }
     }
 }

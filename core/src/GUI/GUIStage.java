@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.mygdx.game.GameScenes.GameScene1;
 import com.mygdx.game.GameScenes.GameScene2;
@@ -92,19 +93,27 @@ public class GUIStage extends InputListener {
         button3.setName("BUTTON3");
         button3.addListener(this);
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //In-game gui
         healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-        gameStage.addActor(healthLabel);
 
         Table gtable = new Table();
         gtable.setDebug(true);
         gtable.setFillParent(true);
-        //gameStage.addActor(gtable);
-        //gtable.add(healthLabel).bottom().left();
+        gameStage.addActor(gtable);
 
+        gtable.add().pad(10).fill().expand();
+        gtable.row();
+        gtable.add(healthLabel).pad(10).fill().height(Value.percentHeight(0.1f, gtable));
+
+        healthLabel.setAlignment(Align.bottom);
 
        // fpsLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
       //  fpsLabel.setPosition(10, 10);
        // gameStage.addActor(fpsLabel);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Loading screen
 
         loadingLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
         loadingLabel.setPosition(500, 260);

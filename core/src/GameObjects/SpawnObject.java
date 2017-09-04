@@ -121,4 +121,16 @@ public class SpawnObject extends GameObject {
         model.dispose();
     }
 
+    public void AddSpawnPoint(Vector3 p){
+
+    }
+
+    public void AddActorType(){
+
+    }
+
+    public void AddAffectedDoor(String name){
+
+    }
+
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
@@ -27,7 +28,7 @@ public class SpawnObject extends GameObject {
         LIVE,               //Object is live
     }
 
-    private enum SpawnType{
+    public enum SpawnType{
         ENEMY1,
         ENEMY2,
         ENEMY3,
@@ -36,14 +37,16 @@ public class SpawnObject extends GameObject {
         NPC3
     }
 
+    private Array<Vector3> spawnPoints = new Array<Vector3>();
+    private Array<String> affectedDoors = new Array<String>();
+    private RandomDistribution<SpawnType> actorDistribution = new RandomDistribution<SpawnType>();
+
     public String targetDoorName = null;
     public Vector3 position;
 
     public State state = null;
 
     float   nextSpawnTimer = 0;
-
-    private RandomDistribution<SpawnType> randomDistribution = new RandomDistribution<SpawnType>();
 
     public ModelBatch modelBatch;
     public Model model;
@@ -99,7 +102,7 @@ public class SpawnObject extends GameObject {
             if(nextSpawnTimer <= 0){
 
                 //random actor type
-                RandomDistribution<SpawnType>.Node node = randomDistribution.get();
+                RandomDistribution<SpawnType>.Node node = actorDistribution.get();
 
                 sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
                 //System.out.println("Create new actor");
@@ -122,15 +125,15 @@ public class SpawnObject extends GameObject {
     }
 
     public void AddSpawnPoint(Vector3 p){
-
+        spawnPoints.add(p);
     }
 
-    public void AddActorType(){
-
+    public void AddActorType(SpawnType type, float weight){
+        actorDistribution.add(type, weight);
     }
 
     public void AddAffectedDoor(String name){
-
+        affectedDoors.add(name);
     }
 
 }

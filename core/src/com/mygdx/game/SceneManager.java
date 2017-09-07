@@ -4,19 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.mygdx.game.GameScenes.GameScene1;
 
-import GUI.GUIStage;
-import GameObjects.BulletSplashObject;
+import GUI.GUIMainStage;
 import events.EventManager;
 import events.GameEvent;
 
@@ -38,7 +30,7 @@ public class SceneManager {
     public boolean  assetsLoaded = false;
     public CollisionManager collisionManager = new CollisionManager();
 
-    public GUIStage guiStage;
+    public GUIMainStage guiMainStage;
 
     public Scene    scene = null;
 
@@ -53,7 +45,7 @@ public class SceneManager {
             }
         });
 
-        guiStage = new GUIStage(this);
+        guiMainStage = new GUIMainStage(this);
     }
 
     public void AddGameObject(GameObject object){
@@ -73,7 +65,7 @@ public class SceneManager {
 
         if (!assetsManager.update()) {
             assetsLoaded = false;
-            guiStage.renderLoader();
+            guiMainStage.renderLoader();
             return;
         }
         assetsLoaded = true;
@@ -123,9 +115,9 @@ public class SceneManager {
 
         createGameObjectArray.clear();
 
-        if(scene == null)guiStage.renderMainMenu();
+        if(scene == null) guiMainStage.renderMainMenu();
 
-        if(scene != null)scene.guiGameStage.render();   //guiStage.renderGameHud(scene);
+        if(scene != null)scene.guiGameStage.render();   //guiMainStage.renderGameHud(scene);
     }
 
     public void dispose(){
@@ -141,6 +133,14 @@ public class SceneManager {
         scene = s;
         scene.onCreate(this);
     }
+
+    public void UnloadScene(){
+        if(scene != null)scene.onDispose();
+        dispose();
+        scene = null;
+        Gdx.input.setInputProcessor(guiMainStage.getStage());
+    }
+
 
     public void sendEvent(GameEvent e){
         eventManager.addEvent(null, e, null);

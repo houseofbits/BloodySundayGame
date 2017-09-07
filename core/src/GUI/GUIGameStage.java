@@ -2,17 +2,28 @@ package GUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.mygdx.game.GameScenes.GameScene1;
+import com.mygdx.game.GameScenes.GameScene2;
+import com.mygdx.game.GameScenes.GameScene3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
@@ -23,10 +34,11 @@ import com.mygdx.game.SceneManager;
 public class GUIGameStage extends InputListener {
 
     Scene scene = null;
-    protected Stage gameStage = new Stage();
+    protected Stage stage = new Stage();
     protected BitmapFont font;
 
     //tmp
+    Image blackOverlayImage;
     private Label healthLabel;
 
     public GUIGameStage(Scene s) {
@@ -34,26 +46,38 @@ public class GUIGameStage extends InputListener {
         scene = s;
 
         font = new BitmapFont();
-
         font.getData().setScale(1.5f, 1.5f);
 
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //In-game gui
         healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
 
+        //Gdx.input.setInputProcessor(stage);
 
+        /*
         Texture texture = new Texture(Gdx.files.internal("DoorCompleteMap.png"));
         Image itemImage = new Image();
         itemImage.setSize(50,50);
         itemImage.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
+        */
+        TextureAtlas buttonsAtlas = new TextureAtlas("gui.pack");
+        Skin buttonSkin = new Skin();
+        buttonSkin.addRegions(buttonsAtlas);
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.down = buttonSkin.getDrawable("buttonon");
+        style.up = buttonSkin.getDrawable("buttonoff");
+        style.font = font;
+
+
+        TextButton button1 = new TextButton("MAIN", style);
+        button1.setName("MAIN");
+        button1.addListener(this);
 
         Table gtable = new Table();
-        gtable.setDebug(true);
+        //gtable.setDebug(true);
         gtable.setFillParent(true);
-        gameStage.addActor(gtable);
+        stage.addActor(gtable);
 
-        gtable.add(itemImage).expandY().width(Value.percentWidth(0.1f, gtable));
+        gtable.add(button1).top().expandY().width(Value.percentWidth(0.1f, gtable));
         gtable.add().expand();
         gtable.add().expandY().width(Value.percentWidth(0.1f, gtable));
         gtable.row();
@@ -65,24 +89,61 @@ public class GUIGameStage extends InputListener {
         // fpsLabel.setPosition(10, 10);
         // gameStage.addActor(fpsLabel);
 
+        //Progress bar
+        Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.fill();
 
+        blackOverlayImage = new Image();
+        blackOverlayImage.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(pixmap))));
+        blackOverlayImage.setSize(stage.getWidth(),stage.getHeight());
 
+        pixmap.dispose();
 
+        stage.addActor(blackOverlayImage);
+
+        blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeOut(1), Actions.hide()));
 
     }
 
     public void render() {
 
-        //gameTable.act(Gdx.graphics.getDeltaTime());
+        blackOverlayImage.act(Gdx.graphics.getDeltaTime());
 
         healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% ");
 
-
-
-        gameStage.draw();
+        stage.draw();
+        stage.act();
 
     }
 
+    public Stage getStage(){
+        return stage;
+    }
+
+    public void dispose(){
+
+        stage.dispose();
+
+    }
+
+    public void touchUp (InputEvent e, float x, float y, int pointer, int button) {
+
+        Actor a = e.getListenerActor();
+
+        if(a.getName() == "MAIN"){
+            //TODO: show confirm-to-exit screen
+            //
+            //  [MAIN MENU]
+            //  [CANCEL]
+            //
+            this.scene.sceneManager.UnloadScene();
+        }
+    }
+    public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {
+
+        return true;   //return true stops event propagation
+    }
 }
 
 

@@ -35,34 +35,28 @@ import GameObjects.DoorObject;
  * Created by T510 on 8/8/2017.
  */
 
-public class GUIStage extends InputListener {
+public class GUIMainStage extends InputListener {
 
     protected Stage mainMenuStage;
     protected Stage loaderStage;
-    protected Stage gameStage;
+
+//    protected Stage gameStage;
 
     protected BitmapFont font;
 
     private TextButton button1;
     private TextButton button2;
 
-//    private Label healthLabel;
-//    private Label fpsLabel;
     private Label loadingLabel;
-    private Table gameTable;
-
     private ProgressBar progressBar;
-
-//    public String addInfoString1 = "";
-//    public String addInfoString2 = "";
 
     SceneManager sceneManager = null;
 
-    public GUIStage(SceneManager mgr){
+    public GUIMainStage(SceneManager mgr){
         sceneManager = mgr;
         mainMenuStage = new Stage();
         loaderStage = new Stage();
-        gameStage = new Stage();
+        //gameStage = new Stage();
 
         font = new BitmapFont();
 
@@ -80,17 +74,14 @@ public class GUIStage extends InputListener {
         style.font = font;
 
         button1 = new TextButton("SCENE 1", style);
-        //button1.setPosition(10, 200);
         button1.setName("BUTTON1");
         button1.addListener(this);
 
         button2 = new TextButton("SCENE 2", style);
-        //button2.setPosition(10, 100);
         button2.setName("BUTTON2");
         button2.addListener(this);
 
         TextButton button3 = new TextButton("SCENE 3", style);
-        //button3.setPosition(10, 100);
         button3.setName("BUTTON3");
         button3.addListener(this);
 
@@ -99,10 +90,6 @@ public class GUIStage extends InputListener {
 
         loadingLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
         loadingLabel.setPosition(500, 260);
-
-        gameTable = new Table();
-        gameTable.setFillParent(true);
-        gameStage.addActor(gameTable);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -121,10 +108,8 @@ public class GUIStage extends InputListener {
                 .height(Value.percentHeight(0.2f, table));
         //table.row().pad(10, 0, 10, 0);
 
-
         Texture board = new Texture(Gdx.files.internal("menu_background.jpg"));
         table.background(new TextureRegionDrawable(new TextureRegion(board)));
-
 
         Table table2 = new Table();
         table2.setFillParent(true);
@@ -134,9 +119,6 @@ public class GUIStage extends InputListener {
         table2.add(loadingLabel).center();
         Texture board2 = new Texture(Gdx.files.internal("loading.jpg"));
         table2.background(new TextureRegionDrawable(new TextureRegion(board2)));
-
-        gameTable.background(new TextureRegionDrawable(new TextureRegion(board2)));
-        gameTable.addAction(Actions.fadeOut(1));
 
         //Progress bar
         Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
@@ -174,11 +156,8 @@ public class GUIStage extends InputListener {
     public void renderLoader(){
 
         float progress = sceneManager.assetsManager.getProgress() * 100;
-
         loadingLabel.setText(""+(int)progress+"%");
-
         progressBar.setValue(progress);
-
         loaderStage.draw();
     }
 
@@ -189,21 +168,7 @@ public class GUIStage extends InputListener {
         mainMenuStage.draw();
         mainMenuStage.act();
     }
-/*
-    public void renderGameHud(Scene scene) {
 
-        gameTable.act(Gdx.graphics.getDeltaTime());
-
-        healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% "
-                            +"AMMO: "+addInfoString2+" "
-                            +"TOTAL SHOT: "+addInfoString1+" "
-                           // +"SHOT BAD: 0"
-                            );
-
-        gameStage.draw();
-
-    }
-*/
     public void touchUp (InputEvent e, float x, float y, int pointer, int button) {
 
         Actor a = e.getListenerActor();

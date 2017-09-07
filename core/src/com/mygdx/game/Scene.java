@@ -39,6 +39,8 @@ public class Scene  extends InputAdapter {
 
     public void onDispose(){
 
+        guiGameStage.dispose();
+
     }
 
     @Override
@@ -55,7 +57,7 @@ public class Scene  extends InputAdapter {
         //Send event to player
         sceneManager.sendEvent(new PlayerEvent(PlayerEvent.State.TOUCH_DOWN, r, poi));
 
-        return false;
+        return true;
     }
 
     public float getPlayerHealth(){

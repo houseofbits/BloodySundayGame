@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.math.Vector3;
@@ -30,6 +32,8 @@ public class Scene  extends InputAdapter {
     public void onCreate(SceneManager mgr){
         sceneManager = mgr;
         guiGameStage = new GUIGameStage(this);
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this));
     }
 
     public void onUpdate(){

@@ -25,7 +25,7 @@ import GameObjects.StaticObject;
 
 public class GameScene2 extends Scene {
 
-    public CameraInputController camController;
+   // public CameraInputController camController;
 
     public GameScene2(){
 
@@ -43,8 +43,8 @@ public class GameScene2 extends Scene {
         cam.far = 500f;
         cam.update();
 
-        camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this)); //camController, sceneManager.guiMainStage.getStage()
+        //camController = new CameraInputController(cam);
+        //Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this)); //camController, sceneManager.guiMainStage.getStage()
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
@@ -82,7 +82,7 @@ public class GameScene2 extends Scene {
 
     public void onUpdate(){
 
-        if(camController != null)camController.update();
+       // if(camController != null)camController.update();
 
     }
 

@@ -41,6 +41,8 @@ public class GUIGameStage extends InputListener {
     Image blackOverlayImage;
     private Label healthLabel;
 
+    protected Table confirmPopupTable;
+
     public GUIGameStage(Scene s) {
 
         scene = s;
@@ -102,8 +104,38 @@ public class GUIGameStage extends InputListener {
 
         stage.addActor(blackOverlayImage);
 
-        blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeOut(1), Actions.hide()));
+        //Exit confirm popup
+        confirmPopupTable = new Table();
+        //confirmPopupTable.setDebug(true);
+        confirmPopupTable.setFillParent(true);
+        stage.addActor(confirmPopupTable);
 
+        TextButton buttonExit = new TextButton("Exit to main menu", style);
+        buttonExit.setName("EXITMAIN");
+        buttonExit.addListener(this);
+
+        TextButton buttonCancel = new TextButton("Back to game", style);
+        buttonCancel.setName("CANCEL");
+        buttonCancel.addListener(this);
+
+        confirmPopupTable.add(buttonExit);
+        confirmPopupTable.row();
+        confirmPopupTable.add(buttonCancel);
+
+        confirmPopupTable.setVisible(false);
+
+
+
+        FadeFromBlack(1);
+        scene.sceneManager.setGamePaused(false);
+    }
+
+    public void FadeToBlack(float time){
+        blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(time)));
+    }
+
+    public void FadeFromBlack(float time){
+        blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeOut(time), Actions.hide()));
     }
 
     public void render() {
@@ -122,21 +154,21 @@ public class GUIGameStage extends InputListener {
     }
 
     public void dispose(){
-
         stage.dispose();
-
     }
 
     public void touchUp (InputEvent e, float x, float y, int pointer, int button) {
 
         Actor a = e.getListenerActor();
-
         if(a.getName() == "MAIN"){
-            //TODO: show confirm-to-exit screen
-            //
-            //  [MAIN MENU]
-            //  [CANCEL]
-            //
+            confirmPopupTable.setVisible(true);
+            FadeToBlack(1);
+            scene.sceneManager.setGamePaused(true);
+        }else if(a.getName() == "CANCEL"){
+            confirmPopupTable.setVisible(false);
+            FadeFromBlack(1);
+            scene.sceneManager.setGamePaused(false);
+        }else if(a.getName() == "EXITMAIN"){
             this.scene.sceneManager.UnloadScene();
         }
     }

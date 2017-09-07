@@ -48,6 +48,10 @@ public class SceneManager {
         guiMainStage = new GUIMainStage(this);
     }
 
+    public void setGamePaused(boolean p){
+        gamePaused = p;
+    }
+
     public void AddGameObject(GameObject object){
         object.onCreate(this);
         this.createGameObjectArray.add(object);

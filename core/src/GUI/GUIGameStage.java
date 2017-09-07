@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -70,7 +71,7 @@ public class GUIGameStage extends InputListener {
         style.font = font;
 
 
-        TextButton button1 = new TextButton("MAIN", style);
+        Button button1 = new Button(buttonSkin.getDrawable("mainbutton_off"), buttonSkin.getDrawable("mainbutton_on"));
         button1.setName("MAIN");
         button1.addListener(this);
 
@@ -79,7 +80,7 @@ public class GUIGameStage extends InputListener {
         gtable.setFillParent(true);
         stage.addActor(gtable);
 
-        gtable.add(button1).top().expandY().width(Value.percentWidth(0.1f, gtable));
+        gtable.add(button1).top().width(Value.percentWidth(0.1f, gtable)).height(Value.percentWidth(0.1f, gtable));
         gtable.add().expand();
         gtable.add().expandY().width(Value.percentWidth(0.1f, gtable));
         gtable.row();
@@ -118,9 +119,13 @@ public class GUIGameStage extends InputListener {
         buttonCancel.setName("CANCEL");
         buttonCancel.addListener(this);
 
-        confirmPopupTable.add(buttonExit);
+        confirmPopupTable.add(buttonExit)
+                .width(Value.percentWidth(0.4f, confirmPopupTable))
+                .height(Value.percentHeight(0.2f, confirmPopupTable));
         confirmPopupTable.row();
-        confirmPopupTable.add(buttonCancel);
+        confirmPopupTable.add(buttonCancel)
+                .width(Value.percentWidth(0.4f, confirmPopupTable))
+                .height(Value.percentHeight(0.2f, confirmPopupTable));
 
         confirmPopupTable.setVisible(false);
 

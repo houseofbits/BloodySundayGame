@@ -125,7 +125,7 @@ public class SceneManager {
 
         if(scene == null)guiStage.renderMainMenu();
 
-        if(scene != null)guiStage.renderGameHud(scene);
+        if(scene != null)scene.guiGameStage.render();   //guiStage.renderGameHud(scene);
     }
 
     public void dispose(){

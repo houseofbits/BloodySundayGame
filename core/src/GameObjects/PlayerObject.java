@@ -56,7 +56,7 @@ public class PlayerObject extends GameObject {
                 break;
             case DIE:
                 actorsShot++;
-                sceneManager.guiStage.addInfoString1 = ""+actorsShot;
+                //sceneManager.guiStage.addInfoString1 = ""+actorsShot;
                 break;
         }
     }
@@ -90,7 +90,7 @@ public class PlayerObject extends GameObject {
 
         if(timer <= 0 && magazine <= 0)magazine = bulletsInMag;
 
-        sceneManager.guiStage.addInfoString2 = magazine+" / "+bulletsInMag;
+        //sceneManager.guiStage.addInfoString2 = magazine+" / "+bulletsInMag;
         /*
         if(fadeTimer > 0){
             fadeTimer = fadeTimer - (sceneManager.frame_time_s * 0.1f);

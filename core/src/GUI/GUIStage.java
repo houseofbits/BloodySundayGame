@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -45,15 +46,15 @@ public class GUIStage extends InputListener {
     private TextButton button1;
     private TextButton button2;
 
-    private Label healthLabel;
-    private Label fpsLabel;
+//    private Label healthLabel;
+//    private Label fpsLabel;
     private Label loadingLabel;
     private Table gameTable;
 
     private ProgressBar progressBar;
 
-    public String addInfoString1 = "";
-    public String addInfoString2 = "";
+//    public String addInfoString1 = "";
+//    public String addInfoString2 = "";
 
     SceneManager sceneManager = null;
 
@@ -92,25 +93,6 @@ public class GUIStage extends InputListener {
         //button3.setPosition(10, 100);
         button3.setName("BUTTON3");
         button3.addListener(this);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //In-game gui
-        healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-
-        Table gtable = new Table();
-        gtable.setDebug(true);
-        gtable.setFillParent(true);
-        gameStage.addActor(gtable);
-
-        gtable.add().pad(10).fill().expand();
-        gtable.row();
-        gtable.add(healthLabel).pad(10).fill().height(Value.percentHeight(0.1f, gtable));
-
-        healthLabel.setAlignment(Align.bottom);
-
-       // fpsLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-      //  fpsLabel.setPosition(10, 10);
-       // gameStage.addActor(fpsLabel);
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Loading screen
@@ -207,7 +189,7 @@ public class GUIStage extends InputListener {
         mainMenuStage.draw();
         mainMenuStage.act();
     }
-
+/*
     public void renderGameHud(Scene scene) {
 
         gameTable.act(Gdx.graphics.getDeltaTime());
@@ -221,7 +203,7 @@ public class GUIStage extends InputListener {
         gameStage.draw();
 
     }
-
+*/
     public void touchUp (InputEvent e, float x, float y, int pointer, int button) {
 
         Actor a = e.getListenerActor();

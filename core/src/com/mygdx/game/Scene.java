@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
+import GUI.GUIGameStage;
 import GameEvents.PlayerEvent;
 import GameObjects.BulletSplashObject;
 
@@ -18,6 +19,7 @@ public class Scene  extends InputAdapter {
     public SceneManager sceneManager = null;
     public Environment environment = null;
     public PerspectiveCamera cam = null;
+    public GUIGameStage guiGameStage = null;
 
     public float    playerHealth = 100;
 
@@ -27,6 +29,7 @@ public class Scene  extends InputAdapter {
 
     public void onCreate(SceneManager mgr){
         sceneManager = mgr;
+        guiGameStage = new GUIGameStage(this);
     }
 
     public void onUpdate(){

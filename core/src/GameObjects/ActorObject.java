@@ -23,87 +23,83 @@ import GameEvents.DoorEvent;
 
 public class ActorObject extends GameObject {
 
-    public enum State{
-        APPEAR,                 //Open door
-        IDLE,                   //Do nothing
-        ACTION,                 //Perform action
-        DIE,                    //Die
-        HIT,                    //Get hit
-        DISAPPEAR,              //Disappear, walk away
+    public class ActorState{
+
+        public String name = "";
+        public String animationName = null;
+        public float speed = 1.0f;
+        public float time = 1.0f;
+        public String nextState = "";
+        public ActorObject parent = null;
+
+        public ActorState(String stateName, String nextStateName, String animationTrackName, float animationSpeed, float stateTime){
+            name = stateName;
+            animationName = animationTrackName;
+            nextState = nextStateName;
+            speed = animationSpeed;
+            time = stateTime;
+        }
+
+        public void onStateStart(){}
+        public void onStateFinish(){}
     }
 
-    private Map<State, Array<String>> statesAnimationsMap = new HashMap<State, Array<String>>();
-
-    public Vector3 position;
-    public State state = null;
-    float   stateTimer = 0;
-
-    String  doorName = "";
-    String  spawnName = "";
-
-   // Renderable renderable = null;
-    AnimatedRenderable animatedRederable = null;
-    IntersectionMesh intersectionMesh = null;
-
-    public void setState(State s){
-
-        state = s;
-
-        if(state != null) {
-
-            stateTimer = 1;
-
-            //System.out.println("Set state: " + s.toString());
-
-            animatedRederable.PlayAnim(getStateAnimation(s));
-
-            switch (state) {
-                case APPEAR:
-                    sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN), doorName);
-                    //animatedRederable.setColor(0.2f,0.2f,0.2f);
-                    //animatedRederable.PlayAnim("anim1");
-                    break;
-                case IDLE:
-                    //animatedRederable.setColor(0.3f,0.3f,0.5f);
-                    break;
-                case ACTION:
-                    sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
-                    animatedRederable.setColor(0.5f,0.5f,0.3f);
-                    break;
-                case HIT:
-                    animatedRederable.setColor(0.5f,0,0);
-
-                    break;
-                case DIE:
-                    sendEvent(new ActorEvent(ActorEvent.State.DIE));
-                    sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
-                    break;
-                case DISAPPEAR:
-                    sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
-                    break;
-            }
+    public class ActorStateAppear extends ActorState{
+        public ActorStateAppear(String nextStateName, String animationTrackName, float animationSpeed, float stateTime){
+            super("APPEAR", nextStateName, animationTrackName, animationSpeed, stateTime);
+        }
+        public void onStateStart(){
+            if(parent.spawnObject != null)parent.spawnObject.setDoorState(DoorObject.State.OPEN);
+        }
+    }
+    public class ActorStateDisappear extends ActorState{
+        public ActorStateDisappear(){
+            super("DISAPPEAR", null, null, 1.0f, 1.0f);
+        }
+        public ActorStateDisappear(String nextStateName, String animationTrackName, float animationSpeed, float stateTime){
+            super("DISAPPEAR", nextStateName, animationTrackName, animationSpeed, stateTime);
+        }
+        public void onStateFinish(){
+            parent.setDispose(true);
+            //sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnName);
         }
     }
 
-    public ActorObject(String spawn, String door, Vector3 pos){
-        this.collide = true;
-        spawnName = spawn;
-        doorName = door;
-        position = pos;
-       // renderable = new Renderable(this, "test_actor.g3dj");
-        intersectionMesh = new IntersectionMesh(this, "test_actor.g3dj");
-        animatedRederable = new AnimatedRenderable(this, "test_actor_anim.g3dj");
+    private Map<String, ActorState> actorStateMap = new HashMap<String, ActorState>();
 
-        AddStateAnimation(State.APPEAR, "anim1");
+    private ActorState currentState = null;
 
-        setName("actor_"+System.identityHashCode(this));
+    public void switchState(String newState){
+        if(actorStateMap.containsKey(newState)){
+            ActorState st = actorStateMap.get(newState);
+            currentState = st;
+           // animatedRederable.PlayAnim(st.animationName);
+            //animatedRenderable.playNext(st.animationName, st.speed);
+            st.onStateStart();
+            stateTimer = st.time;
+        }else{
+            currentState = null;
+        }
     }
 
-    public ActorObject(Vector3 pos, String renderModel, String colModel){
+    public void addActorState(ActorState state){
+        state.parent = this;
+        actorStateMap.put(state.name, state);
+    }
+
+    public  Vector3 position;
+    float   stateTimer = 0;
+
+    public SpawnObject spawnObject = null;
+
+    AnimatedRenderable animatedRederable = null;
+    IntersectionMesh intersectionMesh = null;
+
+    public ActorObject(SpawnObject spawn, String renderModel, String colModel){
+
         this.collide = true;
-        //spawnName = spawn;
-        //doorName = door;
-        position = pos;
+
+        position = spawn.getSpawnedPosition();
 
         intersectionMesh = new IntersectionMesh(this, colModel);
         animatedRederable = new AnimatedRenderable(this, renderModel);
@@ -114,18 +110,15 @@ public class ActorObject extends GameObject {
     public void onCreate(SceneManager sceneManagerRef){
 
         super.onCreate(sceneManagerRef);
-       // renderable.create();
         animatedRederable.create();
         intersectionMesh.create();
     }
 
     public void onInit(){
 
-       // renderable.init();
         intersectionMesh.init();
         animatedRederable.init();
         animatedRederable.translate(position);
-        //renderable.translate(position);
 
         Vector3 v = new Vector3(position);
         v = v.sub(sceneManager.scene.cam.position);
@@ -134,15 +127,19 @@ public class ActorObject extends GameObject {
 
         float crs = v2n1.crs(new Vector2(sceneManager.scene.cam.direction.x,sceneManager.scene.cam.direction.z).nor());
 
-       // if(renderable.modelInstance != null)renderable.modelInstance.transform.rotate(0,1,0, (crs*90));
-
         if(animatedRederable.modelInstance != null)animatedRederable.modelInstance.transform.rotate(0,1,0, (crs*90));
-
-        setState(State.APPEAR);
     }
 
     public void onUpdate() {
 
+        if(currentState!= null && stateTimer > 0)stateTimer = stateTimer - sceneManager.frame_time_s;
+
+        if(currentState != null && stateTimer <= 0) {
+            currentState.onStateFinish();
+            switchState(currentState.nextState);
+        }
+
+        /*
         if(state!= null && stateTimer > 0)stateTimer = stateTimer - sceneManager.frame_time_s;
 
         //set next state
@@ -181,26 +178,16 @@ public class ActorObject extends GameObject {
                     sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnName);
                     break;
             }
-        }
-    }
-
-    public void onActorEvent(ActorEvent e){
-        switch(e.state){
-            case SET_DISAPPEAR:
-                setState(State.DISAPPEAR);
-                break;
-        }
+        }*/
     }
 
     public void render () {
-//        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
         animatedRederable.render(sceneManager.scene.cam, sceneManager.scene.environment);
     }
     public void dispose () {
         super.dispose();
-    //    renderable.dispose();
         animatedRederable.dispose();
-        statesAnimationsMap.clear();
+        actorStateMap.clear();
     }
 
     public boolean intersectRay(Ray ray, Vector3 inter){
@@ -211,28 +198,9 @@ public class ActorObject extends GameObject {
 
     public void onCollision(GameObject o, Vector3 p){
         if(o.getClass() == BulletObject.class){
-            if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
+            //if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
+
             sceneManager.AddGameObject(new BulletSplashObject(p.cpy(), new Color(0.6f, 0, 0, 0)));
         }
-    }
-
-    public void AddStateAnimation(State s, String animationName){
-
-        if(statesAnimationsMap.containsKey(s) == false){
-            statesAnimationsMap.put(s, new Array<String>());
-        }
-        Array<String> an = statesAnimationsMap.get(s);
-        an.add(animationName);
-    }
-    public String getStateAnimation(State s){
-
-        if(statesAnimationsMap.containsKey(s)){
-            Array<String> an = statesAnimationsMap.get(s);
-            if(an.size > 0){
-                return an.get(0);
-            }
-        }
-
-        return null;
     }
 }

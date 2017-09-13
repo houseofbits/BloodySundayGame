@@ -65,7 +65,7 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
 
     public void PlayAnim(String name){
 
-        controller.setAnimation(name,1, 0.7f, this);
+        if(name != null)controller.setAnimation(name,1, 0.7f, this);
 
     }
     public void StopAnim(){

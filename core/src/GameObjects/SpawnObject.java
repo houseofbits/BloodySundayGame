@@ -28,7 +28,7 @@ public class SpawnObject extends GameObject {
         LIVE,               //Object is live
     }
 
-    public enum SpawnType{
+    public enum SpawnType{  //???????
         ENEMY1,
         ENEMY2,
         ENEMY3,
@@ -40,53 +40,37 @@ public class SpawnObject extends GameObject {
     private Array<Vector3> spawnPoints = new Array<Vector3>();
     private Array<String> affectedDoors = new Array<String>();
     private RandomDistribution<SpawnType> actorDistribution = new RandomDistribution<SpawnType>();
-
-    public String targetDoorName = null;
     public Vector3 position;
-
     public State state = null;
-
-    float   nextSpawnTimer = 0;
-
-    public ModelBatch modelBatch;
-    public Model model;
-    public ModelInstance instance;
-
-    Random random = new Random();
+    private float   nextSpawnTimer = 0;
+    private Random random = new Random();
 
     public SpawnObject(String name, String doorName, Vector3 pos){
         this.collide = false;
         this.setName(name);
-        targetDoorName = doorName;
         position = pos;
 
-        AddSpawnPoint(pos);
-        AddAffectedDoor(doorName);
+        addSpawnPoint(pos);
+        addAffectedDoor(doorName);
+    }
+
+    public SpawnObject(String name) {
+        this.collide = false;
+        this.setName(name);
+    }
+
+    public Vector3 getSpawnedPosition(){
+        return position;
     }
 
     public void onCreate(SceneManager sceneManagerRef){
 
         super.onCreate(sceneManagerRef);
 
-        modelBatch = new ModelBatch();
-
-        ModelBuilder modelBuilder = new ModelBuilder();
-
-        model = modelBuilder.createBox(0.15f, 0.15f, 0.15f,
-                new Material(ColorAttribute.createDiffuse(1,1,0,1)),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        instance = new ModelInstance(model);
-
-        instance.transform.idt();
-        instance.transform.translate(position);
-
         setReadyToSpawn();
     }
 
-    public void onInit(){
-
-
-    }
+    public void onInit(){    }
 
     public void onActorEvent(ActorEvent e){
         if(e.state == ActorEvent.State.REMOVED){
@@ -112,38 +96,33 @@ public class SpawnObject extends GameObject {
 
                     position = spawnPoints.get(random.nextInt(spawnPoints.size));
 
-                    //Do spawn
-                    sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
-                    //System.out.println("Create new actor");
+                    sceneManager.AddGameObject(new ActorEnemyObject(this));
+
                     state = State.LIVE;
                 }
             }
         }
     }
 
-    public void render () {
-
-        modelBatch.begin(sceneManager.scene.cam);
-        modelBatch.render(instance, sceneManager.scene.environment);
-        modelBatch.end();
-
-    }
+    public void render () { }
     public void dispose () {
         super.dispose();
-        modelBatch.dispose();
-        model.dispose();
     }
 
-    public void AddSpawnPoint(Vector3 p){
+    public void addSpawnPoint(Vector3 p){
         spawnPoints.add(p);
     }
 
-    public void AddActorType(SpawnType type, float weight){
+    public void addActorType(SpawnType type, float weight){
         actorDistribution.add(type, weight);
     }
 
-    public void AddAffectedDoor(String name){
+    public void addAffectedDoor(String name){
         affectedDoors.add(name);
     }
 
+    public void setDoorState(DoorObject.State state){
+
+
+    }
 }

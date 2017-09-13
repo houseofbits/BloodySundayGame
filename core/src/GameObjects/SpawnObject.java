@@ -52,11 +52,16 @@ public class SpawnObject extends GameObject {
     public Model model;
     public ModelInstance instance;
 
+    Random random = new Random();
+
     public SpawnObject(String name, String doorName, Vector3 pos){
         this.collide = false;
         this.setName(name);
         targetDoorName = doorName;
         position = pos;
+
+        AddSpawnPoint(pos);
+        AddAffectedDoor(doorName);
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -92,8 +97,7 @@ public class SpawnObject extends GameObject {
     public void setReadyToSpawn(){
         state = State.READY;
 
-        Random r = new Random();
-        nextSpawnTimer = (r.nextFloat() * 3);
+        nextSpawnTimer = (random.nextFloat() * 3);
     }
 
     public void onUpdate() {
@@ -104,9 +108,15 @@ public class SpawnObject extends GameObject {
                 //random actor type
                 RandomDistribution<SpawnType>.Node node = actorDistribution.get();
 
-                sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
-                //System.out.println("Create new actor");
-                state = State.LIVE;
+                if(spawnPoints.size > 0) {
+
+                    position = spawnPoints.get(random.nextInt(spawnPoints.size));
+
+                    //Do spawn
+                    sceneManager.AddGameObject(new ActorObject(getName(), targetDoorName, position));
+                    //System.out.println("Create new actor");
+                    state = State.LIVE;
+                }
             }
         }
     }

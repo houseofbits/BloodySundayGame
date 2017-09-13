@@ -4,11 +4,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.AnimatedRenderable;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import GameEvents.ActorEvent;
 import GameEvents.DoorEvent;
@@ -25,8 +29,10 @@ public class ActorObject extends GameObject {
         ACTION,                 //Perform action
         DIE,                    //Die
         HIT,                    //Get hit
-        DISAPPEAR,              //Disappear, wak away
+        DISAPPEAR,              //Disappear, walk away
     }
+
+    private Map<State, Array<String>> statesAnimationsMap = new HashMap<State, Array<String>>();
 
     public Vector3 position;
     public State state = null;
@@ -49,11 +55,13 @@ public class ActorObject extends GameObject {
 
             //System.out.println("Set state: " + s.toString());
 
+            animatedRederable.PlayAnim(getStateAnimation(s));
+
             switch (state) {
                 case APPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN), doorName);
                     //animatedRederable.setColor(0.2f,0.2f,0.2f);
-                    animatedRederable.PlayAnim("anim1");
+                    //animatedRederable.PlayAnim("anim1");
                     break;
                 case IDLE:
                     //animatedRederable.setColor(0.3f,0.3f,0.5f);
@@ -64,10 +72,11 @@ public class ActorObject extends GameObject {
                     break;
                 case HIT:
                     animatedRederable.setColor(0.5f,0,0);
+
                     break;
                 case DIE:
                     sendEvent(new ActorEvent(ActorEvent.State.DIE));
-                    //animatedRederable.setColor(0.5f,0.2f,0.2f);
+                    sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
                     break;
                 case DISAPPEAR:
                     sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
@@ -84,6 +93,20 @@ public class ActorObject extends GameObject {
        // renderable = new Renderable(this, "test_actor.g3dj");
         intersectionMesh = new IntersectionMesh(this, "test_actor.g3dj");
         animatedRederable = new AnimatedRenderable(this, "test_actor_anim.g3dj");
+
+        AddStateAnimation(State.APPEAR, "anim1");
+
+        setName("actor_"+System.identityHashCode(this));
+    }
+
+    public ActorObject(Vector3 pos, String renderModel, String colModel){
+        this.collide = true;
+        //spawnName = spawn;
+        //doorName = door;
+        position = pos;
+
+        intersectionMesh = new IntersectionMesh(this, colModel);
+        animatedRederable = new AnimatedRenderable(this, renderModel);
 
         setName("actor_"+System.identityHashCode(this));
     }
@@ -177,6 +200,7 @@ public class ActorObject extends GameObject {
         super.dispose();
     //    renderable.dispose();
         animatedRederable.dispose();
+        statesAnimationsMap.clear();
     }
 
     public boolean intersectRay(Ray ray, Vector3 inter){
@@ -190,5 +214,25 @@ public class ActorObject extends GameObject {
             if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
             sceneManager.AddGameObject(new BulletSplashObject(p.cpy(), new Color(0.6f, 0, 0, 0)));
         }
+    }
+
+    public void AddStateAnimation(State s, String animationName){
+
+        if(statesAnimationsMap.containsKey(s) == false){
+            statesAnimationsMap.put(s, new Array<String>());
+        }
+        Array<String> an = statesAnimationsMap.get(s);
+        an.add(animationName);
+    }
+    public String getStateAnimation(State s){
+
+        if(statesAnimationsMap.containsKey(s)){
+            Array<String> an = statesAnimationsMap.get(s);
+            if(an.size > 0){
+                return an.get(0);
+            }
+        }
+
+        return null;
     }
 }

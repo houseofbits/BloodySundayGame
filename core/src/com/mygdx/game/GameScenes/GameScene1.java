@@ -47,9 +47,6 @@ public class GameScene1 extends Scene {
         //environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-1.8f,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
-        sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(1.8f,0,-0.6f)));
         /*
         SpawnObject sp1 = new SpawnObject("spawn_1");
         sp1.AddSpawnPoint(new Vector3(0,0,0));
@@ -62,6 +59,10 @@ public class GameScene1 extends Scene {
         sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj", false));
         sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj", false));
         sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj", false));
+
+        sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-1.8f,0,-0.6f)));
+        sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0,0,-0.6f)));
+        sceneManager.AddGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(1.8f,0,-0.6f)));
 
         sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 

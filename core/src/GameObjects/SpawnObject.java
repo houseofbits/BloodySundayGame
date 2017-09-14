@@ -95,9 +95,7 @@ public class SpawnObject extends GameObject {
                 if(spawnPoints.size > 0) {
 
                     position = spawnPoints.get(random.nextInt(spawnPoints.size));
-
                     sceneManager.AddGameObject(new ActorEnemyObject(this));
-
                     state = State.LIVE;
                 }
             }
@@ -121,8 +119,12 @@ public class SpawnObject extends GameObject {
         affectedDoors.add(name);
     }
 
-    public void setDoorState(DoorObject.State state){
-
-
+    public void setAffectedDoorsState(DoorObject.State doorState){
+        for (int i=0; i<affectedDoors.size; i++){
+           DoorObject d = (DoorObject)sceneManager.getObjectByName(affectedDoors.get(i));
+            if(d != null){
+                d.setState(doorState);
+            }
+        }
     }
 }

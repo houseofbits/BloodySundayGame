@@ -49,7 +49,7 @@ public class ActorObject extends GameObject {
             super("APPEAR", nextStateName, animationTrackName, animationSpeed, stateTime);
         }
         public void onStateStart(){
-            if(parent.spawnObject != null)parent.spawnObject.setDoorState(DoorObject.State.OPEN);
+            if(parent.spawnObject != null)parent.spawnObject.setAffectedDoorsState(DoorObject.State.OPEN);
         }
     }
     public class ActorStateDisappear extends ActorState{
@@ -73,7 +73,7 @@ public class ActorObject extends GameObject {
         if(actorStateMap.containsKey(newState)){
             ActorState st = actorStateMap.get(newState);
             currentState = st;
-           // animatedRederable.PlayAnim(st.animationName);
+            animatedRederable.PlayAnim(st.animationName);
             //animatedRenderable.playNext(st.animationName, st.speed);
             st.onStateStart();
             stateTimer = st.time;
@@ -138,47 +138,6 @@ public class ActorObject extends GameObject {
             currentState.onStateFinish();
             switchState(currentState.nextState);
         }
-
-        /*
-        if(state!= null && stateTimer > 0)stateTimer = stateTimer - sceneManager.frame_time_s;
-
-        //set next state
-        if(state!= null && stateTimer <= 0){
-
-            DoorObject dobj = (DoorObject)sceneManager.getObjectByName(doorName);
-            if(dobj != null
-                    && (dobj.state == DoorObject.State.CLOSED || dobj.state == DoorObject.State.CLOSING)
-                    && (state == State.IDLE || state == State.APPEAR)){
-
-                setState(State.DISAPPEAR);
-                animatedRederable.StopAnim();
-
-                return;
-            }
-
-            switch(state){
-                case APPEAR:
-                    setState(State.IDLE);
-                    break;
-                case IDLE:
-                    setState(State.ACTION);
-                    break;
-                case ACTION:
-                    setState(State.DISAPPEAR);
-                    break;
-                case HIT:
-                    setState(State.DIE);
-                    break;
-                case DIE:
-                    setState(State.DISAPPEAR);
-                    break;
-                case DISAPPEAR:
-                    setState(null);
-                    this.setDispose(true);
-                    sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnName);
-                    break;
-            }
-        }*/
     }
 
     public void render () {

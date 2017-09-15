@@ -17,6 +17,8 @@ import java.util.Random;
 import GameEvents.ActorEvent;
 import Utils.RandomDistribution;
 
+import static GameObjects.SpawnObject.ActorType.ENEMY1;
+
 /**
  * Created by T510 on 7/31/2017.
  */
@@ -28,7 +30,7 @@ public class SpawnObject extends GameObject {
         LIVE,               //Object is live
     }
 
-    public enum SpawnType{  //???????
+    public enum ActorType{  //???????
         ENEMY1,
         ENEMY2,
         ENEMY3,
@@ -39,7 +41,7 @@ public class SpawnObject extends GameObject {
 
     private Array<Vector3> spawnPoints = new Array<Vector3>();
     private Array<String> affectedDoors = new Array<String>();
-    private RandomDistribution<SpawnType> actorDistribution = new RandomDistribution<SpawnType>();
+    private RandomDistribution<ActorType> actorDistribution = new RandomDistribution<ActorType>();
     public Vector3 position;
     public State state = null;
     private float   nextSpawnTimer = 0;
@@ -80,26 +82,31 @@ public class SpawnObject extends GameObject {
 
     public void setReadyToSpawn(){
         state = State.READY;
-
         nextSpawnTimer = (random.nextFloat() * 3);
+    }
+
+    public void spawn(ActorType t){
+        if(spawnPoints.size > 0) {
+            position = spawnPoints.get(random.nextInt(spawnPoints.size));
+            switch(t){
+                case ENEMY1:
+                    sceneManager.AddGameObject(new ActorEnemyObject(this));
+                    break;
+            };
+            state = State.LIVE;
+        }
+    }
+
+    public void spawn(){
+        RandomDistribution<ActorType>.Node node = actorDistribution.get();
+        spawn(node.data);
     }
 
     public void onUpdate() {
         if(state == State.READY) {
             nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
             if(nextSpawnTimer <= 0){
-
-                //random actor type
-                RandomDistribution<SpawnType>.Node node = actorDistribution.get();
-
-                if(spawnPoints.size > 0) {
-
-                    position = spawnPoints.get(random.nextInt(spawnPoints.size));
-
-                    sceneManager.AddGameObject(new ActorEnemyObject(this));
-
-                    state = State.LIVE;
-                }
+                spawn(ENEMY1);
             }
         }
     }
@@ -113,7 +120,7 @@ public class SpawnObject extends GameObject {
         spawnPoints.add(p);
     }
 
-    public void addActorType(SpawnType type, float weight){
+    public void addActorType(ActorType type, float weight){
         actorDistribution.add(type, weight);
     }
 

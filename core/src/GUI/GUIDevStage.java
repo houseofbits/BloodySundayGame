@@ -84,10 +84,16 @@ public class GUIDevStage extends InputListener {
 
         Actor a = e.getListenerActor();
 
-       // if(scene.animationsArray.contains(a.getName(), true)){
-            System.out.println("play anim");
-       // }
+        if(scene.animationsArray.contains(a.getName(), true)){
+            scene.animatedObject.renderable.PlayAnim(null);
+            scene.animatedObject.renderable.PlayAnim(a.getName());
+        }
 
+    }
+
+    public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {
+
+        return true;   //return true stops event propagation
     }
 }
 

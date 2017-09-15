@@ -74,19 +74,19 @@ public class GUIMainStage extends InputListener {
         style.up = buttonSkin.getDrawable("buttonoff");
         style.font = font;
 
-        button1 = new TextButton("SCENE 1", style);
+        button1 = new TextButton("Three doors", style);
         button1.setName("BUTTON1");
         button1.addListener(this);
 
-        button2 = new TextButton("SCENE 2", style);
+        button2 = new TextButton("Hallway", style);
         button2.setName("BUTTON2");
         button2.addListener(this);
 
-        TextButton button3 = new TextButton("SCENE 3", style);
+        TextButton button3 = new TextButton("Entrance", style);
         button3.setName("BUTTON3");
         button3.addListener(this);
 
-        TextButton button4 = new TextButton("Model anim test", style);
+        TextButton button4 = new TextButton("Model animation", style);
         button4.setName("BUTTON4");
         button4.addListener(this);
 

@@ -18,6 +18,7 @@ import GameObjects.AnimatedObject;
 import GameObjects.DoorObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
+import GameObjects.StaticObject;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -42,7 +43,7 @@ public class GameScene4 extends Scene {
         super.onCreate(mgr);
 
         cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(-0.7f, 1.4f, 5f);
+        cam.position.set(-0.7f, 1.4f, 4f);
         cam.lookAt(0,1.1f,0);
         cam.near = 1f;
         cam.far = 500f;
@@ -51,6 +52,8 @@ public class GameScene4 extends Scene {
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+
+        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
 
         animatedObject = new AnimatedObject(modelName);
 
@@ -67,7 +70,7 @@ public class GameScene4 extends Scene {
         devStage = new GUIDevStage(this);
 
         camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(new InputMultiplexer(devStage.stage, guiGameStage.getStage(), camController));
+        Gdx.input.setInputProcessor(new InputMultiplexer(devStage.getStage(), guiGameStage.getStage(), camController));
 
     }
 

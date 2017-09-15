@@ -86,6 +86,10 @@ public class DoorObject extends GameObject {
         if(state != State.CLOSED)state = State.CLOSING;
     }
 
+    public void setState(State s){
+        state = s;
+    }
+
     //Implement in derived classes
     public void advanceMovement(){
         if(state == State.OPENING)advancement = advancement + (speedOpening * sceneManager.frame_time_s);

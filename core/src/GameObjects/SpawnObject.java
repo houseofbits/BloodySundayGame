@@ -30,7 +30,7 @@ public class SpawnObject extends GameObject {
         LIVE,               //Object is live
     }
 
-    public enum ActorType{  //???????
+    public enum ActorType{
         ENEMY1,
         ENEMY2,
         ENEMY3,
@@ -128,8 +128,12 @@ public class SpawnObject extends GameObject {
         affectedDoors.add(name);
     }
 
-    public void setDoorState(DoorObject.State state){
-
-
+    public void setAffectedDoorsState(DoorObject.State doorState){
+        for (int i=0; i<affectedDoors.size; i++){
+           DoorObject d = (DoorObject)sceneManager.getObjectByName(affectedDoors.get(i));
+            if(d != null){
+                d.setState(doorState);
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ import com.mygdx.game.SceneManager;
 
 public class AnimatedObject extends GameObject {
 
-    AnimatedRenderable renderable = null;
+    public AnimatedRenderable renderable = null;
     IntersectionMesh intersectionMesh = null;
 
     public AnimatedObject(String modelName){

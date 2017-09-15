@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.mygdx.game.GameScenes.GameScene1;
 import com.mygdx.game.GameScenes.GameScene2;
 import com.mygdx.game.GameScenes.GameScene3;
+import com.mygdx.game.GameScenes.GameScene4;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
@@ -85,6 +86,10 @@ public class GUIMainStage extends InputListener {
         button3.setName("BUTTON3");
         button3.addListener(this);
 
+        TextButton button4 = new TextButton("Model anim test", style);
+        button4.setName("BUTTON4");
+        button4.addListener(this);
+
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Loading screen
 
@@ -104,6 +109,9 @@ public class GUIMainStage extends InputListener {
                 .height(Value.percentHeight(0.2f, table));
         table.row().pad(10, 10, 10, 10);
         table.add(button2)
+                .width(Value.percentWidth(0.4f, table))
+                .height(Value.percentHeight(0.2f, table));
+        table.add(button4)
                 .width(Value.percentWidth(0.4f, table))
                 .height(Value.percentHeight(0.2f, table));
         //table.row().pad(10, 0, 10, 0);
@@ -181,6 +189,9 @@ public class GUIMainStage extends InputListener {
         }
         if(a.getName() == "BUTTON3") {
             sceneManager.CreateScene(new GameScene3());
+        }
+        if(a.getName() == "BUTTON4") {
+            sceneManager.CreateScene(new GameScene4());
         }
     }
     public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {

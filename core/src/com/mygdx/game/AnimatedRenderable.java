@@ -16,9 +16,9 @@ import com.badlogic.gdx.math.Vector3;
 
 public class AnimatedRenderable implements AnimationController.AnimationListener{
 
-    private GameObject gameObject;
+    public GameObject gameObject;
 
-    private String modelName = "";
+    public String modelName = "";
 
     public ModelBatch modelBatch = null;
     public ModelInstance modelInstance = null;
@@ -65,9 +65,16 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
 
     public void PlayAnim(String name){
 
-        if(controller != null)controller.setAnimation(name,1, 0.7f, this);
+        if(controller != null)controller.setAnimation(name,-1, 1, this);
 
     }
+
+    public void PlayAnim(String name, float speed, float transition){
+
+        if(controller != null)controller.animate(name, 1, speed, this, transition);
+
+    }
+
     public void StopAnim(){
 
         controller.setAnimation(null);

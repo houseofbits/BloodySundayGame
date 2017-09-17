@@ -15,6 +15,7 @@ import com.mygdx.game.SceneManager;
 import java.util.Random;
 
 import GameEvents.ActorEvent;
+import Utils.Error;
 import Utils.RandomDistribution;
 
 import static GameObjects.SpawnObject.ActorType.ENEMY1;
@@ -130,7 +131,7 @@ public class SpawnObject extends GameObject {
 
     public void setAffectedDoorsState(DoorObject.State doorState){
         for (int i=0; i<affectedDoors.size; i++){
-           DoorObject d = (DoorObject)sceneManager.getObjectByName(affectedDoors.get(i));
+            DoorObject d = (DoorObject)sceneManager.getObjectByName(affectedDoors.get(i));
             if(d != null){
                 d.setState(doorState);
             }

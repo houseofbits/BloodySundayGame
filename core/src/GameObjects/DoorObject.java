@@ -87,7 +87,8 @@ public class DoorObject extends GameObject {
     }
 
     public void setState(State s){
-        state = s;
+        if (s == State.CLOSED) this.closeDoor();
+        if (s == State.OPEN) this.openDoor();
     }
 
     //Implement in derived classes

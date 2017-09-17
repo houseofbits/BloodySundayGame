@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -55,10 +56,11 @@ public class GUIDevStage extends InputListener {
         stage.addActor(table);
 
         for (int i = 0; i < scene.animationsArray.size; i++) {
-            TextButton button = new TextButton(scene.animationsArray.get(i), style);
-            button.setName(scene.animationsArray.get(i));
+            Animation ani = scene.animationsArray.get(i);
+            TextButton button = new TextButton(ani.id +", "+ani.duration, style);
+            button.setName(scene.animationsArray.get(i).id);
             button.addListener(this);
-            table.add(button).expandX().right().top().width(Value.percentWidth(0.15f, table));
+            table.add(button).expandX().right().top().width(Value.percentWidth(0.25f, table));
             table.row();
 
         }
@@ -84,11 +86,10 @@ public class GUIDevStage extends InputListener {
 
         Actor a = e.getListenerActor();
 
-        if(scene.animationsArray.contains(a.getName(), true)){
-            scene.animatedObject.renderable.PlayAnim(null);
-            scene.animatedObject.renderable.PlayAnim(a.getName());
-        }
-
+        //if(scene.animationsArray.contains(a.getName(), true)){
+            //scene.animatedObject.renderable.PlayAnim(null);
+            scene.animatedObject.renderable.PlayAnim(a.getName(), 1,0);
+        //}
     }
 
     public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {

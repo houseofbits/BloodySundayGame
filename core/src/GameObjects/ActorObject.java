@@ -1,21 +1,18 @@
 package GameObjects;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.AnimatedRenderable;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.IntersectionMesh;
-import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import GameEvents.ActorEvent;
-import GameEvents.DoorEvent;
+import Utils.Error;
 
 /**
  * Created by KristsPudzens on 04.08.2017.
@@ -26,18 +23,18 @@ public class ActorObject extends GameObject {
     public class ActorState{
 
         public String name = "";
-        public String animationName = null;
         public float speed = 1.0f;
-        public float time = 1.0f;
+        public float duration = 1.0f;
         public String nextState = "";
         public ActorObject parent = null;
+        public String animationName = null;
 
-        public ActorState(String stateName, String nextStateName, String animationTrackName, float animationSpeed, float stateTime){
+        public ActorState(String stateName, String nextStateName, float stateDuration, float animationSpeed, String anim){
             name = stateName;
-            animationName = animationTrackName;
             nextState = nextStateName;
             speed = animationSpeed;
-            time = stateTime;
+            duration = stateDuration;
+            animationName = anim;
         }
 
         public void onStateStart(){}
@@ -45,23 +42,24 @@ public class ActorObject extends GameObject {
     }
 
     public class ActorStateAppear extends ActorState{
-        public ActorStateAppear(String nextStateName, String animationTrackName, float animationSpeed, float stateTime){
-            super("APPEAR", nextStateName, animationTrackName, animationSpeed, stateTime);
+        public ActorStateAppear(String stateName, String nextStateName, float stateDuration, float animationSpeed, String anim){
+            super(stateName, nextStateName, stateDuration, animationSpeed, anim);
         }
         public void onStateStart(){
             if(parent.spawnObject != null)parent.spawnObject.setAffectedDoorsState(DoorObject.State.OPEN);
         }
     }
     public class ActorStateDisappear extends ActorState{
-        public ActorStateDisappear(){
-            super("DISAPPEAR", null, null, 1.0f, 1.0f);
+        public ActorStateDisappear(String stateName, String nextStateName, float stateDuration, float animationSpeed, String anim){
+            super(stateName, nextStateName, stateDuration, animationSpeed, anim);
         }
-        public ActorStateDisappear(String nextStateName, String animationTrackName, float animationSpeed, float stateTime){
-            super("DISAPPEAR", nextStateName, animationTrackName, animationSpeed, stateTime);
+        public void onStateStart(){
+            if(parent.spawnObject != null)parent.spawnObject.setAffectedDoorsState(DoorObject.State.CLOSED);
         }
         public void onStateFinish(){
+            //Error.log("State Disappear remove");
             parent.setDispose(true);
-            //sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnName);
+            sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnObject);
         }
     }
 
@@ -70,13 +68,14 @@ public class ActorObject extends GameObject {
     private ActorState currentState = null;
 
     public void switchState(String newState){
+        //Error.log("Try switch state "+newState);
         if(actorStateMap.containsKey(newState)){
             ActorState st = actorStateMap.get(newState);
             currentState = st;
-            animatedRederable.PlayAnim(st.animationName);
-            //animatedRenderable.playNext(st.animationName, st.speed);
+            animatedRederable.PlayAnim(st.animationName, st.speed, 0.5f);
             st.onStateStart();
-            stateTimer = st.time;
+            stateTimer = st.duration;
+            //Error.log("Switch state "+newState+" anim: "+st.name);
         }else{
             currentState = null;
         }
@@ -104,6 +103,8 @@ public class ActorObject extends GameObject {
         intersectionMesh = new IntersectionMesh(this, colModel);
         animatedRederable = new AnimatedRenderable(this, renderModel);
 
+        spawnObject = spawn;
+
         setName("actor_"+System.identityHashCode(this));
     }
 
@@ -128,6 +129,18 @@ public class ActorObject extends GameObject {
         float crs = v2n1.crs(new Vector2(sceneManager.scene.cam.direction.x,sceneManager.scene.cam.direction.z).nor());
 
         if(animatedRederable.modelInstance != null)animatedRederable.modelInstance.transform.rotate(0,1,0, (crs*90));
+
+        /*
+        Model model = sceneManager.assetsManager.get(animatedRederable.modelName, Model.class);
+        if(model != null){
+
+            for (int i = 0; i < model.animations.size; i++) {
+                Animation anim = model.animations.get(i);
+
+                System.out.println("Anim: " + anim.id+", duration: "+anim.duration);
+            }
+
+        }*/
     }
 
     public void onUpdate() {
@@ -137,8 +150,7 @@ public class ActorObject extends GameObject {
         if(currentState != null && stateTimer <= 0) {
             currentState.onStateFinish();
             switchState(currentState.nextState);
-        }
-    }
+        }  }
 
     public void render () {
         animatedRederable.render(sceneManager.scene.cam, sceneManager.scene.environment);
@@ -152,14 +164,8 @@ public class ActorObject extends GameObject {
     public boolean intersectRay(Ray ray, Vector3 inter){
         if(animatedRederable.modelInstance == null)return false;
         intersectionMesh.transform = animatedRederable.modelInstance.transform;
+
+        //Error.log("Inttersect: "+intersectionMesh.IntersectRay(ray, inter));
         return intersectionMesh.IntersectRay(ray, inter);
-    }
-
-    public void onCollision(GameObject o, Vector3 p){
-        if(o.getClass() == BulletObject.class){
-            //if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
-
-            sceneManager.AddGameObject(new BulletSplashObject(p.cpy(), new Color(0.6f, 0, 0, 0)));
-        }
     }
 }

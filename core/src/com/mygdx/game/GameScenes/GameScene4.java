@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -30,8 +31,8 @@ public class GameScene4 extends Scene {
 
     public GUIDevStage devStage;
     public AnimatedObject animatedObject;
-    public String modelName = "test_actor_anim.g3dj";
-    public Array<String> animationsArray = new Array<String>();
+    public String modelName = "character1.g3dj";
+    public Array<Animation> animationsArray = new Array<Animation>();
 
 
     public GameScene4(){
@@ -53,7 +54,7 @@ public class GameScene4 extends Scene {
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
+        sceneManager.AddGameObject(new StaticObject("testcharscene.g3dj"));
 
         animatedObject = new AnimatedObject(modelName);
 
@@ -64,7 +65,7 @@ public class GameScene4 extends Scene {
         Model model = sceneManager.assetsManager.get(modelName, Model.class);
         for (int i = 0; i < model.animations.size; i++) {
             System.out.println("Anim: " + model.animations.get(i).id);
-            animationsArray.add(model.animations.get(i).id);
+            animationsArray.add(model.animations.get(i));
         }
 
         devStage = new GUIDevStage(this);

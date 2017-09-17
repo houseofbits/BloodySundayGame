@@ -13,8 +13,6 @@ import Utils.Error;
 
 public class ActorEnemyObject extends ActorObject {
 
-//sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.CLOSED), doorName);
-
     public class ActorStateAction extends ActorState{
         public ActorStateAction(String stateName, String nextStateName, float stateDuration, float animationSpeed, String anim){
             super(stateName, nextStateName, stateDuration, animationSpeed, anim);
@@ -30,17 +28,10 @@ public class ActorEnemyObject extends ActorObject {
         super(spawnObject, "character1.g3dj", "test_actor.g3dj");
 
         addActorState(new ActorStateAppear("APPEAR", "IDLE", 1, 0.7f, "APPEAR"));
-
-        addActorState(new ActorState("IDLE", "DISAPPEAR", 2, 0.7f, "IDLE"));
-
-//        addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.0f, 1.0f));
-
- //       addActorState(new ActorState("HIT", "DIE", null, 0.1f, 1.0f));
-
-        addActorState(new ActorState("DIE", "DIE_DISAPPEAR", 0.9f, 1.5f, "DIE1"));
-
+        addActorState(new ActorState("IDLE", "ACTION", 1.2f, 0.7f, "IDLE"));
+        addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.0f, 1.0f, "APPEAR"));
+        addActorState(new ActorState("DIE", "DIE_DISAPPEAR", 0.7f, 1.5f, "DIE1"));
         addActorState(new ActorStateDisappear("DISAPPEAR", null, 1, 1.0f, "APPEAR"));
-
         addActorState(new ActorStateDisappear("DIE_DISAPPEAR", null, 1, 1.0f, null));
 
     }

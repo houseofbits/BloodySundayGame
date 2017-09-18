@@ -25,14 +25,14 @@ public class ActorEnemyObject extends ActorObject {
 
     public ActorEnemyObject(SpawnObject spawnObject) {
 
-        super(spawnObject, "character1.g3dj", "test_actor.g3dj");
+        super(spawnObject, "character2.g3dj", "test_actor.g3dj");
 
         addActorState(new ActorStateAppear("APPEAR", "IDLE", 1, 0.7f, "APPEAR"));
         addActorState(new ActorState("IDLE", "ACTION", 1.2f, 0.7f, "IDLE"));
-        addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.0f, 1.0f, "APPEAR"));
-        addActorState(new ActorState("DIE", "DIE_DISAPPEAR", 0.7f, 1.5f, "DIE1"));
-        addActorState(new ActorStateDisappear("DISAPPEAR", null, 1, 1.0f, "APPEAR"));
-        addActorState(new ActorStateDisappear("DIE_DISAPPEAR", null, 1, 1.0f, null));
+        addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.0f, 1.0f, "ACTION1"));
+        addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
+        addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
+        addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
 
     }
 

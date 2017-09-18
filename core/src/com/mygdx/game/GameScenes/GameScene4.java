@@ -31,7 +31,7 @@ public class GameScene4 extends Scene {
 
     public GUIDevStage devStage;
     public AnimatedObject animatedObject;
-    public String modelName = "character1.g3dj";
+    public String modelName = "character2.g3dj";
     public Array<Animation> animationsArray = new Array<Animation>();
 
 

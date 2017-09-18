@@ -1,10 +1,10 @@
 
 =======================================================================================================
 RESEARCH
-Animation
 Particle effects
 Dynamic shadows
 Dynamic ligting
+
 Game name and theme
 	"Bloody sunday"
 	Film noire graphical style, with red accents and dark contrasting shadows
@@ -13,13 +13,11 @@ Game name and theme
 Game level design and story telling
 
 =======================================================================================================
-DEV
+TODO
 Gameplay
-	+ Shooting actors
-	+ Actor shooting player
-		+ Visual representation
-	- Different actor types
-	+ Reloading and player hud
+	- Actor action state and animation
+	- Different actor types (good/bad)
+	- Basic test levels (intro, hallway, elevator)
 	- Player lives and game over state
 	- Randomize/balance gameplay with difficulty levels
 	- Level objectives. Rare bosses.

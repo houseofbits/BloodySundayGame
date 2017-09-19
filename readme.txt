@@ -1,6 +1,7 @@
 
 =======================================================================================================
 RESEARCH
+Character collision detection with skeleton, bone bounding box generation
 Particle effects
 Dynamic shadows
 Dynamic ligting
@@ -12,10 +13,11 @@ Game name and theme
 
 Game level design and story telling
 
+Projective texturing
+
 =======================================================================================================
 TODO
 Gameplay
-	- Actor action state and animation
 	- Different actor types (good/bad)
 	- Basic test levels (intro, hallway, elevator)
 	- Player lives and game over state
@@ -23,6 +25,7 @@ Gameplay
 	- Level objectives. Rare bosses.
 	- Combo moves
 	- Special items dropped by actors
+
 
 =======================================================================================================
 NOTES

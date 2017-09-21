@@ -58,6 +58,9 @@ public class GameScene1 extends Scene {
         sp1.addSpawnPoint(new Vector3(-1.8f,0,-0.6f));
         sp1.addSpawnPoint(new Vector3(-1.7f,0,-0.6f));
         sp1.addAffectedDoor("door_1");
+        sp1.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
+        sp1.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
+        sp1.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
         sceneManager.AddGameObject(sp1);
 
         SpawnObject sp2 = new SpawnObject("spawn_2");
@@ -65,6 +68,9 @@ public class GameScene1 extends Scene {
         sp2.addSpawnPoint(new Vector3(0,0,-0.6f));
         sp2.addSpawnPoint(new Vector3(-0.1f,0,-0.6f));
         sp2.addAffectedDoor("door_2");
+        sp2.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
+        sp2.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
+        sp2.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
         sceneManager.AddGameObject(sp2);
 
         SpawnObject sp3 = new SpawnObject("spawn_3");
@@ -72,6 +78,9 @@ public class GameScene1 extends Scene {
         sp3.addSpawnPoint(new Vector3(1.8f,0,-0.6f));
         sp3.addSpawnPoint(new Vector3(1.7f,0,-0.6f));
         sp3.addAffectedDoor("door_3");
+        sp3.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
+        sp3.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
+        sp3.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
         sceneManager.AddGameObject(sp3);
 
         sceneManager.AddGameObject(new StaticObject("scene.g3dj"));

@@ -17,15 +17,20 @@ public class ActorEnemyObject extends ActorObject {
         public ActorStateAction(String stateName, String nextStateName, float stateDuration, float animationSpeed, String anim){
             super(stateName, nextStateName, stateDuration, animationSpeed, anim);
         }
+        public void onStateStart(){}
+        public void onStateUpdate(float t){
+            if(t > 0.35f)animatedRederable.setMaterialOpacity("ITEM_MATERIAL", 1);
+        }
         public void onStateFinish(){
             parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
         }
     }
 
 
-    public ActorEnemyObject(SpawnObject spawnObject) {
+    public ActorEnemyObject(SpawnObject spawnObject, String modelName) {
+        super(spawnObject, modelName, "test_actor.g3dj");
 
-        super(spawnObject, "character2.g3dj", "test_actor.g3dj");
+//        character3, character3, character4, "characters/character2.g3dj"
 
         addActorState(new ActorStateAppear("APPEAR", "IDLE", 1, 0.7f, "APPEAR"));
         addActorState(new ActorState("IDLE", "ACTION", 1.2f, 0.7f, "IDLE"));
@@ -39,6 +44,7 @@ public class ActorEnemyObject extends ActorObject {
     public void onInit() {
         super.onInit();
         switchState("APPEAR");
+        animatedRederable.setMaterialOpacity("ITEM_MATERIAL", 0);
     }
 
     public void onActorEvent(ActorEvent e){

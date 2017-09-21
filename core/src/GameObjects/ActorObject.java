@@ -38,6 +38,7 @@ public class ActorObject extends GameObject {
         }
 
         public void onStateStart(){}
+        public void onStateUpdate(float t){}
         public void onStateFinish(){}
     }
 
@@ -91,7 +92,7 @@ public class ActorObject extends GameObject {
 
     public SpawnObject spawnObject = null;
 
-    AnimatedRenderable animatedRederable = null;
+    public AnimatedRenderable animatedRederable = null;
     IntersectionMesh intersectionMesh = null;
 
     public ActorObject(SpawnObject spawn, String renderModel, String colModel){
@@ -145,8 +146,10 @@ public class ActorObject extends GameObject {
 
     public void onUpdate() {
 
-        if(currentState!= null && stateTimer > 0)stateTimer = stateTimer - sceneManager.frame_time_s;
-
+        if(currentState!= null && stateTimer > 0){
+            stateTimer = stateTimer - sceneManager.frame_time_s;
+            currentState.onStateUpdate(currentState.duration - stateTimer);
+        }
         if(currentState != null && stateTimer <= 0) {
             currentState.onStateFinish();
             switchState(currentState.nextState);

@@ -43,8 +43,8 @@ public class GameScene3 extends Scene {
         //Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this));  //, camController, , sceneManager.guiMainStage.getStage()
 
         environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.3f, 0.3f, 0.2f, 1f));
-        environment.add(new DirectionalLight().set(0.5f, 0.5f, 0.5f,  0, -1f, -0.2f));
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.4f, 1f));
+        environment.add(new DirectionalLight().set(0.6f, 0.6f, 0.5f,  0, -1f, -0.2f));
 
         //sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0.6f,0,-1.5f)));
         //sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-0.4f,0,-1.5f)));
@@ -58,6 +58,9 @@ public class GameScene3 extends Scene {
         sp1.addSpawnPoint(new Vector3(-0.5f,0,-2.5f));
         sp1.addSpawnPoint(new Vector3(-0.5f,0,-3.5f));
         sp1.addAffectedDoor("door_1");
+        sp1.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
+        sp1.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
+        sp1.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
         sceneManager.AddGameObject(sp1);
 
         SpawnObject sp2 = new SpawnObject("spawn_2");
@@ -65,6 +68,9 @@ public class GameScene3 extends Scene {
         sp2.addSpawnPoint(new Vector3(0.8f,0,-2.5f));
         sp2.addSpawnPoint(new Vector3(0.9f,0,-3.5f));
         sp2.addAffectedDoor("door_2");
+        sp2.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
+        sp2.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
+        sp2.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
         sceneManager.AddGameObject(sp2);
 
         sceneManager.AddGameObject(new StaticObject("dev_scenes/scene1.g3dj"));

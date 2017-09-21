@@ -19,6 +19,8 @@ import Utils.Error;
 import Utils.RandomDistribution;
 
 import static GameObjects.SpawnObject.ActorType.ENEMY1;
+import static GameObjects.SpawnObject.ActorType.ENEMY2;
+import static GameObjects.SpawnObject.ActorType.ENEMY3;
 
 /**
  * Created by T510 on 7/31/2017.
@@ -55,6 +57,9 @@ public class SpawnObject extends GameObject {
 
         addSpawnPoint(pos);
         addAffectedDoor(doorName);
+        addActorType(ENEMY1,0.3f);
+        addActorType(ENEMY2,0.3f);
+        addActorType(ENEMY3,0.3f);
     }
 
     public SpawnObject(String name) {
@@ -91,7 +96,13 @@ public class SpawnObject extends GameObject {
             position = spawnPoints.get(random.nextInt(spawnPoints.size));
             switch(t){
                 case ENEMY1:
-                    sceneManager.AddGameObject(new ActorEnemyObject(this));
+                    sceneManager.AddGameObject(new ActorEnemyObject(this, "characters/character2.g3dj"));
+                    break;
+                case ENEMY2:
+                    sceneManager.AddGameObject(new ActorEnemyObject(this, "characters/character3.g3dj"));
+                    break;
+                case ENEMY3:
+                    sceneManager.AddGameObject(new ActorEnemyObject(this, "characters/character4.g3dj"));
                     break;
             };
             state = State.LIVE;
@@ -100,14 +111,14 @@ public class SpawnObject extends GameObject {
 
     public void spawn(){
         RandomDistribution<ActorType>.Node node = actorDistribution.get();
-        spawn(node.data);
+        if(node != null)spawn(node.data);
     }
 
     public void onUpdate() {
         if(state == State.READY) {
             nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
             if(nextSpawnTimer <= 0){
-                spawn(ENEMY1);
+                spawn();
             }
         }
     }

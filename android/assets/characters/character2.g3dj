@@ -23226,6 +23226,27 @@
 			"shininess": 2
 		},
 		{
+			"id": "ITEM_MATERIAL",
+			"ambient": [0.270588,
+				0.270588,
+				0.270588
+			],
+			"diffuse": [0.270588,
+				0.270588,
+				0.270588
+			],
+			"emissive": [0,
+				0,
+				0
+			],
+			"opacity": 1,
+			"specular": [0.9,
+				0.9,
+				0.9
+			],
+			"shininess": 2
+		},		
+		{
 			"id": "02 - Default",
 			"ambient": [0.588235,
 				0.588235,
@@ -23941,7 +23962,7 @@
 													"parts": [
 														{
 															"meshpartid": "GUN_part1",
-															"materialid": "01 - Default",
+															"materialid": "ITEM_MATERIAL",
 															"uvMapping": [[
 																]
 															]

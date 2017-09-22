@@ -33,8 +33,8 @@ public class ActorEnemyObject extends ActorObject {
 //        character3, character3, character4, "characters/character2.g3dj"
 
         addActorState(new ActorStateAppear("APPEAR", "IDLE", 1, 0.7f, "APPEAR"));
-        addActorState(new ActorState("IDLE", "ACTION", 1.2f, 0.7f, "IDLE"));
-        addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.0f, 1.0f, "ACTION1"));
+        addActorState(new ActorState("IDLE", "ACTION", 0.6f, 0.7f, "IDLE"));
+        addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.6f, 0.7f, "ACTION1"));
         addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
         addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
         addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));

@@ -45,7 +45,7 @@ public class PlayerObject extends GameObject {
 
         //cast some effects
 
-        sceneManager.AddGameObject(new BulletObject(r));
+        sceneManager.addGameObject(new BulletObject(r));
     }
 
     public void onActorEvent(ActorEvent e){

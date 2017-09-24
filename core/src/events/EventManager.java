@@ -78,7 +78,10 @@ public class EventManager {
             return event;
         }
         for (EventHandler handler : handlers) {
-            if((event.targetObject != null && handler.listener == event.targetObject) || event.targetObject == null) {
+            if(((event.targetObject != null && handler.listener == event.targetObject)
+                    || event.targetObject == null)
+                && event.senderObject != handler.listener) {
+
                 handler.execute(event);
             }
         }
@@ -94,9 +97,8 @@ public class EventManager {
     }
 
     public void process(){
-        for(GameEvent evt:this.eventArray){
-            this.executeEvent(evt);
-            evt = null;
+        for (int i = 0; i <eventArray.size() ; i++) {
+            executeEvent(eventArray.get(i));
         }
         this.eventArray.clear();
     }

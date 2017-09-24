@@ -52,7 +52,7 @@ public class SceneManager {
         gamePaused = p;
     }
 
-    public GameObject AddGameObject(GameObject object){
+    public GameObject addGameObject(GameObject object){
         object.onCreate(this);
         this.createGameObjectArray.add(object);
         return object;

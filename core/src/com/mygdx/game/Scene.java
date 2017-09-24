@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.collision.Ray;
 import GUI.GUIGameStage;
 import GameEvents.PlayerEvent;
 import GameObjects.BulletSplashObject;
+import GameObjects.SpawnObject;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -34,11 +35,12 @@ public class Scene  extends InputAdapter {
         guiGameStage = new GUIGameStage(this);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this));
+
+        SpawnObject.resetReadyToSpawn();
     }
 
     public void onUpdate(){
-
-
+        SpawnObject.updateAndSpawn();
     }
 
     public void onDispose(){

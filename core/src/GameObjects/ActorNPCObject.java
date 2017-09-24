@@ -5,51 +5,33 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 
 import GameEvents.ActorEvent;
-import Utils.Error;
 
 /**
  * Created by T510 on 9/12/2017.
  */
 
-public class ActorEnemyObject extends ActorObject {
+public class ActorNPCObject extends ActorObject {
 
-    public class ActorStateAction extends ActorState{
-        public ActorStateAction(String stateName, String nextStateName, float stateDuration, float animationSpeed, String anim){
-            super(stateName, nextStateName, stateDuration, animationSpeed, anim);
-        }
-        public void onStateStart(){}
-        public void onStateUpdate(float t){
-            if(t > 0.35f)animatedRederable.setMaterialOpacity("ITEM_MATERIAL", 1);
-        }
-        public void onStateFinish(){
-            parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
-        }
-    }
-
-
-    public ActorEnemyObject(SpawnObject spawnObject, String modelName, ActorType actorType) {
+    public ActorNPCObject(SpawnObject spawnObject, String modelName, ActorType actorType) {
         super(spawnObject, modelName, "test_actor.g3dj");
 
         switch (actorType){
-            case ENEMY_1:
-                addActorState(new ActorStateAppear("APPEAR", "ACTION", 1, 0.7f, "APPEAR"));
-                addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.6f, 0.7f, "ACTION1"));
+            case NPC_1:
+                addActorState(new ActorStateAppear("APPEAR", "DISAPPEAR", 1, 0.7f, "APPEAR"));
                 addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
                 addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
                 addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
                 break;
-            case ENEMY_2:
+            case NPC_2:
                 addActorState(new ActorStateAppear("APPEAR", "IDLE", 1, 0.7f, "APPEAR"));
-                addActorState(new ActorState("IDLE", "ACTION", 0.6f, 0.7f, "IDLE"));
-                addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.3f, 0.9f, "ACTION1"));
+                addActorState(new ActorState("IDLE", "DISAPPEAR", 0.6f, 0.7f, "IDLE"));
                 addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
                 addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
                 addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
                 break;
-            case ENEMY_3:
+            case NPC_3:
                 addActorState(new ActorStateAppear("APPEAR", "IDLE", 1, 0.7f, "APPEAR"));
-                addActorState(new ActorState("IDLE", "ACTION", 1.0f, 0.7f, "IDLE"));
-                addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.6f, 0.7f, "ACTION1"));
+                addActorState(new ActorState("IDLE", "DISAPPEAR", 1.0f, 0.7f, "IDLE"));
                 addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
                 addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
                 addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));

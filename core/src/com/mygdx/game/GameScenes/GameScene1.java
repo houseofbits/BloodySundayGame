@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
+import GameObjects.ActorObject;
 import GameObjects.DoorObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
@@ -49,47 +50,60 @@ public class GameScene1 extends Scene {
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
 
-        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj", false));
-        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj", false));
-        sceneManager.AddGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj", false));
+        sceneManager.addGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj", false));
+        sceneManager.addGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj", false));
+        sceneManager.addGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj", false));
 
         SpawnObject sp1 = new SpawnObject("spawn_1");
         sp1.addSpawnPoint(new Vector3(-1.9f,0,-0.6f));
         sp1.addSpawnPoint(new Vector3(-1.8f,0,-0.6f));
         sp1.addSpawnPoint(new Vector3(-1.7f,0,-0.6f));
         sp1.addAffectedDoor("door_1");
-        sp1.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
-        sp1.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
-        sp1.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
-        sceneManager.AddGameObject(sp1);
+        sp1.addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
+        sp1.addSpawnGroup("spawn_2","spawn_3");
+        sceneManager.addGameObject(sp1);
 
         SpawnObject sp2 = new SpawnObject("spawn_2");
         sp2.addSpawnPoint(new Vector3(0.1f,0,-0.6f));
         sp2.addSpawnPoint(new Vector3(0,0,-0.6f));
         sp2.addSpawnPoint(new Vector3(-0.1f,0,-0.6f));
         sp2.addAffectedDoor("door_2");
-        sp2.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
-        sp2.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
-        sp2.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
-        sceneManager.AddGameObject(sp2);
+        sp2.addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
+        sp2.addSpawnGroup("spawn_1","spawn_3");
+        sceneManager.addGameObject(sp2);
 
         SpawnObject sp3 = new SpawnObject("spawn_3");
         sp3.addSpawnPoint(new Vector3(1.9f,0,-0.6f));
         sp3.addSpawnPoint(new Vector3(1.8f,0,-0.6f));
         sp3.addSpawnPoint(new Vector3(1.7f,0,-0.6f));
         sp3.addAffectedDoor("door_3");
-        sp3.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
-        sp3.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
-        sp3.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
-        sceneManager.AddGameObject(sp3);
+        sp3.addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
+        sp3.addSpawnGroup("spawn_1","spawn_2");
+        sceneManager.addGameObject(sp3);
 
-        sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
+        sceneManager.addGameObject(new StaticObject("scene.g3dj"));
 
-        sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
+        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
     }
 
     public void onUpdate(){
+        super.onUpdate();
         //if(camController != null)camController.update();
     }
 

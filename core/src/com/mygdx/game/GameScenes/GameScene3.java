@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
+import GameObjects.ActorObject;
 import GameObjects.DoorObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
@@ -46,40 +47,64 @@ public class GameScene3 extends Scene {
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.6f, 0.6f, 0.5f,  0, -1f, -0.2f));
 
-        //sceneManager.AddGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(0.6f,0,-1.5f)));
-        //sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-0.4f,0,-1.5f)));
-
-        sceneManager.AddGameObject(new DoorObject("door_2", new Vector3(0.92f,0, -0.88f), "door2.g3dj", false));
-        sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(-0.88f,0, -0.88f), "ldoor1.g3dj", true));
+        sceneManager.addGameObject(new DoorObject("door_2", new Vector3(0.92f,0, -0.88f), "door2.g3dj", false));
+        sceneManager.addGameObject(new DoorObject("door_1", new Vector3(-0.88f,0, -0.88f), "ldoor1.g3dj", true));
 
 
         SpawnObject sp1 = new SpawnObject("spawn_1");
-        sp1.addSpawnPoint(new Vector3(-0.4f,0,-1.5f));
-        sp1.addSpawnPoint(new Vector3(-0.5f,0,-2.5f));
-        sp1.addSpawnPoint(new Vector3(-0.5f,0,-3.5f));
+        sp1.addSpawnPoint(new Vector3(-0.4f,0,-1.5f),
+                new Vector3(-0.5f,0,-2.5f),
+                new Vector3(-0.5f,0,-3.5f));
+        sp1.addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
         sp1.addAffectedDoor("door_1");
-        sp1.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
-        sp1.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
-        sp1.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
-        sceneManager.AddGameObject(sp1);
+        sp1.addSpawnGroup("spawn_2");
+        sceneManager.addGameObject(sp1);
 
         SpawnObject sp2 = new SpawnObject("spawn_2");
-        sp2.addSpawnPoint(new Vector3(0.6f,0,-1.5f));
-        sp2.addSpawnPoint(new Vector3(0.8f,0,-2.5f));
-        sp2.addSpawnPoint(new Vector3(0.9f,0,-3.5f));
+        sp2.addSpawnPoint(new Vector3(0.6f,0,-1.5f),
+                new Vector3(0.8f,0,-2.5f),
+                new Vector3(0.9f,0,-3.5f));
+        sp2.addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
         sp2.addAffectedDoor("door_2");
-        sp2.addActorType(SpawnObject.ActorType.ENEMY1, 0.3f);
-        sp2.addActorType(SpawnObject.ActorType.ENEMY2, 0.3f);
-        sp2.addActorType(SpawnObject.ActorType.ENEMY3, 0.3f);
-        sceneManager.AddGameObject(sp2);
+        sp2.addSpawnGroup("spawn_1");
+        sceneManager.addGameObject(sp2);
 
-        sceneManager.AddGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
+        SpawnObject sp3 = new SpawnObject("spawn_3");
+        sp3.addSpawnPoint(new Vector3(0f,0,-1.5f),
+                new Vector3(0f,0,-5.5f),
+                new Vector3(0f,0,-4.5f),
+                new Vector3(0.5f,0,-4.5f),
+                new Vector3(-0.5f,0,-4.5f),
+                new Vector3(0f,0,-3.5f));
+        sp3.addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
+        sp3.addAffectedDoor("door_1", "door_2");
+        sceneManager.addGameObject(sp3);
 
-        sceneManager.AddGameObject(new PlayerObject("gun.g3dj"));
+
+        sceneManager.addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
+
+        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
+
 
     }
 
     public void onUpdate(){
+        super.onUpdate();
         //if(camController != null)camController.update();
     }
 

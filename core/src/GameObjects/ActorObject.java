@@ -20,6 +20,15 @@ import Utils.Error;
 
 public class ActorObject extends GameObject {
 
+    public enum ActorType{
+        ENEMY_1,        //ActorEnemyObject
+        ENEMY_2,
+        ENEMY_3,
+        NPC_1,          //ActorNPCObject
+        NPC_2,
+        NPC_3
+    }
+
     public class ActorState{
 
         public String name = "";

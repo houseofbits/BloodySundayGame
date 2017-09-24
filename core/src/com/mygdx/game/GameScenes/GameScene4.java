@@ -31,7 +31,7 @@ public class GameScene4 extends Scene {
 
     public GUIDevStage devStage;
     public AnimatedObject animatedObject;
-    public String modelName = "character2.g3dj";
+    public String modelName = "characters/character2.g3dj";
     public Array<Animation> animationsArray = new Array<Animation>();
 
 
@@ -54,11 +54,11 @@ public class GameScene4 extends Scene {
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        sceneManager.AddGameObject(new StaticObject("testcharscene.g3dj"));
+        sceneManager.addGameObject(new StaticObject("testcharscene.g3dj"));
 
         animatedObject = new AnimatedObject(modelName);
 
-        sceneManager.AddGameObject(animatedObject);
+        sceneManager.addGameObject(animatedObject);
 
         sceneManager.assetsManager.load(modelName, Model.class);
         sceneManager.assetsManager.finishLoadingAsset(modelName);

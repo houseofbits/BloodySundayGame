@@ -15,6 +15,7 @@ public class AndroidLauncher extends AndroidApplication {
 		config.numSamples = 4;
 		config.hideStatusBar = true;
         config.useImmersiveMode = true;
+
 		initialize(new MyGdxGame(), config);
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

@@ -41,6 +41,7 @@ public class GUIGameStage extends InputListener {
     //tmp
     Image blackOverlayImage;
     private Label healthLabel;
+    private Label fpsLabel;
 
     protected Table confirmPopupTable;
 
@@ -80,17 +81,22 @@ public class GUIGameStage extends InputListener {
         gtable.setFillParent(true);
         stage.addActor(gtable);
 
+
+        fpsLabel = new Label("sssss", new Label.LabelStyle(font, Color.WHITE));
+        fpsLabel.setPosition(10, 10);
+        //gameStage.addActor(fpsLabel);
+
+
+
         gtable.add(button1).top().width(Value.percentWidth(0.1f, gtable)).height(Value.percentWidth(0.1f, gtable));
         gtable.add().expand();
         gtable.add().expandY().width(Value.percentWidth(0.1f, gtable));
         gtable.row();
         gtable.add(healthLabel).pad(10).fill().height(Value.percentHeight(0.1f, gtable)).colspan(3);
+        gtable.add(fpsLabel);
 
         healthLabel.setAlignment(Align.bottom);
 
-        // fpsLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
-        // fpsLabel.setPosition(10, 10);
-        // gameStage.addActor(fpsLabel);
 
         //Progress bar
         Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
@@ -146,6 +152,8 @@ public class GUIGameStage extends InputListener {
     public void render() {
 
         blackOverlayImage.act(Gdx.graphics.getDeltaTime());
+
+        fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond());
 
         healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% ");
 

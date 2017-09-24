@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import GameObjects.ActorEnemyObject;
+import GameObjects.ActorNPCObject;
 import GameObjects.ActorObject;
 import GameObjects.BulletObject;
 import GameObjects.DoorObject;
@@ -57,6 +58,11 @@ public class CollisionManager {
     private boolean Collide(BulletObject a, ActorEnemyObject b, Vector3 out){
         return Collide(a, ((ActorObject) b), out);
     }
+
+    private boolean Collide(BulletObject a, ActorNPCObject b, Vector3 out){
+        return Collide(a, ((ActorObject) b), out);
+    }
+
 
     private boolean Collide(BulletObject a, ActorObject b, Vector3 out){
 

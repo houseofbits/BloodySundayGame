@@ -39,11 +39,14 @@ public class GUIGameStage extends InputListener {
     protected BitmapFont font;
 
     //tmp
-    Image blackOverlayImage;
+    private Image blackOverlayImage;
+    private Image playerHurtOverlay;
+
     private Label healthLabel;
     private Label fpsLabel;
 
     protected Table confirmPopupTable;
+    protected Table gameLostPopupTable;
 
     public GUIGameStage(Scene s) {
 
@@ -107,9 +110,20 @@ public class GUIGameStage extends InputListener {
         blackOverlayImage.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(pixmap))));
         blackOverlayImage.setSize(stage.getWidth(),stage.getHeight());
 
+        //pixmap.setColor(1,0,0, 0.5f);
+        //pixmap.fill();
         pixmap.dispose();
 
+        Texture board = new Texture(Gdx.files.internal("hurt_overlay.png"));
+        playerHurtOverlay = new Image();
+        playerHurtOverlay.setDrawable(new TextureRegionDrawable(new TextureRegion(board)));
+        playerHurtOverlay.setSize(stage.getWidth(),stage.getHeight());
+        playerHurtOverlay.setVisible(false);
+
+
+
         stage.addActor(blackOverlayImage);
+        stage.addActor(playerHurtOverlay);
 
         //Exit confirm popup
         confirmPopupTable = new Table();
@@ -136,6 +150,29 @@ public class GUIGameStage extends InputListener {
         confirmPopupTable.setVisible(false);
 
 
+        //Game lost popup
+        gameLostPopupTable = new Table();
+        //confirmPopupTable.setDebug(true);
+        gameLostPopupTable.setFillParent(true);
+        stage.addActor(gameLostPopupTable);
+
+        TextButton buttonExit2 = new TextButton("Exit to main menu", style);
+        buttonExit2.setName("EXITMAIN");
+        buttonExit2.addListener(this);
+
+        TextButton buttonRestart = new TextButton("Play again", style);
+        buttonRestart.setName("RESTART");
+        buttonRestart.addListener(this);
+
+        gameLostPopupTable.add(buttonExit2)
+                .width(Value.percentWidth(0.4f, gameLostPopupTable))
+                .height(Value.percentHeight(0.2f, gameLostPopupTable));
+        gameLostPopupTable.row();
+        gameLostPopupTable.add(buttonRestart)
+                .width(Value.percentWidth(0.4f, gameLostPopupTable))
+                .height(Value.percentHeight(0.2f, gameLostPopupTable));
+
+        gameLostPopupTable.setVisible(false);
 
         FadeFromBlack(1);
         scene.sceneManager.setGamePaused(false);
@@ -147,6 +184,15 @@ public class GUIGameStage extends InputListener {
 
     public void FadeFromBlack(float time){
         blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeOut(time), Actions.hide()));
+    }
+    public void PlayerHurtOverlay(){
+        playerHurtOverlay.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(0.5f), Actions.fadeOut(1.5f), Actions.hide()));
+    }
+
+    public void ShowGameOverPopup(){
+        FadeToBlack(1);
+        gameLostPopupTable.setVisible(true);
+        scene.sceneManager.setGamePaused(true);
     }
 
     public void render() {
@@ -174,6 +220,8 @@ public class GUIGameStage extends InputListener {
 
         Actor a = e.getListenerActor();
         if(a.getName() == "MAIN"){
+            gameLostPopupTable.setVisible(false);
+            playerHurtOverlay.setVisible(false);
             confirmPopupTable.setVisible(true);
             FadeToBlack(1);
             scene.sceneManager.setGamePaused(true);
@@ -183,6 +231,10 @@ public class GUIGameStage extends InputListener {
             scene.sceneManager.setGamePaused(false);
         }else if(a.getName() == "EXITMAIN"){
             this.scene.sceneManager.UnloadScene();
+        }else if(a.getName() == "RESTART"){
+            FadeFromBlack(1);
+            scene.sceneManager.setGamePaused(false);
+            gameLostPopupTable.setVisible(false);
         }
     }
     public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {

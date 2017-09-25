@@ -51,7 +51,7 @@ public class PlayerObject extends GameObject {
     public void onActorEvent(ActorEvent e){
         switch(e.state){
             case SHOOT:
-                sceneManager.scene.decreasePlayerHealth(10);
+                sceneManager.scene.decreasePlayerHealth(25);
                 sceneManager.scene.guiGameStage.PlayerHurtOverlay();
                 //invoke PlayerShot animation
                 if(sceneManager.scene.playerHealth <= 0){

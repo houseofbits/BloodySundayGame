@@ -12,8 +12,8 @@ import GameEvents.ActorEvent;
 
 public class ActorNPCObject extends ActorObject {
 
-    public ActorNPCObject(SpawnObject spawnObject, String modelName, ActorType actorType) {
-        super(spawnObject, modelName, "test_actor.g3dj");
+    public ActorNPCObject(SpawnObject spawnObject, ActorType actorType) {
+        super(spawnObject, actorType.modelName, "test_actor.g3dj");
 
         switch (actorType){
             case NPC_1:

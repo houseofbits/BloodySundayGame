@@ -8,6 +8,7 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.SceneManager;
 
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,13 +21,16 @@ import Utils.Error;
 
 public class ActorObject extends GameObject {
 
-    public enum ActorTypeDef{
+    public enum ActorType{
 
-        ENEMY_1(ActorEnemyObject.class, ""),
-        ENEMY_2(ActorEnemyObject.class, ""),
-        ENEMY_3(ActorEnemyObject.class, "");
+        ENEMY_1(ActorEnemyObject.class, "characters/character2.g3dj"),
+        ENEMY_2(ActorEnemyObject.class, "characters/character3.g3dj"),
+        ENEMY_3(ActorEnemyObject.class, "characters/character4.g3dj"),
+        NPC_1(ActorNPCObject.class, "characters/character2.g3dj"),
+        NPC_2(ActorNPCObject.class, "characters/character3.g3dj"),
+        NPC_3(ActorNPCObject.class, "characters/character4.g3dj");
 
-        private ActorTypeDef(Class actorClass, String model){
+        private ActorType(Class actorClass, String model){
             modelName = model;
             actorObjectClass = actorClass;
         }
@@ -34,18 +38,14 @@ public class ActorObject extends GameObject {
         private Class actorObjectClass;
 
         public ActorObject createInstance(SpawnObject spawn){
-
+            try {
+                Constructor<?> ctor = actorObjectClass.getConstructor(SpawnObject.class, ActorType.class);
+                return (ActorObject)ctor.newInstance(spawn, this);
+            }catch (Exception e){
+                Error.log(e.getMessage());
+            }
             return null;
         }
-    }
-
-    public enum ActorType{
-        ENEMY_1,        //ActorEnemyObject
-        ENEMY_2,
-        ENEMY_3,
-        NPC_1,          //ActorNPCObject
-        NPC_2,
-        NPC_3
     }
 
     public class ActorState{

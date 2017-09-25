@@ -91,30 +91,7 @@ public class SpawnObject extends GameObject {
     public void spawn(ActorObject.ActorType t){
         if(spawnPoints.size > 0) {
             position = spawnPoints.get(random.nextInt(spawnPoints.size));
-
-//            ActorObject.ActorTypeDef def = ActorObject.ActorTypeDef.ENEMY_1;
-//            sceneManager.addGameObject(def.createInstance(this));
-
-            switch(t){
-                case ENEMY_1:
-                    sceneManager.addGameObject(new ActorEnemyObject(this, "characters/character2.g3dj", ActorObject.ActorType.ENEMY_1));
-                    break;
-                case ENEMY_2:
-                    sceneManager.addGameObject(new ActorEnemyObject(this, "characters/character3.g3dj", ActorObject.ActorType.ENEMY_2));
-                    break;
-                case ENEMY_3:
-                    sceneManager.addGameObject(new ActorEnemyObject(this, "characters/character4.g3dj", ActorObject.ActorType.ENEMY_3));
-                    break;
-                case NPC_1:
-                    sceneManager.addGameObject(new ActorNPCObject(this, "characters/character2.g3dj", ActorObject.ActorType.NPC_1));
-                    break;
-                case NPC_2:
-                    sceneManager.addGameObject(new ActorNPCObject(this, "characters/character3.g3dj", ActorObject.ActorType.NPC_2));
-                    break;
-                case NPC_3:
-                    sceneManager.addGameObject(new ActorNPCObject(this, "characters/character4.g3dj", ActorObject.ActorType.NPC_3));
-                    break;
-            };
+            sceneManager.addGameObject(t.createInstance(this));
             state = State.OCCUPIED;
             //Notify other SpawnObjects that this object is occupied
             sendEvent(new SpawnEvent(State.OCCUPIED));

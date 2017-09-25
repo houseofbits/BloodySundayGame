@@ -91,6 +91,10 @@ public class SpawnObject extends GameObject {
     public void spawn(ActorObject.ActorType t){
         if(spawnPoints.size > 0) {
             position = spawnPoints.get(random.nextInt(spawnPoints.size));
+
+//            ActorObject.ActorTypeDef def = ActorObject.ActorTypeDef.ENEMY_1;
+//            sceneManager.addGameObject(def.createInstance(this));
+
             switch(t){
                 case ENEMY_1:
                     sceneManager.addGameObject(new ActorEnemyObject(this, "characters/character2.g3dj", ActorObject.ActorType.ENEMY_1));

@@ -26,6 +26,16 @@ public class ActorEnemyObject extends ActorObject {
         }
     }
 
+    public ActorEnemyObject(SpawnObject spawnObject, ActorTypeDef actorType) {
+        super(spawnObject, actorType.modelName, "test_actor.g3dj");
+
+        switch (actorType) {
+            case ENEMY_1:
+
+                break;
+        }
+
+    }
 
     public ActorEnemyObject(SpawnObject spawnObject, String modelName, ActorType actorType) {
         super(spawnObject, modelName, "test_actor.g3dj");

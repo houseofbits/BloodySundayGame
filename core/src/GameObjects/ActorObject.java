@@ -20,6 +20,25 @@ import Utils.Error;
 
 public class ActorObject extends GameObject {
 
+    public enum ActorTypeDef{
+
+        ENEMY_1(ActorEnemyObject.class, ""),
+        ENEMY_2(ActorEnemyObject.class, ""),
+        ENEMY_3(ActorEnemyObject.class, "");
+
+        private ActorTypeDef(Class actorClass, String model){
+            modelName = model;
+            actorObjectClass = actorClass;
+        }
+        public String modelName;
+        private Class actorObjectClass;
+
+        public ActorObject createInstance(SpawnObject spawn){
+
+            return null;
+        }
+    }
+
     public enum ActorType{
         ENEMY_1,        //ActorEnemyObject
         ENEMY_2,

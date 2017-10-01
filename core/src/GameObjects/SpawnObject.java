@@ -128,6 +128,10 @@ public class SpawnObject extends GameObject {
         }
     }
 
+    public void removeActorType(ActorObject.ActorType type){
+        actorDistribution.remove(type);
+    }
+
     public void addActorType(ActorObject.ActorType type, float weight){
         actorDistribution.add(type, weight);
     }
@@ -205,12 +209,28 @@ public class SpawnObject extends GameObject {
     private Array<SpawnObject> blockingSpawnObjects = new Array<SpawnObject>();
 
     public void onSpawnEvent(SpawnEvent e){
-        if(e.senderObject != null && e.senderObject.getClass() == SpawnObject.class) {
-            if (e.state == State.FREE) {
-                blockingSpawnObjects.removeValue((SpawnObject) e.senderObject, true);
-            } else {
-                //Error.log(getName()+" contains "+e.senderObject.getName()+" = "+spawnGroup.contains(e.senderObject.getName(), false));
-                if(!spawnGroup.contains(e.senderObject.getName(), false))blockingSpawnObjects.add((SpawnObject)e.senderObject);
+
+        if(e.action != null && e.actorType != null) {
+            switch (e.action) {
+                case ADD_ACTOR:
+                    addActorType(e.actorType, e.actorWeight);
+                    break;
+                case REMOVE_ACTOR:
+                    removeActorType(e.actorType);
+                    break;
+                case SET_ACTOR_WEIGHT:
+
+                    break;
+            }
+        }else if(e.state != null) {
+            if (e.senderObject != null && e.senderObject.getClass() == SpawnObject.class) {
+                if (e.state == State.FREE) {
+                    blockingSpawnObjects.removeValue((SpawnObject) e.senderObject, true);
+                } else {
+                    //Error.log(getName()+" contains "+e.senderObject.getName()+" = "+spawnGroup.contains(e.senderObject.getName(), false));
+                    if (!spawnGroup.contains(e.senderObject.getName(), false))
+                        blockingSpawnObjects.add((SpawnObject) e.senderObject);
+                }
             }
         }
     }

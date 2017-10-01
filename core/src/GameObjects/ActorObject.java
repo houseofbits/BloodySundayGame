@@ -26,6 +26,7 @@ public class ActorObject extends GameObject {
         ENEMY_1(ActorEnemyObject.class, "characters/character2.g3dj"),
         ENEMY_2(ActorEnemyObject.class, "characters/character3.g3dj"),
         ENEMY_3(ActorEnemyObject.class, "characters/character4.g3dj"),
+        ENEMY_POLICE(ActorEnemyObject.class, "characters/cop.g3dj"),
         NPC_1(ActorNPCObject.class, "characters/character2.g3dj"),
         NPC_2(ActorNPCObject.class, "characters/character3.g3dj"),
         NPC_3(ActorNPCObject.class, "characters/character4.g3dj");
@@ -94,7 +95,7 @@ public class ActorObject extends GameObject {
 
     private Map<String, ActorState> actorStateMap = new HashMap<String, ActorState>();
 
-    private ActorState currentState = null;
+    public ActorState currentState = null;
 
     public void switchState(String newState){
         //Error.log("Try switch state "+newState);

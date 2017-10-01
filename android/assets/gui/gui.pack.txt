@@ -1,0 +1,110 @@
+gui.pack.png
+size: 978, 909
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+buttonoff
+  rotate: false
+  xy: 0, 0
+  size: 437, 85
+  orig: 437, 85
+  offset: 0, 0
+  index: -1
+buttonon
+  rotate: false
+  xy: 437, 0
+  size: 437, 85
+  orig: 437, 85
+  offset: 0, 0
+  index: -1
+cops0
+  rotate: false
+  xy: 0, 487
+  size: 442, 134
+  orig: 442, 134
+  offset: 0, 0
+  index: -1
+cops1
+  rotate: false
+  xy: 0, 621
+  size: 442, 134
+  orig: 442, 134
+  offset: 0, 0
+  index: -1
+cops2
+  rotate: false
+  xy: 442, 487
+  size: 442, 134
+  orig: 442, 134
+  offset: 0, 0
+  index: -1
+cops3
+  rotate: false
+  xy: 442, 621
+  size: 442, 134
+  orig: 442, 134
+  offset: 0, 0
+  index: -1
+cops4
+  rotate: false
+  xy: 0, 755
+  size: 442, 134
+  orig: 442, 134
+  offset: 0, 0
+  index: -1
+health0
+  rotate: false
+  xy: 466, 353
+  size: 466, 134
+  orig: 466, 134
+  offset: 0, 0
+  index: -1
+health1
+  rotate: false
+  xy: 0, 353
+  size: 466, 134
+  orig: 466, 134
+  offset: 0, 0
+  index: -1
+health2
+  rotate: false
+  xy: 0, 85
+  size: 466, 134
+  orig: 466, 134
+  offset: 0, 0
+  index: -1
+health3
+  rotate: false
+  xy: 466, 85
+  size: 466, 134
+  orig: 466, 134
+  offset: 0, 0
+  index: -1
+health4
+  rotate: false
+  xy: 0, 219
+  size: 466, 134
+  orig: 466, 134
+  offset: 0, 0
+  index: -1
+health5
+  rotate: false
+  xy: 466, 219
+  size: 466, 134
+  orig: 466, 134
+  offset: 0, 0
+  index: -1
+key
+  rotate: false
+  xy: 442, 755
+  size: 268, 154
+  orig: 268, 154
+  offset: 0, 0
+  index: -1
+keyon
+  rotate: false
+  xy: 710, 755
+  size: 268, 154
+  orig: 268, 154
+  offset: 0, 0
+  index: -1

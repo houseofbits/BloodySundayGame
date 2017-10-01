@@ -43,13 +43,18 @@ public class GUIGameStage extends InputListener {
     private Image blackOverlayImage;
     private Image playerHurtOverlay;
 
-    private Label healthLabel;
+    //private Label healthLabel;
     private Label fpsLabel;
 
     protected Table confirmPopupTable;
     protected Table gameLostPopupTable;
 
     private ProgressBar healthBar;
+
+    protected Image health;
+    protected Image cops;
+
+    protected Skin hudSkin;
 
     public GUIGameStage(Scene s) {
 
@@ -58,29 +63,31 @@ public class GUIGameStage extends InputListener {
         font = new BitmapFont();
         font.getData().setScale(1.5f, 1.5f);
 
-        healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
+        //healthLabel = new Label(" ", new Label.LabelStyle(font, Color.WHITE));
 
         //Gdx.input.setInputProcessor(stage);
 
-        /*
-        Texture texture = new Texture(Gdx.files.internal("DoorCompleteMap.png"));
-        Image itemImage = new Image();
-        itemImage.setSize(50,50);
-        itemImage.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
-        */
-        TextureAtlas buttonsAtlas = new TextureAtlas("gui.pack");
-        Skin buttonSkin = new Skin();
-        buttonSkin.addRegions(buttonsAtlas);
+        TextureAtlas buttonsAtlas = new TextureAtlas("gui/gui.pack.txt");
+        hudSkin = new Skin();
+        hudSkin.addRegions(buttonsAtlas);
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.down = buttonSkin.getDrawable("buttonon");
-        style.up = buttonSkin.getDrawable("buttonoff");
+        style.down = hudSkin.getDrawable("buttonon");
+        style.up = hudSkin.getDrawable("buttonoff");
         style.font = font;
 
 
-        Button button1 = new Button(buttonSkin.getDrawable("mainbutton_off"), buttonSkin.getDrawable("mainbutton_on"));
+        Button button1 = new Button(hudSkin.getDrawable("key"), hudSkin.getDrawable("keyon"));
         button1.setName("MAIN");
         button1.addListener(this);
+
+        Texture board = new Texture(Gdx.files.internal("hurt_overlay.png"));
+        playerHurtOverlay = new Image();
+        playerHurtOverlay.setDrawable(new TextureRegionDrawable(new TextureRegion(board)));
+        playerHurtOverlay.setSize(stage.getWidth(),stage.getHeight());
+        playerHurtOverlay.setVisible(false);
+
+        stage.addActor(playerHurtOverlay);
 
         Table gtable = new Table();
         //gtable.setDebug(true);
@@ -89,19 +96,36 @@ public class GUIGameStage extends InputListener {
 
 
         fpsLabel = new Label("sssss", new Label.LabelStyle(font, Color.WHITE));
-        fpsLabel.setPosition(10, 10);
-        //gameStage.addActor(fpsLabel);
 
+        health = new Image();
+        health.setDrawable(hudSkin.getDrawable("health5"));
 
+        cops = new Image();
+        cops.setDrawable(hudSkin.getDrawable("cops0"));
 
-        gtable.add(button1).top().width(Value.percentWidth(0.1f, gtable)).height(Value.percentWidth(0.1f, gtable));
+        gtable.add(button1)
+                .width(Value.percentWidth(0.139f, gtable))
+                .height(Value.percentWidth(0.080f, gtable))
+                .top()
+                .left()
+                .pad(10);
         gtable.add().expand();
-        gtable.add().expandY().width(Value.percentWidth(0.1f, gtable));
+        gtable.add().expandY();
         gtable.row();
-        gtable.add(healthLabel).pad(10).fill().height(Value.percentHeight(0.1f, gtable)).colspan(3);
-        gtable.add(fpsLabel);
+        gtable.add(health)
+                .width(Value.percentWidth(0.242f, gtable))
+                .height(Value.percentHeight(0.124f, gtable))
+                .bottom()
+                .pad(10);
+        gtable.add(fpsLabel).expandX();
+        gtable.add(cops)
+                .width(Value.percentWidth(0.230f, gtable))
+                .height(Value.percentHeight(0.124f, gtable))
+                .right()
+                .bottom()
+                .pad(10);
 
-        healthLabel.setAlignment(Align.bottom);
+        fpsLabel.setAlignment(Align.bottom);
 
 
         //Progress bar
@@ -117,16 +141,12 @@ public class GUIGameStage extends InputListener {
         //pixmap.fill();
         pixmap.dispose();
 
-        Texture board = new Texture(Gdx.files.internal("hurt_overlay.png"));
-        playerHurtOverlay = new Image();
-        playerHurtOverlay.setDrawable(new TextureRegionDrawable(new TextureRegion(board)));
-        playerHurtOverlay.setSize(stage.getWidth(),stage.getHeight());
-        playerHurtOverlay.setVisible(false);
+
 
 
 
         stage.addActor(blackOverlayImage);
-        stage.addActor(playerHurtOverlay);
+
 
         //Exit confirm popup
         confirmPopupTable = new Table();
@@ -181,6 +201,17 @@ public class GUIGameStage extends InputListener {
         scene.sceneManager.setGamePaused(false);
     }
 
+    public void SetHealthState(int val){
+        if(val >= 0 && val <= 5){
+            health.setDrawable(hudSkin.getDrawable("health"+val));
+        }
+    }
+    public void SetWantedState(int val){
+        if(val >= 0 && val <= 4){
+            cops.setDrawable(hudSkin.getDrawable("cops"+val));
+        }
+    }
+
     public void FadeToBlack(float time){
         blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(time)));
     }
@@ -203,8 +234,8 @@ public class GUIGameStage extends InputListener {
         blackOverlayImage.act(Gdx.graphics.getDeltaTime());
 
         fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond());
-
-        healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% ");
+//
+//        healthLabel.setText("HEALTH: "+scene.getPlayerHealth()+"% ");
 
         stage.draw();
         stage.act();

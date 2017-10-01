@@ -24,8 +24,6 @@ public class Scene  extends InputAdapter {
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
 
-    public float    playerHealth = 100;
-
     public Scene(){
 
     }
@@ -65,18 +63,4 @@ public class Scene  extends InputAdapter {
 
         return true;
     }
-
-    public float getPlayerHealth(){
-        return playerHealth;
-    }
-
-    public float decreasePlayerHealth(float val){
-        if(playerHealth <= 0){
-
-            return 0;
-        }
-        playerHealth = playerHealth - val;
-        return playerHealth;
-    }
-
 }

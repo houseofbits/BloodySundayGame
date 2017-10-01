@@ -10,6 +10,8 @@ import com.mygdx.game.SceneManager;
 
 import GameEvents.ActorEvent;
 import GameEvents.PlayerEvent;
+import GameEvents.SpawnEvent;
+import Utils.Error;
 
 /**
  * Created by T510 on 7/30/2017.
@@ -19,7 +21,12 @@ public class PlayerObject extends GameObject {
 
     Renderable renderable = null;
 
-    public int  actorsShot = 0;
+    public int wantedLevel = 0;
+    public float wantedLevelTimer = 0;
+    public final int wantedLevelTimeout = 10;
+
+    public int  npcActorsShot = 0;
+    public int  enemyActorsShot = 0;
 
     public int bulletsInMag = 8;
     public float shotDelayTime = 0.2f;
@@ -31,6 +38,8 @@ public class PlayerObject extends GameObject {
     public Vector3 gunPosition;
 
     private float fadeTimer = 0;
+
+    public int health = 5;
 
     public PlayerObject(String modelName){
         this.collide = false;
@@ -51,16 +60,29 @@ public class PlayerObject extends GameObject {
     public void onActorEvent(ActorEvent e){
         switch(e.state){
             case SHOOT:
-                sceneManager.scene.decreasePlayerHealth(25);
+                //sceneManager.scene.decreasePlayerHealth(25);
+                if(health>0)health--;
                 sceneManager.scene.guiGameStage.PlayerHurtOverlay();
+                sceneManager.scene.guiGameStage.SetHealthState(health);
                 //invoke PlayerShot animation
-                if(sceneManager.scene.playerHealth <= 0){
+                if(health <= 0){
                     sceneManager.scene.guiGameStage.ShowGameOverPopup();
                 }
                 break;
             case DIE:
-                actorsShot++;
-                //sceneManager.guiStage.addInfoString1 = ""+actorsShot;
+                if(e.senderObject.getClass() == ActorEnemyObject.class){
+                    enemyActorsShot++;
+                }
+                if(e.senderObject.getClass() == ActorNPCObject.class){
+
+                    npcActorsShot++;
+                    if(wantedLevel < 4) {
+                        wantedLevel++;
+                        wantedLevelTimer = wantedLevelTimeout;
+                        sceneManager.scene.guiGameStage.SetWantedState(wantedLevel);
+                        sendEvent(new SpawnEvent(SpawnEvent.Action.ADD_ACTOR, ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel));
+                    }
+                }
                 break;
         }
     }
@@ -91,6 +113,17 @@ public class PlayerObject extends GameObject {
     public void onUpdate() {
 
         timer = timer - sceneManager.frame_time_s;
+
+        if(wantedLevelTimer>0)wantedLevelTimer = wantedLevelTimer - sceneManager.frame_time_s;
+        if(wantedLevelTimer <= 0 && wantedLevel > 0 && wantedLevel < 4){
+            wantedLevelTimer = wantedLevelTimeout;
+            wantedLevel--;
+            sceneManager.scene.guiGameStage.SetWantedState(wantedLevel);
+            if(wantedLevel == 0){
+                sendEvent(new SpawnEvent(SpawnEvent.Action.REMOVE_ACTOR, ActorObject.ActorType.ENEMY_POLICE));
+            }
+        }
+
 
         if(timer <= 0 && magazine <= 0)magazine = bulletsInMag;
 

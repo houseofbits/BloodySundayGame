@@ -1,5 +1,6 @@
 package GameEvents;
 
+import GameObjects.ActorObject;
 import GameObjects.SpawnObject;
 import events.GameEvent;
 
@@ -8,6 +9,27 @@ import events.GameEvent;
  */
 
 public class SpawnEvent extends GameEvent {
+
+    public enum Action{
+        ADD_ACTOR,
+        REMOVE_ACTOR,
+        SET_ACTOR_WEIGHT
+    }
+
     public SpawnObject.State state = null;
+    public ActorObject.ActorType actorType = null;
+    public float actorWeight = 0;
+    public Action action = null;
+
     public SpawnEvent(SpawnObject.State s){ state = s; }
+
+    public SpawnEvent(Action a, ActorObject.ActorType t, float w){
+        action = a;
+        actorType = t;
+        actorWeight = w;
+    }
+    public SpawnEvent(Action a, ActorObject.ActorType t){
+        action = a;
+        actorType = t;
+    }
 }

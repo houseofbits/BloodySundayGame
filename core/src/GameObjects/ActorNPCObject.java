@@ -58,10 +58,11 @@ public class ActorNPCObject extends ActorObject {
 
         if(o.getClass() == BulletObject.class){
             //if(state != State.HIT && state != State.DIE && state != State.DISAPPEAR) setState(State.HIT);
-
-            switchState("DIE");
-
-            sceneManager.addGameObject(new BulletSplashObject(p.cpy(), new Color(0.6f, 0, 0, 0)));
+            if(currentState != null && currentState.name != "DIE" && currentState.name != "REMOVE") {
+                switchState("DIE");
+                sendEvent(new ActorEvent(ActorEvent.State.DIE));
+                sceneManager.addGameObject(new BulletSplashObject(p.cpy(), new Color(0.6f, 0, 0, 0)));
+            }
         }
     }
 }

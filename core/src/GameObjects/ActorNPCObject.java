@@ -12,8 +12,8 @@ import GameEvents.ActorEvent;
 
 public class ActorNPCObject extends ActorObject {
 
-    public ActorNPCObject(SpawnObject spawnObject, ActorType actorType) {
-        super(spawnObject, actorType.modelName, "test_actor.g3dj");
+    public ActorNPCObject(SpawnObject spawnObject, ActorType type) {
+        super(spawnObject, type, "test_actor.g3dj");
 
         switch (actorType){
             case NPC_1:
@@ -36,9 +36,16 @@ public class ActorNPCObject extends ActorObject {
                 addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
                 addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
                 break;
+            case NPC_DOCTOR:
+                addActorState(new ActorStateAppear("APPEAR", "REMOVE", 1f, 0.7f, "IDLE"));
+                addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
+                addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
+                break;
         }
 
     }
+
+    public int doctorHealth = 100;
 
     public void onInit() {
         super.onInit();

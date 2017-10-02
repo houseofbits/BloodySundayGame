@@ -29,7 +29,8 @@ public class ActorObject extends GameObject {
         ENEMY_POLICE(ActorEnemyObject.class, "characters/cop.g3dj"),
         NPC_1(ActorNPCObject.class, "characters/character2.g3dj"),
         NPC_2(ActorNPCObject.class, "characters/character3.g3dj"),
-        NPC_3(ActorNPCObject.class, "characters/character4.g3dj");
+        NPC_3(ActorNPCObject.class, "characters/character4.g3dj"),
+        NPC_DOCTOR(ActorNPCObject.class, "characters/doctor.g3dj");
 
         private ActorType(Class actorClass, String model){
             modelName = model;
@@ -116,6 +117,8 @@ public class ActorObject extends GameObject {
         actorStateMap.put(state.name, state);
     }
 
+    public ActorType actorType = null;
+
     public  Vector3 position;
     float   stateTimer = 0;
 
@@ -124,17 +127,13 @@ public class ActorObject extends GameObject {
     public AnimatedRenderable animatedRederable = null;
     IntersectionMesh intersectionMesh = null;
 
-    public ActorObject(SpawnObject spawn, String renderModel, String colModel){
-
-        this.collide = true;
-
-        position = spawn.getSpawnedPosition();
-
-        intersectionMesh = new IntersectionMesh(this, colModel);
-        animatedRederable = new AnimatedRenderable(this, renderModel);
-
+    public ActorObject(SpawnObject spawn, ActorType type, String colModel){
         spawnObject = spawn;
-
+        actorType = type;
+        this.collide = true;
+        position = spawn.getSpawnedPosition();
+        intersectionMesh = new IntersectionMesh(this, colModel);
+        animatedRederable = new AnimatedRenderable(this, actorType.modelName);
         setName("actor_"+System.identityHashCode(this));
     }
 

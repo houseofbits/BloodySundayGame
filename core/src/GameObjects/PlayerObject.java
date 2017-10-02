@@ -64,6 +64,7 @@ public class PlayerObject extends GameObject {
                 if(health>0)health--;
                 sceneManager.scene.guiGameStage.PlayerHurtOverlay();
                 sceneManager.scene.guiGameStage.SetHealthState(health);
+                sendEvent(new SpawnEvent(SpawnEvent.Action.ADD_ACTOR, ActorObject.ActorType.NPC_DOCTOR, 0.5f));
                 //invoke PlayerShot animation
                 if(health <= 0){
                     sceneManager.scene.guiGameStage.ShowGameOverPopup();
@@ -90,9 +91,24 @@ public class PlayerObject extends GameObject {
     public void onPlayerEvent(PlayerEvent e) {
 
         if (e.state == PlayerEvent.State.TOUCH_DOWN) {
+            if(e.gameObject != null){
+                if(e.gameObject.getClass() == ActorNPCObject.class){
+                    ActorNPCObject npcObject = (ActorNPCObject)e.gameObject;
+                    switch(npcObject.actorType){
+                        case NPC_DOCTOR:
+                            if(health < 5 && npcObject.doctorHealth > 0){
+                                health++;
+                                npcObject.doctorHealth = 0;
+                            }else{
+                                sendEvent(new SpawnEvent(SpawnEvent.Action.REMOVE_ACTOR, ActorObject.ActorType.NPC_DOCTOR));
+                            }
+                            sceneManager.scene.guiGameStage.SetHealthState(health);
+                            return;
+                    }
+                }
+            }
 
             Ray r = new Ray(gunPosition, e.pointOfInterest.sub(gunPosition).nor());
-
             LookAt(r);
 
             fadeTimer = 0.5f;
@@ -102,10 +118,10 @@ public class PlayerObject extends GameObject {
 
                 Fire(r);
 
-                magazine--;
-                if (magazine <= 0) {
-                    timer = reloadDelayTime;
-                }
+                //magazine--;
+                //if (magazine <= 0) {
+                 //   timer = reloadDelayTime;
+                //}
             }
         }
     }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.mygdx.game.GameScenes.GameScene1;
+import com.mygdx.game.GameScenes.GameScene3;
 
 import GUI.GUIGameStage;
 import GameEvents.PlayerEvent;
@@ -23,9 +25,18 @@ public class Scene  extends InputAdapter {
     public Environment environment = null;
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
+    private Class nextGameScene = null;
 
     public Scene(){
 
+    }
+
+    public void setNextGameScene(Class gc){
+        nextGameScene = gc;
+    }
+    public Scene getNextGameSceneInstance(){
+
+        return null;
     }
 
     public void onCreate(SceneManager mgr){
@@ -56,10 +67,10 @@ public class Scene  extends InputAdapter {
         //Get point of interest
         Vector3 poi = new Vector3();
         r.getEndPoint(poi, 20); //end point if does not hit anything
-        sceneManager.traceRay(r,poi);
+        GameObject go = sceneManager.traceRay(r,poi);
 
         //Send event to player
-        sceneManager.sendEvent(new PlayerEvent(PlayerEvent.State.TOUCH_DOWN, r, poi));
+        sceneManager.sendEvent(new PlayerEvent(PlayerEvent.State.TOUCH_DOWN, r, poi, go));
 
         return true;
     }

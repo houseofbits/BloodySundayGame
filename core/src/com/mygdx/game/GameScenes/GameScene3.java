@@ -25,6 +25,8 @@ public class GameScene3 extends Scene {
 
    // public CameraInputController camController;
 
+    public float missionTime = 120;
+
     public GameScene3(){
 
     }
@@ -38,6 +40,7 @@ public class GameScene3 extends Scene {
         cam.lookAt(0,1.1f,0);
         cam.near = 1f;
         cam.far = 500f;
+        //cam.fieldOfView = 30;
         cam.update();
 
         //camController = new CameraInputController(cam);
@@ -101,11 +104,20 @@ public class GameScene3 extends Scene {
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
 
+        setNextGameScene(GameScene1.class);
+
     }
 
     public void onUpdate(){
         super.onUpdate();
         //if(camController != null)camController.update();
+
+        missionTime -= sceneManager.frame_time_s;
+        guiGameStage.missionLabel.setText("LEFT: "+(int)missionTime+" s");
+
+        if(missionTime <= 0){
+            guiGameStage.ShowGameOverPopup();
+        }
     }
 
     public void onDispose(){

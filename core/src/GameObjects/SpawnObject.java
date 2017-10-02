@@ -131,7 +131,7 @@ public class SpawnObject extends GameObject {
     public void removeActorType(ActorObject.ActorType type){
         actorDistribution.remove(type);
     }
-
+    public void setActorWeight(ActorObject.ActorType type, float weight){actorDistribution.set(type, weight);}
     public void addActorType(ActorObject.ActorType type, float weight){
         actorDistribution.add(type, weight);
     }
@@ -219,7 +219,7 @@ public class SpawnObject extends GameObject {
                     removeActorType(e.actorType);
                     break;
                 case SET_ACTOR_WEIGHT:
-
+                    setActorWeight(e.actorType, e.actorWeight);
                     break;
             }
         }else if(e.state != null) {

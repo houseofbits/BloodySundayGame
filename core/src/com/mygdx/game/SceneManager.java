@@ -178,25 +178,27 @@ public class SceneManager {
     }
 
     //TODO: bounding box check
-    public boolean traceRay(Ray ray, Vector3 out){
+    public GameObject traceRay(Ray ray, Vector3 out){
 
+        GameObject obj = null;
         float prevT = 100000;
         Vector3 inter = new Vector3();
-        boolean hasInt = false;
-
+        //boolean hasInt = false;
+        GameObject o = null;
         for (int i = 0; i < gameObjectArray.size; i++) {
-            GameObject o = gameObjectArray.get(i);
+            o = gameObjectArray.get(i);
             if (o.collide) {
                 if (o.intersectRay(ray, inter)) {
                     float l = out.cpy().sub(ray.origin).len2();
                     if(l < prevT){
                         prevT = l;
                         out.set(inter);
-                        hasInt = true;
+                        //hasInt = true;
+                        obj = o;
                     }
                 }
             }
         }
-        return hasInt;
+        return obj;
     }
 }

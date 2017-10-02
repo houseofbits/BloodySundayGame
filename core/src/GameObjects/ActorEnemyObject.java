@@ -39,8 +39,8 @@ public class ActorEnemyObject extends ActorObject {
             parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
         }
     }
-    public ActorEnemyObject(SpawnObject spawnObject, ActorType actorType) {
-        super(spawnObject, actorType.modelName, "test_actor.g3dj");
+    public ActorEnemyObject(SpawnObject spawnObject, ActorType type) {
+        super(spawnObject, type, "test_actor.g3dj");
 
         switch (actorType){
             case ENEMY_1:

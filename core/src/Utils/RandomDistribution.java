@@ -36,15 +36,17 @@ public class RandomDistribution<T> {
 
     public void add(T data, float weight){
         if(weight <= 0)return;
+        remove(data);
         nodes.add(new Node(data, weight));
         normalizeWeights();
     }
-
+    public void set(T data, float weight){
+        add(data, weight);
+    }
     public void remove(T data){
         for(int i=0; i<nodes.size; i++){
             if(data == nodes.get(i).data){
                 nodes.removeIndex(i);
-                break;
             }
         }
         normalizeWeights();

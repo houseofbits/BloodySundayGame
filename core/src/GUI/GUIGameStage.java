@@ -43,11 +43,12 @@ public class GUIGameStage extends InputListener {
     private Image blackOverlayImage;
     private Image playerHurtOverlay;
 
-    //private Label healthLabel;
+    public Label missionLabel;
     private Label fpsLabel;
 
     protected Table confirmPopupTable;
     protected Table gameLostPopupTable;
+    protected Table gameWonPopupTable;
 
     private ProgressBar healthBar;
 
@@ -97,6 +98,8 @@ public class GUIGameStage extends InputListener {
 
         fpsLabel = new Label("sssss", new Label.LabelStyle(font, Color.WHITE));
 
+        missionLabel = new Label("11", new Label.LabelStyle(font, Color.GOLD));
+
         health = new Image();
         health.setDrawable(hudSkin.getDrawable("health5"));
 
@@ -110,23 +113,20 @@ public class GUIGameStage extends InputListener {
                 .left()
                 .pad(10);
         gtable.add().expand();
-        gtable.add().expandY();
+        gtable.add(missionLabel).top().right().pad(10).expandY();
         gtable.row();
         gtable.add(health)
                 .width(Value.percentWidth(0.242f, gtable))
                 .height(Value.percentHeight(0.124f, gtable))
                 .bottom()
                 .pad(10);
-        gtable.add(fpsLabel).expandX();
+        gtable.add(fpsLabel).bottom().expandX();
         gtable.add(cops)
                 .width(Value.percentWidth(0.230f, gtable))
                 .height(Value.percentHeight(0.124f, gtable))
                 .right()
                 .bottom()
                 .pad(10);
-
-        fpsLabel.setAlignment(Align.bottom);
-
 
         //Progress bar
         Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
@@ -196,6 +196,30 @@ public class GUIGameStage extends InputListener {
                 .height(Value.percentHeight(0.2f, gameLostPopupTable));
 
         gameLostPopupTable.setVisible(false);
+
+        //Game won popup
+        gameWonPopupTable = new Table();
+        //gameWonPopupTable.setDebug(true);
+        gameWonPopupTable.setFillParent(true);
+        stage.addActor(gameWonPopupTable);
+
+        TextButton buttonExit3 = new TextButton("Exit to main menu", style);
+        buttonExit3.setName("EXITMAIN");
+        buttonExit3.addListener(this);
+
+        TextButton buttonNext = new TextButton("Continue", style);
+        buttonNext.setName("CONTINUE");
+        buttonNext.addListener(this);
+
+        gameWonPopupTable.add(buttonExit3)
+                .width(Value.percentWidth(0.4f, gameWonPopupTable))
+                .height(Value.percentHeight(0.2f, gameWonPopupTable));
+        gameWonPopupTable.row();
+        gameWonPopupTable.add(buttonNext)
+                .width(Value.percentWidth(0.4f, gameWonPopupTable))
+                .height(Value.percentHeight(0.2f, gameWonPopupTable));
+
+        gameWonPopupTable.setVisible(false);
 
         FadeFromBlack(1);
         scene.sceneManager.setGamePaused(false);
@@ -269,6 +293,11 @@ public class GUIGameStage extends InputListener {
             FadeFromBlack(1);
             scene.sceneManager.setGamePaused(false);
             gameLostPopupTable.setVisible(false);
+        }else if(a.getName() == "CONTINUE") {
+            Scene s = scene.getNextGameSceneInstance();
+            if(s != null){
+                scene.sceneManager.CreateScene(s);
+            }
         }
     }
     public boolean touchDown (InputEvent e, float x, float y, int pointer, int button) {

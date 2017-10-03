@@ -129,6 +129,9 @@ public class GUIGameStage extends InputListener {
                 .bottom()
                 .pad(10);
 
+        Texture over = new Texture(Gdx.files.internal("gui/overlay.png"));
+        hudTable.background(new TextureRegionDrawable(new TextureRegion(over)));
+
         //Progress bar
         Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);

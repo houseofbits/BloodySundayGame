@@ -10,10 +10,14 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.GameScenes.GameScene1;
 import com.mygdx.game.GameScenes.GameScene3;
 
+import java.lang.reflect.Constructor;
+
 import GUI.GUIGameStage;
 import GameEvents.PlayerEvent;
+import GameObjects.ActorObject;
 import GameObjects.BulletSplashObject;
 import GameObjects.SpawnObject;
+import Utils.Error;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -25,17 +29,23 @@ public class Scene  extends InputAdapter {
     public Environment environment = null;
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
-    private Class nextGameScene = null;
+    private Class nextGameSceneClass = null;
 
     public Scene(){
 
     }
 
     public void setNextGameScene(Class gc){
-        nextGameScene = gc;
+        nextGameSceneClass = gc;
     }
-    public Scene getNextGameSceneInstance(){
 
+    public Scene getNextGameSceneInstance(){
+        try {
+            Constructor<?> ctor = nextGameSceneClass.getConstructor();
+            return (Scene)ctor.newInstance();
+        }catch (Exception e){
+            Error.log(e.getMessage());
+        }
         return null;
     }
 

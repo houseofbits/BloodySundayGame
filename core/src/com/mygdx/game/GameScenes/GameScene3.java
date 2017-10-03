@@ -107,7 +107,7 @@ public class GameScene3 extends Scene {
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
 
-        setNextGameScene(GameScene1.class);
+        setNextGameScene(GameScene3.class);
 
     }
 
@@ -116,18 +116,22 @@ public class GameScene3 extends Scene {
         //if(camController != null)camController.update();
 
         missionTime -= sceneManager.frame_time_s;
-        guiGameStage.missionLabel.setText("LEFT: "+(int)missionTime+" s");
 
-        if(missionTime <= 20) {
+        int minutes = ((int)missionTime % 3600) / 60;
+        int seconds = (int)missionTime % 60;
+
+        guiGameStage.missionLabel.setText("LEFT: "+String.format("%02d:%02d", minutes, seconds));
+
+        if(missionTime <= 15) {
             guiGameStage.missionLabel.setColor(Color.ORANGE);
         }
         if(missionTime <= 0){
             guiGameStage.ShowGameWonPopup();
         }
-        if(missionTime <= 7){
+        if(missionTime <= 6){
             sceneManager.sendEvent(new SpawnEvent(SpawnEvent.Action.SET_ENABLED, false));
         }
-        if(missionTime <= 2){
+        if(missionTime <= 1){
             sceneManager.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN));
         }
     }

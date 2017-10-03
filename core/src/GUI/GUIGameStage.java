@@ -46,6 +46,7 @@ public class GUIGameStage extends InputListener {
     public Label missionLabel;
     private Label fpsLabel;
 
+    protected  Table hudTable;
     protected Table confirmPopupTable;
     protected Table gameLostPopupTable;
     protected Table gameWonPopupTable;
@@ -90,10 +91,10 @@ public class GUIGameStage extends InputListener {
 
         stage.addActor(playerHurtOverlay);
 
-        Table gtable = new Table();
-        //gtable.setDebug(true);
-        gtable.setFillParent(true);
-        stage.addActor(gtable);
+        hudTable = new Table();
+        //hudTable.setDebug(true);
+        hudTable.setFillParent(true);
+        stage.addActor(hudTable);
 
 
         fpsLabel = new Label("sssss", new Label.LabelStyle(font, Color.WHITE));
@@ -106,24 +107,24 @@ public class GUIGameStage extends InputListener {
         cops = new Image();
         cops.setDrawable(hudSkin.getDrawable("cops0"));
 
-        gtable.add(button1)
-                .width(Value.percentWidth(0.139f, gtable))
-                .height(Value.percentWidth(0.080f, gtable))
+        hudTable.add(button1)
+                .width(Value.percentWidth(0.139f, hudTable))
+                .height(Value.percentWidth(0.080f, hudTable))
                 .top()
                 .left()
                 .pad(10);
-        gtable.add().expand();
-        gtable.add(missionLabel).top().right().pad(10).expandY();
-        gtable.row();
-        gtable.add(health)
-                .width(Value.percentWidth(0.242f, gtable))
-                .height(Value.percentHeight(0.124f, gtable))
+        hudTable.add().expand();
+        hudTable.add(missionLabel).top().right().pad(10).expandY();
+        hudTable.row();
+        hudTable.add(health)
+                .width(Value.percentWidth(0.242f, hudTable))
+                .height(Value.percentHeight(0.124f, hudTable))
                 .bottom()
                 .pad(10);
-        gtable.add(fpsLabel).bottom().expandX();
-        gtable.add(cops)
-                .width(Value.percentWidth(0.230f, gtable))
-                .height(Value.percentHeight(0.124f, gtable))
+        hudTable.add(fpsLabel).bottom().expandX();
+        hudTable.add(cops)
+                .width(Value.percentWidth(0.230f, hudTable))
+                .height(Value.percentHeight(0.124f, hudTable))
                 .right()
                 .bottom()
                 .pad(10);
@@ -248,8 +249,15 @@ public class GUIGameStage extends InputListener {
     }
 
     public void ShowGameOverPopup(){
-        FadeToBlack(1);
+        //FadeToBlack(1);
         gameLostPopupTable.setVisible(true);
+        scene.sceneManager.setGamePaused(true);
+    }
+
+    public void ShowGameWonPopup(){
+        //FadeToBlack(1);
+        hudTable.setVisible(false);
+        gameWonPopupTable.setVisible(true);
         scene.sceneManager.setGamePaused(true);
     }
 

@@ -2,6 +2,7 @@ package com.mygdx.game.GameScenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
+import GameEvents.DoorEvent;
+import GameEvents.SpawnEvent;
 import GameObjects.ActorObject;
 import GameObjects.DoorObject;
 import GameObjects.PlayerObject;
@@ -115,8 +118,17 @@ public class GameScene3 extends Scene {
         missionTime -= sceneManager.frame_time_s;
         guiGameStage.missionLabel.setText("LEFT: "+(int)missionTime+" s");
 
+        if(missionTime <= 20) {
+            guiGameStage.missionLabel.setColor(Color.ORANGE);
+        }
         if(missionTime <= 0){
-            guiGameStage.ShowGameOverPopup();
+            guiGameStage.ShowGameWonPopup();
+        }
+        if(missionTime <= 7){
+            sceneManager.sendEvent(new SpawnEvent(SpawnEvent.Action.SET_ENABLED, false));
+        }
+        if(missionTime <= 2){
+            sceneManager.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN));
         }
     }
 

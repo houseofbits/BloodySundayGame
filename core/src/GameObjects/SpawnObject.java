@@ -38,6 +38,7 @@ public class SpawnObject extends GameObject {
     public State state = null;
     private float   nextSpawnTimer = 0;
     private static Random random = new Random();
+    private boolean enabled = true;
 
     public SpawnObject(String name, String doorName, Vector3 pos){
         this.collide = false;
@@ -107,7 +108,7 @@ public class SpawnObject extends GameObject {
     }
 
     public void onUpdate() {
-        if(state == State.FREE) {
+        if(state == State.FREE && enabled) {
             nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
             if(nextSpawnTimer <= 0){
                 state = State.READY;
@@ -210,17 +211,21 @@ public class SpawnObject extends GameObject {
 
     public void onSpawnEvent(SpawnEvent e){
 
-        if(e.action != null && e.actorType != null) {
+        if(e.action != null) {
             switch (e.action) {
                 case ADD_ACTOR:
-                    addActorType(e.actorType, e.actorWeight);
+                    if(e.actorType != null)addActorType(e.actorType, e.actorWeight);
                     break;
                 case REMOVE_ACTOR:
-                    removeActorType(e.actorType);
+                    if(e.actorType != null)removeActorType(e.actorType);
                     break;
                 case SET_ACTOR_WEIGHT:
-                    setActorWeight(e.actorType, e.actorWeight);
+                    if(e.actorType != null)setActorWeight(e.actorType, e.actorWeight);
                     break;
+                case SET_ENABLED:
+                    enabled = e.enabled;
+                    break;
+
             }
         }else if(e.state != null) {
             if (e.senderObject != null && e.senderObject.getClass() == SpawnObject.class) {

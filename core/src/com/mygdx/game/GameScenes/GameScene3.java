@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+//import com.badlogic.gdx.graphics.g3d.model.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
@@ -109,6 +111,20 @@ public class GameScene3 extends Scene {
 
         setNextGameScene(GameScene3.class);
 
+        /*
+
+         addObjective(new GameObjectiveTimeLimit(120))
+         .setDelayStart(30)       //Sets delay when for objective to start
+
+            .addRelativeObjective(new GameObjectiveKillCount(ENEMY_1, 20))  //Relative objectives are started only when parent objective is finished
+            .setDynamic(true, false)   //Dynamic objectives are added in the course of game play and are not visible from the beginning of game, second param, to hide when done
+
+             .setMessage("Hold up! Strange people are coming!")             //Sets message to be displayed when objective is activated
+
+              .parent() //returns parent from this
+              .addRelativeObjective()
+
+        */
     }
 
     public void onUpdate(){

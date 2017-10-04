@@ -91,6 +91,12 @@ public class GUIGameStage extends InputListener {
 
         stage.addActor(playerHurtOverlay);
 
+        Texture cornersOverlay = new Texture(Gdx.files.internal("gui/overlay.png"));
+        Image cornersOverlayImg = new Image();
+        cornersOverlayImg.setDrawable(new TextureRegionDrawable(new TextureRegion(cornersOverlay)));
+        cornersOverlayImg.setSize(stage.getWidth(),stage.getHeight());
+        stage.addActor(cornersOverlayImg);
+
         hudTable = new Table();
         //hudTable.setDebug(true);
         hudTable.setFillParent(true);
@@ -129,8 +135,8 @@ public class GUIGameStage extends InputListener {
                 .bottom()
                 .pad(10);
 
-        Texture over = new Texture(Gdx.files.internal("gui/overlay.png"));
-        hudTable.background(new TextureRegionDrawable(new TextureRegion(over)));
+        //Texture cornersOverlay = new Texture(Gdx.files.internal("gui/overlay.png"));
+        //hudTable.background(new TextureRegionDrawable(new TextureRegion(cornersOverlay)));
 
         //Progress bar
         Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
@@ -144,10 +150,6 @@ public class GUIGameStage extends InputListener {
         //pixmap.setColor(1,0,0, 0.5f);
         //pixmap.fill();
         pixmap.dispose();
-
-
-
-
 
         stage.addActor(blackOverlayImage);
 
@@ -174,6 +176,7 @@ public class GUIGameStage extends InputListener {
                 .width(Value.percentWidth(0.4f, confirmPopupTable))
                 .height(Value.percentHeight(0.2f, confirmPopupTable));
 
+        //confirmPopupTable.background(new TextureRegionDrawable(new TextureRegion(cornersOverlay)));
         confirmPopupTable.setVisible(false);
 
 
@@ -199,6 +202,7 @@ public class GUIGameStage extends InputListener {
                 .width(Value.percentWidth(0.4f, gameLostPopupTable))
                 .height(Value.percentHeight(0.2f, gameLostPopupTable));
 
+        //gameLostPopupTable.background(new TextureRegionDrawable(new TextureRegion(cornersOverlay)));
         gameLostPopupTable.setVisible(false);
 
         //Game won popup
@@ -223,6 +227,7 @@ public class GUIGameStage extends InputListener {
                 .width(Value.percentWidth(0.4f, gameWonPopupTable))
                 .height(Value.percentHeight(0.2f, gameWonPopupTable));
 
+        //gameWonPopupTable.background(new TextureRegionDrawable(new TextureRegion(cornersOverlay)));
         gameWonPopupTable.setVisible(false);
 
         FadeFromBlack(1);
@@ -240,6 +245,14 @@ public class GUIGameStage extends InputListener {
         }
     }
 
+    public void fadeHUD(boolean fadeOff){
+        if(fadeOff){
+            hudTable.addAction(Actions.sequence(Actions.show(), Actions.fadeOut(0.5f), Actions.hide()));
+        }else{
+            hudTable.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(0.5f)));
+        }
+    }
+
     public void FadeToBlack(float time){
         blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(time)));
     }
@@ -253,13 +266,15 @@ public class GUIGameStage extends InputListener {
 
     public void ShowGameOverPopup(){
         //FadeToBlack(1);
+        fadeHUD(true);
         gameLostPopupTable.setVisible(true);
         scene.sceneManager.setGamePaused(true);
     }
 
     public void ShowGameWonPopup(){
         //FadeToBlack(1);
-        hudTable.setVisible(false);
+        //hudTable.setVisible(false);
+        fadeHUD(true);
         gameWonPopupTable.setVisible(true);
         scene.sceneManager.setGamePaused(true);
     }
@@ -290,13 +305,14 @@ public class GUIGameStage extends InputListener {
         Actor a = e.getListenerActor();
         if(a.getName() == "MAIN"){
             gameLostPopupTable.setVisible(false);
+            gameWonPopupTable.setVisible(false);
             playerHurtOverlay.setVisible(false);
             confirmPopupTable.setVisible(true);
-            FadeToBlack(1);
+            fadeHUD(true);
             scene.sceneManager.setGamePaused(true);
         }else if(a.getName() == "CANCEL"){
             confirmPopupTable.setVisible(false);
-            FadeFromBlack(1);
+            fadeHUD(false);
             scene.sceneManager.setGamePaused(false);
         }else if(a.getName() == "EXITMAIN"){
             this.scene.sceneManager.UnloadScene();

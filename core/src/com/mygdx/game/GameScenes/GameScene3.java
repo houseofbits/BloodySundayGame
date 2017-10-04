@@ -28,7 +28,7 @@ public class GameScene3 extends Scene {
 
    // public CameraInputController camController;
 
-    public float missionTime = 120;
+    public float missionTime = 20;
 
     public GameScene3(){
 

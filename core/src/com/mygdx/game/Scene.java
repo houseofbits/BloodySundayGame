@@ -23,13 +23,14 @@ import Utils.Error;
  * Created by KristsPudzens on 07.08.2017.
  */
 
-public class Scene  extends InputAdapter {
+public class Scene extends InputAdapter {
 
     public SceneManager sceneManager = null;
     public Environment environment = null;
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
     private Class nextGameSceneClass = null;
+    private GameObjective gameObjective = new GameObjective();
 
     public Scene(){
 

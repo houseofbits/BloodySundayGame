@@ -60,6 +60,7 @@ public class Scene extends InputAdapter {
     }
 
     public void onUpdate(){
+        gameObjective.process();
         SpawnObject.updateAndSpawn();
     }
 

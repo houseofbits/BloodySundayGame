@@ -22,34 +22,97 @@ public class GameObjective {
     public boolean removeDynamic = false;
     public String message = "";
     public GameObjectiveState state = GameObjectiveState.WAITING;
+    public GameObjectiveState globalState = GameObjectiveState.WAITING;
 
     ///Set delay time for objective to start
-    public GameObjective setDelayStart(float delay){
+    public final GameObjective setDelayStart(float delay){
         delayStart = delay;
         return this;
     }
     ///Dynamic objectives are added or deleted in course of gameplay
-    public GameObjective setDynamic(boolean add, boolean remove){
+    public final GameObjective setDynamic(boolean add, boolean remove){
         addDynamic = add;
         removeDynamic = remove;
         return this;
     }
     ///Set message to display when objective is started
-    public GameObjective setMessage(String msg){
+    public final GameObjective setMessage(String msg){
         message = msg;
         return this;
     }
-    public GameObjective parent(){
+    public final GameObjective parent(){
         if(parent == null)return this;
         else return parent;
     }
-    public GameObjective addObjective(GameObjective o){
+    public final GameObjective addObjective(GameObjective o){
         o.parent = this;
         relativeGameObjectives.add(o);
         return o;
     }
+    public final void setState(GameObjectiveState s){
+        GameObjectiveState sp = state;
+        state = s;
+        onStateChange(sp, state);
+    }
+    //Virtual function called when state changes occur
+    public void onStateChange(GameObjectiveState previousState, GameObjectiveState newState){   }
 
-    //on state start
-    // scene.gui.addObjectiveIcon();
-    //on state finish
+    //Virtual function called in update loop to process objective rules
+    public void onProcess(){
+
+    }
+    //Update parent states from objective tree
+    private final GameObjectiveState recurseStates(){
+
+        GameObjectiveState retState = GameObjectiveState.COMPLETED;
+
+        if(relativeGameObjectives.size == 0){
+            globalState = state;
+            return state;
+        }
+
+        int waitingCnt = 0;
+        int processCnt = 0;
+        int failedCnt = 0;
+        int completeCnt = 0;
+
+        for (int i = 0; i < relativeGameObjectives.size; i++) {
+            GameObjectiveState s = relativeGameObjectives.get(i).recurseStates();
+            switch(s){
+                case FAILED:
+                    failedCnt++;
+                    break;
+                case WAITING:
+                    waitingCnt++;
+                    break;
+                case COMPLETED:
+                    completeCnt++;
+                    break;
+                case PROCESS:
+                    processCnt++;
+                    break;
+            }
+        }
+        if(failedCnt>0){
+            retState = GameObjectiveState.FAILED;
+        }
+        if(failedCnt == 0 && processCnt > 0){
+            retState = GameObjectiveState.PROCESS;
+        }
+        if(completeCnt == relativeGameObjectives.size){
+            retState = GameObjectiveState.COMPLETED;
+        }
+        if(waitingCnt == relativeGameObjectives.size){
+            retState = GameObjectiveState.WAITING;
+        }
+        globalState = retState;
+        return retState;
+    }
+    public final void process(){
+        if(parent == null)recurseStates();
+        onProcess();
+        for (int i = 0; i < relativeGameObjectives.size; i++) {
+            relativeGameObjectives.get(i).process();
+        }
+    }
 }

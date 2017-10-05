@@ -53,6 +53,27 @@ public class GameObjective {
         GameObjectiveState sp = state;
         state = s;
         onStateChange(sp, state);
+        if(s == GameObjectiveState.COMPLETED){
+            //Set children to PROCESS if WAITING
+            setChildrenStateProcess();
+        }
+        if(s == GameObjectiveState.FAILED){
+            setChildrenStateFailed();
+        }
+    }
+    private final void setChildrenStateFailed(){
+        for (int i = 0; i < relativeGameObjectives.size; i++) {
+            GameObjective g = relativeGameObjectives.get(i);
+            g.state = GameObjectiveState.FAILED;
+            g.setChildrenStateFailed();
+        }
+    }
+    private final void setChildrenStateProcess(){
+        for (int i = 0; i < relativeGameObjectives.size; i++) {
+            GameObjective g = relativeGameObjectives.get(i);
+            if(g.state == GameObjectiveState.WAITING)g.state = GameObjectiveState.PROCESS;
+            g.setChildrenStateProcess();
+        }
     }
     //Virtual function called when state changes occur
     public void onStateChange(GameObjectiveState previousState, GameObjectiveState newState){   }

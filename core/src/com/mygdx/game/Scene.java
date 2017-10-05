@@ -36,6 +36,10 @@ public class Scene extends InputAdapter {
 
     }
 
+    public GUIGameStage getUI(){
+        return guiGameStage;
+    }
+
     public void setNextGameScene(Class gc){
         nextGameSceneClass = gc;
     }

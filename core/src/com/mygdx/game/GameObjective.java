@@ -15,14 +15,14 @@ public class GameObjective {
         FAILED,                     ///Objective has failed
     };
 
-    public GameObjective parent = null;
-    public Array<GameObjective> relativeGameObjectives = new Array<GameObjective>();
-    public float delayStart = 0;
-    public boolean addDynamic = false;
-    public boolean removeDynamic = false;
-    public String message = "";
-    public GameObjectiveState state = GameObjectiveState.WAITING;
-    public GameObjectiveState globalState = GameObjectiveState.WAITING;
+    private GameObjective parent = null;
+    private Array<GameObjective> relativeGameObjectives = new Array<GameObjective>();
+    private float delayStart = 0;
+    private boolean addDynamic = false;
+    private boolean removeDynamic = false;
+    private String message = "";
+    private GameObjectiveState state = GameObjectiveState.WAITING;
+    private GameObjectiveState globalState = GameObjectiveState.WAITING;
 
     ///Set delay time for objective to start
     public final GameObjective setDelayStart(float delay){
@@ -60,6 +60,9 @@ public class GameObjective {
         if(s == GameObjectiveState.FAILED){
             setChildrenStateFailed();
         }
+    }
+    public GameObjectiveState getState(){
+        return globalState;
     }
     private final void setChildrenStateFailed(){
         for (int i = 0; i < relativeGameObjectives.size; i++) {

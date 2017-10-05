@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.GameObjectives.GameObjectiveTimer;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
@@ -110,6 +111,9 @@ public class GameScene3 extends Scene {
 
 
         setNextGameScene(GameScene3.class);
+
+
+        //getObjective().addObjective(new GameObjectiveTimer(this, 120));
 
     }
 

@@ -30,7 +30,7 @@ public class Scene extends InputAdapter {
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
     private Class nextGameSceneClass = null;
-    private GameObjective gameObjective = new GameObjective();
+    //private GameObjective gameObjective = new GameObjective();
 
     public Scene(){
 
@@ -39,6 +39,10 @@ public class Scene extends InputAdapter {
     public GUIGameStage getUI(){
         return guiGameStage;
     }
+
+//    public GameObjective getObjective(){
+//        return gameObjective;
+//    }
 
     public void setNextGameScene(Class gc){
         nextGameSceneClass = gc;
@@ -64,7 +68,7 @@ public class Scene extends InputAdapter {
     }
 
     public void onUpdate(){
-        gameObjective.process();
+    //    gameObjective.process();
         SpawnObject.updateAndSpawn();
     }
 

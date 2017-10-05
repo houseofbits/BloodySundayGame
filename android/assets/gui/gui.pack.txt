@@ -1,5 +1,5 @@
 gui.pack.png
-size: 978, 909
+size: 932, 1111
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -17,16 +17,23 @@ buttonon
   orig: 437, 85
   offset: 0, 0
   index: -1
+complete
+  rotate: false
+  xy: 268, 909
+  size: 554, 202
+  orig: 554, 202
+  offset: 0, 0
+  index: -1
 cops0
   rotate: false
-  xy: 0, 487
+  xy: 0, 621
   size: 442, 134
   orig: 442, 134
   offset: 0, 0
   index: -1
 cops1
   rotate: false
-  xy: 0, 621
+  xy: 0, 487
   size: 442, 134
   orig: 442, 134
   offset: 0, 0
@@ -96,14 +103,14 @@ health5
   index: -1
 key
   rotate: false
-  xy: 442, 755
+  xy: 0, 909
   size: 268, 154
   orig: 268, 154
   offset: 0, 0
   index: -1
 keyon
   rotate: false
-  xy: 710, 755
+  xy: 442, 755
   size: 268, 154
   orig: 268, 154
   offset: 0, 0

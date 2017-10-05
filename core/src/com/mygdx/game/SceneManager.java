@@ -48,6 +48,10 @@ public class SceneManager {
         guiMainStage = new GUIMainStage(this);
     }
 
+    public Scene getScene(){
+        return scene;
+    }
+
     public void setGamePaused(boolean p){
         gamePaused = p;
     }

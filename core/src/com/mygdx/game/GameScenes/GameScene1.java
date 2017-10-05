@@ -13,6 +13,7 @@ import com.mygdx.game.SceneManager;
 
 import GameObjects.ActorObject;
 import GameObjects.DoorObject;
+import GameObjects.GameObjectiveObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
@@ -99,6 +100,11 @@ public class GameScene1 extends Scene {
         sceneManager.addGameObject(new StaticObject("scene.g3dj"));
 
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
+
+        sceneManager.addGameObject(new GameObjectiveObject());
+
+
+        setNextGameScene(GameScene2.class);
 
     }
 

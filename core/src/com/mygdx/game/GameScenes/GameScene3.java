@@ -19,6 +19,7 @@ import GameEvents.DoorEvent;
 import GameEvents.SpawnEvent;
 import GameObjects.ActorObject;
 import GameObjects.DoorObject;
+import GameObjects.GameObjectiveObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
@@ -31,7 +32,7 @@ public class GameScene3 extends Scene {
 
    // public CameraInputController camController;
 
-    public float missionTime = 20;
+
 
     public GameScene3(){
 
@@ -109,8 +110,10 @@ public class GameScene3 extends Scene {
 
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
+        sceneManager.addGameObject(new GameObjectiveObject());
 
-        setNextGameScene(GameScene3.class);
+
+        setNextGameScene(GameScene1.class);
 
 
         //getObjective().addObjective(new GameObjectiveTimer(this, 120));
@@ -121,25 +124,7 @@ public class GameScene3 extends Scene {
         super.onUpdate();
         //if(camController != null)camController.update();
 
-        missionTime -= sceneManager.frame_time_s;
 
-        int minutes = ((int)missionTime % 3600) / 60;
-        int seconds = (int)missionTime % 60;
-
-        guiGameStage.missionLabel.setText("LEFT: "+String.format("%02d:%02d", minutes, seconds));
-
-        if(missionTime <= 15) {
-            guiGameStage.missionLabel.setColor(Color.ORANGE);
-        }
-        if(missionTime <= 0){
-            guiGameStage.ShowGameWonPopup();
-        }
-        if(missionTime <= 6){
-            sceneManager.sendEvent(new SpawnEvent(SpawnEvent.Action.SET_ENABLED, false));
-        }
-        if(missionTime <= 1){
-            sceneManager.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN));
-        }
     }
 
     public void onDispose(){

@@ -83,9 +83,9 @@ public class GUIGameStage extends InputListener {
         button1.setName("MAIN");
         button1.addListener(this);
 
-        Texture board = new Texture(Gdx.files.internal("hurt_overlay.png"));
+        Texture textureHurt = new Texture(Gdx.files.internal("hurt_overlay.png"));
         playerHurtOverlay = new Image();
-        playerHurtOverlay.setDrawable(new TextureRegionDrawable(new TextureRegion(board)));
+        playerHurtOverlay.setDrawable(new TextureRegionDrawable(new TextureRegion(textureHurt)));
         playerHurtOverlay.setSize(stage.getWidth(),stage.getHeight());
         playerHurtOverlay.setVisible(false);
 
@@ -194,15 +194,15 @@ public class GUIGameStage extends InputListener {
         buttonRestart.setName("RESTART");
         buttonRestart.addListener(this);
 
+//        gameLostPopupTable.add(buttonRestart)
+//                .width(Value.percentWidth(0.4f, gameLostPopupTable))
+//                .height(Value.percentHeight(0.2f, gameLostPopupTable));
+//        gameLostPopupTable.row();
         gameLostPopupTable.add(buttonExit2)
                 .width(Value.percentWidth(0.4f, gameLostPopupTable))
                 .height(Value.percentHeight(0.2f, gameLostPopupTable));
-        gameLostPopupTable.row();
-        gameLostPopupTable.add(buttonRestart)
-                .width(Value.percentWidth(0.4f, gameLostPopupTable))
-                .height(Value.percentHeight(0.2f, gameLostPopupTable));
 
-        //gameLostPopupTable.background(new TextureRegionDrawable(new TextureRegion(cornersOverlay)));
+        gameLostPopupTable.background(new TextureRegionDrawable(new TextureRegion(textureHurt)));
         gameLostPopupTable.setVisible(false);
 
         //Game won popup
@@ -219,11 +219,18 @@ public class GUIGameStage extends InputListener {
         buttonNext.setName("CONTINUE");
         buttonNext.addListener(this);
 
-        gameWonPopupTable.add(buttonExit3)
+        Image completeImg = new Image();
+        completeImg.setDrawable(hudSkin.getDrawable("complete"));
+
+        gameWonPopupTable.add(completeImg)
                 .width(Value.percentWidth(0.4f, gameWonPopupTable))
                 .height(Value.percentHeight(0.2f, gameWonPopupTable));
         gameWonPopupTable.row();
         gameWonPopupTable.add(buttonNext)
+                .width(Value.percentWidth(0.4f, gameWonPopupTable))
+                .height(Value.percentHeight(0.2f, gameWonPopupTable));
+        gameWonPopupTable.row();
+        gameWonPopupTable.add(buttonExit3)
                 .width(Value.percentWidth(0.4f, gameWonPopupTable))
                 .height(Value.percentHeight(0.2f, gameWonPopupTable));
 
@@ -260,11 +267,11 @@ public class GUIGameStage extends InputListener {
     public void FadeFromBlack(float time){
         blackOverlayImage.addAction(Actions.sequence(Actions.show(), Actions.fadeOut(time), Actions.hide()));
     }
-    public void PlayerHurtOverlay(){
+    public void playerHurtOverlay(){
         playerHurtOverlay.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(0.5f), Actions.fadeOut(1.5f), Actions.hide()));
     }
 
-    public void ShowGameOverPopup(){
+    public void showGameOverPopup(){
         //FadeToBlack(1);
         fadeHUD(true);
         gameLostPopupTable.setVisible(true);

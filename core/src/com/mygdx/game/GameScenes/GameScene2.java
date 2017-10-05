@@ -15,6 +15,7 @@ import com.mygdx.game.SceneManager;
 
 import GameObjects.AnimatedObject;
 import GameObjects.DoorObject;
+import GameObjects.GameObjectiveObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
@@ -85,6 +86,12 @@ public class GameScene2 extends Scene {
 
        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
+
+
+        sceneManager.addGameObject(new GameObjectiveObject());
+
+
+        setNextGameScene(GameScene3.class);
     }
 
     public void onUpdate(){

@@ -60,14 +60,13 @@ public class PlayerObject extends GameObject {
     public void onActorEvent(ActorEvent e){
         switch(e.state){
             case SHOOT:
-                //sceneManager.scene.decreasePlayerHealth(25);
                 if(health>0)health--;
-                sceneManager.scene.guiGameStage.PlayerHurtOverlay();
-                sceneManager.scene.guiGameStage.SetHealthState(health);
+                sceneManager.getScene().getUI().playerHurtOverlay();
+                sceneManager.getScene().getUI().SetHealthState(health);
                 sendEvent(new SpawnEvent(SpawnEvent.Action.ADD_ACTOR, ActorObject.ActorType.NPC_DOCTOR, 0.5f));
                 //invoke PlayerShot animation
                 if(health <= 0){
-                    sceneManager.scene.guiGameStage.ShowGameOverPopup();
+                    sceneManager.getScene().getUI().showGameOverPopup();
                 }
                 break;
             case DIE:
@@ -80,8 +79,10 @@ public class PlayerObject extends GameObject {
                     if(wantedLevel < 4) {
                         wantedLevel++;
                         wantedLevelTimer = wantedLevelTimeout;
-                        sceneManager.scene.guiGameStage.SetWantedState(wantedLevel);
+                        sceneManager.getScene().getUI().SetWantedState(wantedLevel);
                         sendEvent(new SpawnEvent(SpawnEvent.Action.ADD_ACTOR, ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel));
+                    }else if(wantedLevel == 4){
+                        sceneManager.getScene().getUI().showGameOverPopup();
                     }
                 }
                 break;
@@ -102,7 +103,7 @@ public class PlayerObject extends GameObject {
                             }else{
                                 sendEvent(new SpawnEvent(SpawnEvent.Action.REMOVE_ACTOR, ActorObject.ActorType.NPC_DOCTOR));
                             }
-                            sceneManager.scene.guiGameStage.SetHealthState(health);
+                            sceneManager.getScene().getUI().SetHealthState(health);
                             return;
                     }
                 }
@@ -134,7 +135,7 @@ public class PlayerObject extends GameObject {
         if(wantedLevelTimer <= 0 && wantedLevel > 0 && wantedLevel < 4){
             wantedLevelTimer = wantedLevelTimeout;
             wantedLevel--;
-            sceneManager.scene.guiGameStage.SetWantedState(wantedLevel);
+            sceneManager.getScene().getUI().SetWantedState(wantedLevel);
             if(wantedLevel == 0){
                 sendEvent(new SpawnEvent(SpawnEvent.Action.REMOVE_ACTOR, ActorObject.ActorType.ENEMY_POLICE));
             }

@@ -1,6 +1,5 @@
 package com.mygdx.game.GameObjectives;
 
-import com.mygdx.game.GameObjective;
 import com.mygdx.game.Scene;
 
 /**

@@ -13,11 +13,15 @@ import com.mygdx.game.GameScenes.GameScene3;
 import java.lang.reflect.Constructor;
 
 import GUI.GUIGameStage;
+import GameEvents.DoorEvent;
 import GameEvents.PlayerEvent;
+import GameEvents.SpawnEvent;
 import GameObjects.ActorObject;
 import GameObjects.BulletSplashObject;
+import GameObjects.DoorObject;
 import GameObjects.SpawnObject;
 import Utils.Error;
+import Utils.RandomDistribution;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -31,6 +35,10 @@ public class Scene extends InputAdapter {
     public GUIGameStage guiGameStage = null;
     private Class nextGameSceneClass = null;
     //private GameObjective gameObjective = new GameObjective();
+    protected RandomDistribution<ActorObject.ActorType> actorDistribution = new RandomDistribution<ActorObject.ActorType>();
+
+    private float sceneCompleteTimer = 7;
+    private int sceneCompleteCounter = 0;
 
     public Scene(){
 
@@ -58,6 +66,10 @@ public class Scene extends InputAdapter {
         return null;
     }
 
+    public void setSceneFinish(){
+        if(sceneCompleteCounter == 0)sceneCompleteCounter = 5;
+    }
+
     public void onCreate(SceneManager mgr){
         sceneManager = mgr;
         guiGameStage = new GUIGameStage(this);
@@ -70,6 +82,24 @@ public class Scene extends InputAdapter {
     public void onUpdate(){
     //    gameObjective.process();
         SpawnObject.updateAndSpawn();
+
+        if(sceneCompleteCounter > 0 && sceneCompleteTimer > 0) {
+
+            sceneCompleteTimer -= sceneManager.frame_time_s;
+
+            if (sceneCompleteTimer <= 6 && sceneCompleteCounter > 4) {
+                sceneManager.sendEvent(new SpawnEvent(SpawnEvent.Action.SET_ENABLED, false));
+                sceneCompleteCounter = 4;
+            }
+            if (sceneCompleteTimer <= 1 && sceneCompleteCounter > 3) {
+                sceneManager.sendEvent(new DoorEvent(DoorEvent.Action.SET_STATE, DoorObject.State.OPEN));
+                sceneCompleteCounter = 3;
+            }
+            if (sceneCompleteTimer <= 0 && sceneCompleteCounter > 2) {
+                guiGameStage.ShowGameWonPopup();
+                sceneCompleteCounter = 2;
+            }
+        }
     }
 
     public void onDispose(){

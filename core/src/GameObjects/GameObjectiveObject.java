@@ -9,6 +9,8 @@ import com.mygdx.game.SceneManager;
 
 public class GameObjectiveObject extends GameObject {
 
+    public float missionTime = 120;
+
     public GameObjectiveObject(){
         this.collide = false;
 
@@ -25,7 +27,16 @@ public class GameObjectiveObject extends GameObject {
 
     public void onUpdate() {
 
+        missionTime -= sceneManager.frame_time_s;
 
+        if(missionTime > 0) {
+
+            int minutes = ((int) missionTime % 3600) / 60;
+            int seconds = (int) missionTime % 60;
+
+            sceneManager.getScene().getUI().missionLabel.setText("LEFT: " + String.format("%02d:%02d", minutes, seconds));
+        }
+        if(missionTime <= 0)sceneManager.getScene().setSceneFinish();
     }
 
     public void dispose () {

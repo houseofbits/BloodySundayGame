@@ -151,11 +151,11 @@ public class ActorObject extends GameObject {
         animatedRederable.translate(position);
 
         Vector3 v = new Vector3(position);
-        v = v.sub(sceneManager.scene.cam.position);
+        v = v.sub(getSceneManager().scene.cam.position);
         Vector2 v2n1 = new Vector2(v.x,v.z);
         v2n1 = v2n1.nor();
 
-        float crs = v2n1.crs(new Vector2(sceneManager.scene.cam.direction.x,sceneManager.scene.cam.direction.z).nor());
+        float crs = v2n1.crs(new Vector2(getScene().cam.direction.x,getScene().cam.direction.z).nor());
 
         if(animatedRederable.modelInstance != null)animatedRederable.modelInstance.transform.rotate(0,1,0, (crs*90));
 
@@ -175,7 +175,7 @@ public class ActorObject extends GameObject {
     public void onUpdate() {
 
         if(currentState!= null && stateTimer > 0){
-            stateTimer = stateTimer - sceneManager.frame_time_s;
+            stateTimer = stateTimer - getSceneManager().frame_time_s;
             currentState.onStateUpdate(currentState.duration - stateTimer);
         }
         if(currentState != null && stateTimer <= 0) {
@@ -184,7 +184,7 @@ public class ActorObject extends GameObject {
         }  }
 
     public void render () {
-        animatedRederable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        animatedRederable.render(getScene().cam, getScene().environment);
     }
     public void dispose () {
         super.dispose();

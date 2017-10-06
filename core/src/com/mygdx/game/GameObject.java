@@ -11,7 +11,7 @@ import events.GameEvent;
 
 public class GameObject implements events.EventListener {
 
-    public SceneManager sceneManager = null;
+    private SceneManager sceneManager = null;
     private String       name = "";
     private boolean      dispose = false;
     public boolean     collide = false;
@@ -28,6 +28,13 @@ public class GameObject implements events.EventListener {
     public void setName(String n){ name = n; }
     public String getName(){
         return name;
+    }
+
+    public Scene getScene(){
+        return sceneManager.getScene();
+    }
+    public SceneManager getSceneManager(){
+        return sceneManager;
     }
 
     public void sendEvent(GameEvent e){

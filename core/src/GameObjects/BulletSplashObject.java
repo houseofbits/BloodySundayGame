@@ -59,7 +59,7 @@ public class BulletSplashObject extends GameObject {
     }
     public void onUpdate() {
 
-        stateTimer = stateTimer - sceneManager.frame_time_s;
+        stateTimer = stateTimer - getSceneManager().frame_time_s;
 
         float s = 0.5f + ((0.5f - stateTimer) * 5);
 
@@ -72,8 +72,8 @@ public class BulletSplashObject extends GameObject {
         }
     }
     public void render () {
-        modelBatch.begin(sceneManager.scene.cam);
-        modelBatch.render(instance, sceneManager.scene.environment);
+        modelBatch.begin(getScene().cam);
+        modelBatch.render(instance, getScene().environment);
         modelBatch.end();
     }
 

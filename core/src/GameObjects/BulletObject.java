@@ -53,7 +53,7 @@ public class BulletObject extends GameObject {
     public void onUpdate() {
 
         tPrev = t;
-        t = t + sceneManager.frame_time_s * 40; //m/s
+        t = t + getSceneManager().frame_time_s * 40; //m/s
 
         ray.getEndPoint(this.position, t);
 
@@ -64,8 +64,8 @@ public class BulletObject extends GameObject {
         instance.transform.idt();
         instance.transform.translate(this.position);
 
-        modelBatch.begin(sceneManager.scene.cam);
-        modelBatch.render(instance, sceneManager.scene.environment);
+        modelBatch.begin(getScene().cam);
+        modelBatch.render(instance, getScene().environment);
         modelBatch.end();
     }
 

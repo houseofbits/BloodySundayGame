@@ -39,19 +39,19 @@ public class Renderable {
 
     public void create(String m){
         modelName = m;
-        gameObject.sceneManager.assetsManager.load(modelName, Model.class);
+        gameObject.getSceneManager().assetsManager.load(modelName, Model.class);
     }
 
     public void create(){
-        gameObject.sceneManager.assetsManager.load(modelName, Model.class);
+        gameObject.getSceneManager().assetsManager.load(modelName, Model.class);
     }
 
     public void init(){
 
         modelBatch = new ModelBatch();
 
-        if(gameObject.sceneManager.assetsManager.isLoaded(modelName)) {
-            Model model = gameObject.sceneManager.assetsManager.get(modelName, Model.class);
+        if(gameObject.getSceneManager().assetsManager.isLoaded(modelName)) {
+            Model model = gameObject.getSceneManager().assetsManager.get(modelName, Model.class);
             modelInstance = new ModelInstance(model);
         }else{
             System.out.println("Renderable:init asset not loaded "+modelName);

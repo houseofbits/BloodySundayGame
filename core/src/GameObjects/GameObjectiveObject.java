@@ -27,16 +27,16 @@ public class GameObjectiveObject extends GameObject {
 
     public void onUpdate() {
 
-        missionTime -= sceneManager.frame_time_s;
+        missionTime -= getSceneManager().frame_time_s;
 
         if(missionTime > 0) {
 
             int minutes = ((int) missionTime % 3600) / 60;
             int seconds = (int) missionTime % 60;
 
-            sceneManager.getScene().getUI().missionLabel.setText("LEFT: " + String.format("%02d:%02d", minutes, seconds));
+            getScene().getUI().missionLabel.setText("LEFT: " + String.format("%02d:%02d", minutes, seconds));
         }
-        if(missionTime <= 0)sceneManager.getScene().setSceneFinish();
+        if(missionTime <= 0)getScene().setSceneFinish();
     }
 
     public void dispose () {

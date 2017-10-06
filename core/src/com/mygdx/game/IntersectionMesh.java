@@ -32,16 +32,16 @@ public class IntersectionMesh {
 
     public void create(String m){
         modelName = m;
-        gameObject.sceneManager.assetsManager.load(modelName, Model.class);
+        gameObject.getSceneManager().assetsManager.load(modelName, Model.class);
     }
 
     public void create(){
-        gameObject.sceneManager.assetsManager.load(modelName, Model.class);
+        gameObject.getSceneManager().assetsManager.load(modelName, Model.class);
     }
 
     public void init(){
-        if(gameObject.sceneManager.assetsManager.isLoaded(modelName)) {
-            Model model = gameObject.sceneManager.assetsManager.get(modelName, Model.class);
+        if(gameObject.getSceneManager().assetsManager.isLoaded(modelName)) {
+            Model model = gameObject.getSceneManager().assetsManager.get(modelName, Model.class);
             model.calculateBoundingBox(boundingBox);
 
             model.calculateTransforms();

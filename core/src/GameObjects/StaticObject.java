@@ -50,7 +50,7 @@ public class StaticObject extends GameObject {
     }
 
     public void render () {
-        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        renderable.render(getScene().cam, getScene().environment);
     }
     public void dispose () {
         super.dispose();
@@ -61,7 +61,7 @@ public class StaticObject extends GameObject {
     }
     public void onCollision(GameObject o, Vector3 p){
         if(o.getClass() == BulletObject.class) {
-            sceneManager.addGameObject(new BulletSplashObject(p.cpy(), new Color(0.3f, 0.3f,0.5f,0)));
+            getSceneManager().addGameObject(new BulletSplashObject(p.cpy(), new Color(0.3f, 0.3f,0.5f,0)));
         }
     }
 }

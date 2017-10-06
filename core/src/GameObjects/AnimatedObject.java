@@ -40,7 +40,7 @@ public class AnimatedObject extends GameObject {
     }
 
     public void render () {
-        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        renderable.render(getScene().cam, getScene().environment);
     }
     public void dispose () {
         super.dispose();

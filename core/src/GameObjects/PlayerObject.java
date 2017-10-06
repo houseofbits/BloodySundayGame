@@ -27,17 +27,9 @@ public class PlayerObject extends GameObject {
 
     public int  npcActorsShot = 0;
     public int  enemyActorsShot = 0;
-
-    public int bulletsInMag = 8;
     public float shotDelayTime = 0.2f;
-    public float reloadDelayTime = 0.5f;
-
     public float timer = 0;
-    public int magazine = bulletsInMag;
-
     public Vector3 gunPosition;
-
-    private float fadeTimer = 0;
 
     public int health = 5;
 
@@ -53,20 +45,19 @@ public class PlayerObject extends GameObject {
     public void Fire(Ray r){
 
         //cast some effects
-
-        sceneManager.addGameObject(new BulletObject(r));
+        getSceneManager().addGameObject(new BulletObject(r));
     }
 
     public void onActorEvent(ActorEvent e){
         switch(e.state){
             case SHOOT:
                 if(health>0)health--;
-                sceneManager.getScene().getUI().playerHurtOverlay();
-                sceneManager.getScene().getUI().SetHealthState(health);
-                sendEvent(new SpawnEvent(SpawnEvent.Action.ADD_ACTOR, ActorObject.ActorType.NPC_DOCTOR, 0.5f));
-                //invoke PlayerShot animation
+                getScene().getUI().playerHurtOverlay();
+                getScene().getUI().SetHealthState(health);
+                getScene().addActorType(ActorObject.ActorType.NPC_DOCTOR, 0.5f);
+
                 if(health <= 0){
-                    sceneManager.getScene().getUI().showGameOverPopup();
+                    getScene().getUI().showGameOverPopup();
                 }
                 break;
             case DIE:
@@ -79,10 +70,12 @@ public class PlayerObject extends GameObject {
                     if(wantedLevel < 4) {
                         wantedLevel++;
                         wantedLevelTimer = wantedLevelTimeout;
-                        sceneManager.getScene().getUI().SetWantedState(wantedLevel);
-                        sendEvent(new SpawnEvent(SpawnEvent.Action.ADD_ACTOR, ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel));
+
+                        getScene().getUI().SetWantedState(wantedLevel);
+                        getScene().addActorType(ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel);
+
                     }else if(wantedLevel == 4){
-                        sceneManager.getScene().getUI().showGameOverPopup();
+                        getScene().getUI().showGameOverPopup();
                     }
                 }
                 break;
@@ -101,9 +94,9 @@ public class PlayerObject extends GameObject {
                                 health++;
                                 npcObject.doctorHealth = 0;
                             }else{
-                                sendEvent(new SpawnEvent(SpawnEvent.Action.REMOVE_ACTOR, ActorObject.ActorType.NPC_DOCTOR));
+                                getScene().removeActorType(ActorObject.ActorType.NPC_DOCTOR);
                             }
-                            sceneManager.getScene().getUI().SetHealthState(health);
+                            getScene().getUI().SetHealthState(health);
                             return;
                     }
                 }
@@ -112,50 +105,26 @@ public class PlayerObject extends GameObject {
             Ray r = new Ray(gunPosition, e.pointOfInterest.sub(gunPosition).nor());
             LookAt(r);
 
-            fadeTimer = 0.5f;
-
             if (timer <= 0) {
                 timer = shotDelayTime;
-
                 Fire(r);
-
-                //magazine--;
-                //if (magazine <= 0) {
-                 //   timer = reloadDelayTime;
-                //}
             }
         }
     }
 
     public void onUpdate() {
 
-        timer = timer - sceneManager.frame_time_s;
+        timer = timer - getSceneManager().frame_time_s;
 
-        if(wantedLevelTimer>0)wantedLevelTimer = wantedLevelTimer - sceneManager.frame_time_s;
+        if(wantedLevelTimer>0)wantedLevelTimer = wantedLevelTimer - getSceneManager().frame_time_s;
         if(wantedLevelTimer <= 0 && wantedLevel > 0 && wantedLevel < 4){
             wantedLevelTimer = wantedLevelTimeout;
             wantedLevel--;
-            sceneManager.getScene().getUI().SetWantedState(wantedLevel);
+            getScene().getUI().SetWantedState(wantedLevel);
             if(wantedLevel == 0){
-                sendEvent(new SpawnEvent(SpawnEvent.Action.REMOVE_ACTOR, ActorObject.ActorType.ENEMY_POLICE));
+                getScene().removeActorType(ActorObject.ActorType.ENEMY_POLICE);
             }
         }
-
-
-        if(timer <= 0 && magazine <= 0)magazine = bulletsInMag;
-
-        //sceneManager.guiStage.addInfoString2 = magazine+" / "+bulletsInMag;
-        /*
-        if(fadeTimer > 0){
-            fadeTimer = fadeTimer - (sceneManager.frame_time_s * 0.1f);
-
-            Matrix4 mnorm = sceneManager.scene.cam.view.cpy();
-            mnorm.setToTranslation(gunPosition);
-
-            float f = (0.5f - fadeTimer) / 0.5f;
-
-            renderable.modelInstance.transform.lerp(mnorm, f);
-        }*/
     }
 
     public void onCreate(SceneManager sceneManagerRef){
@@ -164,8 +133,7 @@ public class PlayerObject extends GameObject {
 
         Vector3 gunLocalPos = new Vector3(0.3f, -0.5f, -1.0f);
 
-        gunPosition = sceneManager.scene.cam.position.add(gunLocalPos);
-
+        gunPosition = getScene().cam.position.add(gunLocalPos);
     }
 
     public void LookAt(Ray r){
@@ -188,12 +156,11 @@ public class PlayerObject extends GameObject {
 
     public void onInit(){
         renderable.init();
-
         LookAt(new Ray(new Vector3(0,0,0), new Vector3(0,0,-5)));
     }
 
     public void render () {
-        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        renderable.render(getScene().cam, getScene().environment);
     }
     public void dispose () {
         super.dispose();

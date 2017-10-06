@@ -93,7 +93,7 @@ public class SpawnObject extends GameObject {
     public void spawn(ActorObject.ActorType t){
         if(spawnPoints.size > 0) {
             position = spawnPoints.get(random.nextInt(spawnPoints.size));
-            sceneManager.addGameObject(t.createInstance(this));
+            getSceneManager().addGameObject(t.createInstance(this));
             state = State.OCCUPIED;
             //Notify other SpawnObjects that this object is occupied
             sendEvent(new SpawnEvent(State.OCCUPIED));
@@ -106,7 +106,7 @@ public class SpawnObject extends GameObject {
     //??? Do I need local distribution? Can it be implemented other way?
     public void spawn(){
         if(globalDistribution){
-            ActorObject.ActorType actor = sceneManager.getScene().getRandomActorType();
+            ActorObject.ActorType actor = getScene().getRandomActorType();
             if(actor != null)spawn(actor);
         }
         else{
@@ -118,7 +118,7 @@ public class SpawnObject extends GameObject {
 
     public void onUpdate() {
         if(state == State.FREE && enabled) {
-            nextSpawnTimer = nextSpawnTimer - this.sceneManager.frame_time_s;
+            nextSpawnTimer = nextSpawnTimer - getSceneManager().frame_time_s;
             if(nextSpawnTimer <= 0){
                 state = State.READY;
                 //Add this object to readyToSpawn structure
@@ -160,7 +160,7 @@ public class SpawnObject extends GameObject {
 
     public void setAffectedDoorsState(DoorObject.State doorState){
         for (int i=0; i<affectedDoors.size; i++){
-            DoorObject d = (DoorObject)sceneManager.getObjectByName(affectedDoors.get(i));
+            DoorObject d = (DoorObject)getSceneManager().getObjectByName(affectedDoors.get(i));
             if(d != null){
                 d.setState(doorState);
             }

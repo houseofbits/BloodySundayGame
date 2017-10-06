@@ -93,8 +93,8 @@ public class DoorObject extends GameObject {
 
     //Implement in derived classes
     public void advanceMovement(){
-        if(state == State.OPENING)advancement = advancement + (speedOpening * sceneManager.frame_time_s);
-        if(state == State.CLOSING)advancement = advancement - (speedClosing * sceneManager.frame_time_s);
+        if(state == State.OPENING)advancement = advancement + (speedOpening * getSceneManager().frame_time_s);
+        if(state == State.CLOSING)advancement = advancement - (speedClosing * getSceneManager().frame_time_s);
     }
 
     public void onUpdate(){
@@ -129,7 +129,7 @@ public class DoorObject extends GameObject {
         renderable.modelInstance.transform.translate(this.position);
         renderable.modelInstance.transform.rotate(0,1,0, angle);
 
-        renderable.render(sceneManager.scene.cam, sceneManager.scene.environment);
+        renderable.render(getScene().cam, getScene().environment);
     }
     public void dispose () {
         super.dispose();
@@ -145,7 +145,7 @@ public class DoorObject extends GameObject {
     }
     public void onCollision(GameObject o, Vector3 p){
         if(o.getClass() == BulletObject.class) {
-            sceneManager.addGameObject(new BulletSplashObject(p.cpy(), new Color(0.3f, 0.5f,0.3f,0)));
+            getSceneManager().addGameObject(new BulletSplashObject(p.cpy(), new Color(0.3f, 0.5f,0.3f,0)));
 
             closeDoor();
 

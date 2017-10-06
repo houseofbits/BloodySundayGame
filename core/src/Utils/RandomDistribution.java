@@ -43,6 +43,15 @@ public class RandomDistribution<T> {
     public void set(T data, float weight){
         add(data, weight);
     }
+
+    public void setFraction(T data, float weightF){
+        float tw = totalWeight();
+        if(tw > 0 && weightF > 0){
+            weightF = tw * weightF;
+        }
+        set(data, weightF);
+    }
+
     public void remove(T data){
         for(int i=0; i<nodes.size; i++){
             if(data == nodes.get(i).data){
@@ -52,11 +61,16 @@ public class RandomDistribution<T> {
         normalizeWeights();
     }
 
-    protected void normalizeWeights(){
+    protected float totalWeight(){
         float weightSum = 0;
         for(int i=0; i<nodes.size; i++){
             weightSum += nodes.get(i).initWeight;
         }
+        return weightSum;
+    }
+
+    protected void normalizeWeights(){
+        float weightSum = totalWeight();
         for(int i=0; i<nodes.size; i++){
             Node n = nodes.get(i);
             n.weight = n.initWeight / weightSum;

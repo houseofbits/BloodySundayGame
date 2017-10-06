@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-//import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
-//import com.mygdx.game.GameObjectives.GameObjectiveTimer;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
@@ -31,8 +29,6 @@ import GameObjects.StaticObject;
 public class GameScene3 extends Scene {
 
    // public CameraInputController camController;
-
-
 
     public GameScene3(){
 
@@ -65,12 +61,6 @@ public class GameScene3 extends Scene {
         sp1.addSpawnPoint(new Vector3(-0.4f,0,-1.5f),
                 new Vector3(-0.5f,0,-2.5f),
                 new Vector3(-0.5f,0,-3.5f));
-        sp1.addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
         sp1.addAffectedDoor("door_1");
         sp1.addSpawnGroup("spawn_2");
         sceneManager.addGameObject(sp1);
@@ -79,12 +69,6 @@ public class GameScene3 extends Scene {
         sp2.addSpawnPoint(new Vector3(0.6f,0,-1.5f),
                 new Vector3(0.8f,0,-2.5f),
                 new Vector3(0.9f,0,-3.5f));
-        sp2.addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
         sp2.addAffectedDoor("door_2");
         sp2.addSpawnGroup("spawn_1");
         sceneManager.addGameObject(sp2);
@@ -96,34 +80,26 @@ public class GameScene3 extends Scene {
                 new Vector3(0.5f,0,-4.5f),
                 new Vector3(-0.5f,0,-4.5f),
                 new Vector3(0f,0,-3.5f));
-        sp3.addActorType(ActorObject.ActorType.ENEMY_1,
+        sp3.addAffectedDoor("door_1", "door_2");
+        sceneManager.addGameObject(sp3);
+
+        sceneManager.addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
+        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
+        sceneManager.addGameObject(new GameObjectiveObject());
+
+        addActorType(ActorObject.ActorType.ENEMY_1,
                 ActorObject.ActorType.ENEMY_2,
                 ActorObject.ActorType.ENEMY_3,
                 ActorObject.ActorType.NPC_1,
                 ActorObject.ActorType.NPC_2,
                 ActorObject.ActorType.NPC_3);
-        sp3.addAffectedDoor("door_1", "door_2");
-        sceneManager.addGameObject(sp3);
-
-
-        sceneManager.addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
-
-        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
-
-        sceneManager.addGameObject(new GameObjectiveObject());
-
 
         setNextGameScene(GameScene1.class);
-
-
-        //getObjective().addObjective(new GameObjectiveTimer(this, 120));
-
     }
 
     public void onUpdate(){
         super.onUpdate();
         //if(camController != null)camController.update();
-
 
     }
 

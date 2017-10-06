@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
+import GameObjects.ActorObject;
 import GameObjects.AnimatedObject;
 import GameObjects.DoorObject;
 import GameObjects.GameObjectiveObject;
@@ -54,18 +55,6 @@ public class GameScene2 extends Scene {
         environment.add(new PointLight().set(0.8f, 0.8f, 0.8f,  -2, 5, 0, 8.0f));
         environment.add(new PointLight().set(0.8f, 0.8f, 1.0f,  3, 5, 0, 2.0f));
 
-
-        //sceneManager.AddGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(0,0,-0.6f)));
-
-        //sceneManager.AddGameObject(new DoorObject("door_1", new Vector3(0,0,0), "door1.g3dj"));
-
-        //sceneManager.AddGameObject(new StaticObject("scene.g3dj"));
-
-        //sceneManager.AddGameObject(new AnimatedObject("anim_b.g3dj"));
-
-        //sceneManager.AddGameObject(new AnimatedObject("test_actor_anim.g3dj"));
-
-
         SpawnObject s1 = (SpawnObject) sceneManager.addGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-2.4f,0,-0.6f)));
         s1.addSpawnGroup("spawn_4");
 
@@ -83,10 +72,14 @@ public class GameScene2 extends Scene {
         sceneManager.addGameObject(new DoorObject("door_3", new Vector3(1.2f,0.011f,-5), "door2.g3dj", false));
         sceneManager.addGameObject(new DoorObject("door_4", new Vector3(2.7f,0.011f,0.045f), "door2.g3dj", false));
 
+        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
-       sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
-
-
+        addActorType(ActorObject.ActorType.ENEMY_1,
+                    ActorObject.ActorType.ENEMY_2,
+                    ActorObject.ActorType.ENEMY_3,
+                    ActorObject.ActorType.NPC_1,
+                    ActorObject.ActorType.NPC_2,
+                    ActorObject.ActorType.NPC_3);
 
         sceneManager.addGameObject(new GameObjectiveObject());
 

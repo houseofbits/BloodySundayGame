@@ -60,12 +60,12 @@ public class GameScene1 extends Scene {
         sp1.addSpawnPoint(new Vector3(-1.8f,0,-0.6f));
         sp1.addSpawnPoint(new Vector3(-1.7f,0,-0.6f));
         sp1.addAffectedDoor("door_1");
-        sp1.addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
+//        sp1.addActorType(ActorObject.ActorType.ENEMY_1,
+//                ActorObject.ActorType.ENEMY_2,
+//                ActorObject.ActorType.ENEMY_3,
+//                ActorObject.ActorType.NPC_1,
+//                ActorObject.ActorType.NPC_2,
+//                ActorObject.ActorType.NPC_3);
         sp1.addSpawnGroup("spawn_2","spawn_3");
         sceneManager.addGameObject(sp1);
 
@@ -74,12 +74,6 @@ public class GameScene1 extends Scene {
         sp2.addSpawnPoint(new Vector3(0,0,-0.6f));
         sp2.addSpawnPoint(new Vector3(-0.1f,0,-0.6f));
         sp2.addAffectedDoor("door_2");
-        sp2.addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
         sp2.addSpawnGroup("spawn_1","spawn_3");
         sceneManager.addGameObject(sp2);
 
@@ -88,12 +82,6 @@ public class GameScene1 extends Scene {
         sp3.addSpawnPoint(new Vector3(1.8f,0,-0.6f));
         sp3.addSpawnPoint(new Vector3(1.7f,0,-0.6f));
         sp3.addAffectedDoor("door_3");
-        sp3.addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
         sp3.addSpawnGroup("spawn_1","spawn_2");
         sceneManager.addGameObject(sp3);
 
@@ -103,6 +91,12 @@ public class GameScene1 extends Scene {
 
         sceneManager.addGameObject(new GameObjectiveObject());
 
+        addActorType(ActorObject.ActorType.ENEMY_1,
+                    ActorObject.ActorType.ENEMY_2,
+                    ActorObject.ActorType.ENEMY_3,
+                    ActorObject.ActorType.NPC_1,
+                    ActorObject.ActorType.NPC_2,
+                    ActorObject.ActorType.NPC_3);
 
         setNextGameScene(GameScene2.class);
 

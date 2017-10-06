@@ -34,23 +34,18 @@ public class Scene extends InputAdapter {
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
     private Class nextGameSceneClass = null;
-    //private GameObjective gameObjective = new GameObjective();
     protected RandomDistribution<ActorObject.ActorType> actorDistribution = new RandomDistribution<ActorObject.ActorType>();
 
     private float sceneCompleteTimer = 7;
     private int sceneCompleteCounter = 0;
 
-    public Scene(){
+    public Scene(){ }
 
-    }
+    public SceneManager getSceneManager(){  return sceneManager; }
 
     public GUIGameStage getUI(){
         return guiGameStage;
     }
-
-//    public GameObjective getObjective(){
-//        return gameObjective;
-//    }
 
     public void setNextGameScene(Class gc){
         nextGameSceneClass = gc;
@@ -82,7 +77,9 @@ public class Scene extends InputAdapter {
     public void removeActorType(ActorObject.ActorType type){
         actorDistribution.remove(type);
     }
-    public void setActorWeight(ActorObject.ActorType type, float weight){actorDistribution.set(type, weight);}
+    //Set weight by percentage of total weight
+    public void setActorWeight(ActorObject.ActorType type, float weight){actorDistribution.setFraction(type, weight);}
+    public void setActorWeightAbsolute(ActorObject.ActorType type, float weight){actorDistribution.set(type, weight);}
 
     public void setSceneFinish(){
         if(sceneCompleteCounter == 0)sceneCompleteCounter = 5;
@@ -98,7 +95,7 @@ public class Scene extends InputAdapter {
     }
 
     public void onUpdate(){
-    //    gameObjective.process();
+
         SpawnObject.updateAndSpawn();
 
         if(sceneCompleteCounter > 0 && sceneCompleteTimer > 0) {

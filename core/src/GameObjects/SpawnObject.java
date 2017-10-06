@@ -48,12 +48,6 @@ public class SpawnObject extends GameObject {
 
         addSpawnPoint(pos);
         addAffectedDoor(doorName);
-        addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
     }
 
     public SpawnObject(String name) {

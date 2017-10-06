@@ -39,6 +39,7 @@ public class SpawnObject extends GameObject {
     private float   nextSpawnTimer = 0;
     private static Random random = new Random();
     private boolean enabled = true;
+    private boolean globalDistribution = true;
 
     public SpawnObject(String name, String doorName, Vector3 pos){
         this.collide = false;
@@ -101,10 +102,18 @@ public class SpawnObject extends GameObject {
         }
     }
 
-    //Perform spawn by RandomDistribution
+    //Perform spawn by RandomDistribution, by global distribution or local distribution
+    //??? Do I need local distribution? Can it be implemented other way?
     public void spawn(){
-        RandomDistribution<ActorObject.ActorType>.Node node = actorDistribution.get();
-        if(node != null)spawn(node.data);
+        if(globalDistribution){
+            ActorObject.ActorType actor = sceneManager.getScene().getRandomActorType();
+            if(actor != null)spawn(actor);
+        }
+        else{
+            RandomDistribution<ActorObject.ActorType>.Node node = null;
+            node = actorDistribution.get();
+            if(node != null)spawn(node.data);
+        }
     }
 
     public void onUpdate() {

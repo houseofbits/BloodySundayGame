@@ -66,6 +66,24 @@ public class Scene extends InputAdapter {
         return null;
     }
 
+    public ActorObject.ActorType getRandomActorType(){
+        RandomDistribution<ActorObject.ActorType>.Node node = actorDistribution.get();
+        if(node != null)return node.data;
+        return null;
+    }
+    public void addActorType(ActorObject.ActorType type, float weight){
+        actorDistribution.add(type, weight);
+    }
+    public void addActorType(ActorObject.ActorType... type){
+        for (int i = 0; i < type.length; i++) {
+            actorDistribution.add(type[i], 1.0f);
+        }
+    }
+    public void removeActorType(ActorObject.ActorType type){
+        actorDistribution.remove(type);
+    }
+    public void setActorWeight(ActorObject.ActorType type, float weight){actorDistribution.set(type, weight);}
+
     public void setSceneFinish(){
         if(sceneCompleteCounter == 0)sceneCompleteCounter = 5;
     }

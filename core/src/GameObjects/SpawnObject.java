@@ -120,6 +120,7 @@ public class SpawnObject extends GameObject {
             node = actorDistribution.get();
             if(node != null)spawn(node.data);
         }
+        //Error.logToFile(" do spawn:"+getName(), "spawnTest.txt");
     }
 
     public void onUpdate() {}
@@ -182,7 +183,25 @@ public class SpawnObject extends GameObject {
             int r = 0;
             for (int i = 0; i < 10; i++) {
                 r = random.nextInt(readyToSpawnObjects.size);
+
+//                String str = "Ready to spawn: ";
+//                for (int j = 0; j < readyToSpawnObjects.size; j++) {
+//                    str = str+" "+readyToSpawnObjects.get(j).getName();
+//                }
+
                 SpawnObject sp = readyToSpawnObjects.get(r);
+
+//                str += " sp:"+sp.getName();
+//                str += " block:"+sp.blockingSpawnObjects.size;
+//                if(sp.blockingSpawnObjects.size > 0){
+//                    str += "(";
+//                    for (int j = 0; j < sp.blockingSpawnObjects.size; j++) {
+//                        str += " "+sp.blockingSpawnObjects.get(j).getName();
+//                    }
+//                    str+=")";
+//                }
+//                Error.logToFile(str, "spawnTest.txt");
+
                 if (sp.tryToSpawn()) {
                     readyToSpawnObjects.removeValue(sp, true);
                     break;

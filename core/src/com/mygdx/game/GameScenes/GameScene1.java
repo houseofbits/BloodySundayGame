@@ -1,23 +1,20 @@
 package com.mygdx.game.GameScenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
 import GameObjects.ActorObject;
 import GameObjects.DoorObject;
-import GameObjects.GameObjectiveObject;
+import GameObjects.GameObjectiveTimerObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
-import Utils.Error;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -89,7 +86,7 @@ public class GameScene1 extends Scene {
 
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
-        sceneManager.addGameObject(new GameObjectiveObject());
+        sceneManager.addGameObject(new GameObjectiveTimerObject());
 
         addActorType(ActorObject.ActorType.ENEMY_1,
                     ActorObject.ActorType.ENEMY_2,

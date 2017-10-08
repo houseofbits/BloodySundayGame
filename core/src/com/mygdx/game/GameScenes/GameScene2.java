@@ -1,25 +1,19 @@
 package com.mygdx.game.GameScenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
 import GameObjects.ActorObject;
-import GameObjects.AnimatedObject;
 import GameObjects.DoorObject;
-import GameObjects.GameObjectiveObject;
+import GameObjects.GameObjectiveTimerObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
-import GameObjects.StaticObject;
 
 /**
  * Created by T510 on 8/8/2017.
@@ -81,7 +75,7 @@ public class GameScene2 extends Scene {
                     ActorObject.ActorType.NPC_2,
                     ActorObject.ActorType.NPC_3);
 
-        sceneManager.addGameObject(new GameObjectiveObject());
+        sceneManager.addGameObject(new GameObjectiveTimerObject());
 
 
         setNextGameScene(GameScene3.class);

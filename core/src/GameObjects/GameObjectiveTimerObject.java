@@ -11,7 +11,7 @@ import Utils.Error;
  * Created by KristsPudzens on 05.10.2017.
  */
 
-public class GameObjectiveObject extends GameObject {
+public class GameObjectiveTimerObject extends GameObject {
 
 
     public float objectiveTime = 120;
@@ -19,7 +19,7 @@ public class GameObjectiveObject extends GameObject {
     private Timer.Task objectiveUpdateTimer = null;
     private Timer.Task objectiveAdvanceTimer = null;
 
-    public GameObjectiveObject(){
+    public GameObjectiveTimerObject(){
         this.collide = false;
 
     }

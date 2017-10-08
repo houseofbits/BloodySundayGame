@@ -1,27 +1,20 @@
 package com.mygdx.game.GameScenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
-import GameEvents.DoorEvent;
-import GameEvents.SpawnEvent;
 import GameObjects.ActorObject;
 import GameObjects.DoorObject;
-import GameObjects.GameObjectiveObject;
+import GameObjects.GameObjectiveTimerObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
-import Utils.Error;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -85,7 +78,7 @@ public class GameScene3 extends Scene {
 
         sceneManager.addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
-        sceneManager.addGameObject(new GameObjectiveObject());
+        sceneManager.addGameObject(new GameObjectiveTimerObject());
 
         setNextGameScene(GameScene1.class);
     }
@@ -101,10 +94,11 @@ public class GameScene3 extends Scene {
         switch(difficultyLevel){
             case 0:
                 addActorType(ActorObject.ActorType.NPC_1);
-                addActorType(ActorObject.ActorType.NPC_2);
-                addActorType(ActorObject.ActorType.NPC_3);
-                addActorType(ActorObject.ActorType.ENEMY_1);
+                //addActorType(ActorObject.ActorType.NPC_2);
+                //addActorType(ActorObject.ActorType.NPC_3);
+                //addActorType(ActorObject.ActorType.ENEMY_1);
                 break;
+            /*
             case 1:
                 addActorType(ActorObject.ActorType.ENEMY_2);
                 addActorType(ActorObject.ActorType.ENEMY_3);
@@ -113,6 +107,7 @@ public class GameScene3 extends Scene {
                 removeActorType(ActorObject.ActorType.NPC_2);
                 removeActorType(ActorObject.ActorType.NPC_3);
                 break;
+                */
         };
 
         difficultyLevel++;

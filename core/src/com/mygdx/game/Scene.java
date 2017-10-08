@@ -36,6 +36,7 @@ public class Scene extends InputAdapter {
     private Class nextGameSceneClass = null;
     protected RandomDistribution<ActorObject.ActorType> actorDistribution = new RandomDistribution<ActorObject.ActorType>();
 
+    protected int difficultyLevel = 0;
     private float sceneCompleteTimer = 7;
     private int sceneCompleteCounter = 0;
 
@@ -59,6 +60,11 @@ public class Scene extends InputAdapter {
             Error.log(e.getMessage());
         }
         return null;
+    }
+
+    public boolean advanceDifficultyLevel(){
+        difficultyLevel++;
+        return true;
     }
 
     public ActorObject.ActorType getRandomActorType(){
@@ -100,7 +106,8 @@ public class Scene extends InputAdapter {
 
         if(sceneCompleteCounter > 0 && sceneCompleteTimer > 0) {
 
-            sceneCompleteTimer -= sceneManager.frame_time_s;
+            //TODO: Consider using Timer
+            sceneCompleteTimer -= Gdx.graphics.getDeltaTime();
 
             if (sceneCompleteTimer <= 6 && sceneCompleteCounter > 4) {
                 sceneManager.sendEvent(new SpawnEvent(SpawnEvent.Action.SET_ENABLED, false));

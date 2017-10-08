@@ -23,7 +23,6 @@ public class SceneManager {
     protected Array<GameObject> gameObjectArray = new Array<GameObject>();
     protected Array<GameObject> createGameObjectArray = new Array<GameObject>();
 
-    public float frame_time_s = 0;
     public boolean gamePaused = false;
 
     public AssetManager assetsManager;
@@ -78,10 +77,6 @@ public class SceneManager {
             return;
         }
         assetsLoaded = true;
-
-        frame_time_s = Gdx.graphics.getDeltaTime();
-
-        if (frame_time_s > 0.025f) frame_time_s = 0.025f;
 
         for (final GameObject go : this.gameObjectArray) {
             go.render();

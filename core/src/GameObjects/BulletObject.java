@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -53,7 +54,7 @@ public class BulletObject extends GameObject {
     public void onUpdate() {
 
         tPrev = t;
-        t = t + getSceneManager().frame_time_s * 40; //m/s
+        t = t + Gdx.graphics.getDeltaTime() * 40; //m/s
 
         ray.getEndPoint(this.position, t);
 

@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -173,15 +174,15 @@ public class ActorObject extends GameObject {
     }
 
     public void onUpdate() {
-
         if(currentState!= null && stateTimer > 0){
-            stateTimer = stateTimer - getSceneManager().frame_time_s;
+            stateTimer = stateTimer - Gdx.graphics.getDeltaTime();
             currentState.onStateUpdate(currentState.duration - stateTimer);
         }
         if(currentState != null && stateTimer <= 0) {
             currentState.onStateFinish();
             switchState(currentState.nextState);
-        }  }
+        }
+    }
 
     public void render () {
         animatedRederable.render(getScene().cam, getScene().environment);

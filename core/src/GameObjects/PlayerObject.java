@@ -1,9 +1,11 @@
 package GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.Renderable;
 import com.mygdx.game.SceneManager;
@@ -22,7 +24,7 @@ public class PlayerObject extends GameObject {
     Renderable renderable = null;
 
     public int wantedLevel = 0;
-    public float wantedLevelTimer = 0;
+    public Timer.Task wantedLevelTimerTask = null;
     public final int wantedLevelTimeout = 10;
 
     public int  npcActorsShot = 0;
@@ -69,7 +71,7 @@ public class PlayerObject extends GameObject {
                     npcActorsShot++;
                     if(wantedLevel < 4) {
                         wantedLevel++;
-                        wantedLevelTimer = wantedLevelTimeout;
+                        startWantedLevelTimer();
 
                         getScene().getUI().SetWantedState(wantedLevel);
                         getScene().addActorType(ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel);
@@ -112,19 +114,29 @@ public class PlayerObject extends GameObject {
         }
     }
 
-    public void onUpdate() {
-
-        timer = timer - getSceneManager().frame_time_s;
-
-        if(wantedLevelTimer>0)wantedLevelTimer = wantedLevelTimer - getSceneManager().frame_time_s;
-        if(wantedLevelTimer <= 0 && wantedLevel > 0 && wantedLevel < 4){
-            wantedLevelTimer = wantedLevelTimeout;
-            wantedLevel--;
-            getScene().getUI().SetWantedState(wantedLevel);
-            if(wantedLevel == 0){
-                getScene().removeActorType(ActorObject.ActorType.ENEMY_POLICE);
+    private void startWantedLevelTimer(){
+        if(wantedLevel > 0){
+            if(wantedLevelTimerTask != null){
+                wantedLevelTimerTask.cancel();
+                wantedLevelTimerTask = null;
             }
+            wantedLevelTimerTask = Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    wantedLevel--;
+                    getScene().getUI().SetWantedState(wantedLevel);
+                    if(wantedLevel == 0){
+                        getScene().removeActorType(ActorObject.ActorType.ENEMY_POLICE);
+                    }else{
+                        wantedLevelTimerTask = Timer.schedule(this, wantedLevelTimeout);
+                    }
+                }
+            }, wantedLevelTimeout);
         }
+    }
+
+    public void onUpdate() {
+        timer = timer - Gdx.graphics.getDeltaTime();
     }
 
     public void onCreate(SceneManager sceneManagerRef){

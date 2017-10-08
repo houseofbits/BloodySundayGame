@@ -1,7 +1,11 @@
 package GameObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
+
+import Utils.Error;
 
 /**
  * Created by KristsPudzens on 05.10.2017.
@@ -9,7 +13,11 @@ import com.mygdx.game.SceneManager;
 
 public class GameObjectiveObject extends GameObject {
 
-    public float missionTime = 120;
+
+    public float objectiveTime = 120;
+    public float objectiveAdvanceTime = 20;
+    private Timer.Task objectiveUpdateTimer = null;
+    private Timer.Task objectiveAdvanceTimer = null;
 
     public GameObjectiveObject(){
         this.collide = false;
@@ -22,24 +30,47 @@ public class GameObjectiveObject extends GameObject {
     }
 
     public void onInit(){
+        //Start timer update every 1 second
+        objectiveUpdateTimer = Timer.schedule(new Timer.Task() {
+            float timer = 0;
+            @Override
+            public void run() {
+                if(!checkUpdateMissionTimer(timer))cancel();
+                timer++;
+            }
+        }, 0,1,(int)objectiveTime);
 
+        //Start timer update for each difficulty advancement
+        objectiveAdvanceTimer = Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if(!getScene().advanceDifficultyLevel())cancel();
+                else objectiveAdvanceTimer = Timer.schedule(this, objectiveAdvanceTime);
+            }
+        }, objectiveAdvanceTime);
+
+        //Set difficultu level = 0
+        getScene().advanceDifficultyLevel();
     }
 
-    public void onUpdate() {
-
-        missionTime -= getSceneManager().frame_time_s;
-
-        if(missionTime > 0) {
-
-            int minutes = ((int) missionTime % 3600) / 60;
-            int seconds = (int) missionTime % 60;
-
+    private boolean checkUpdateMissionTimer(float secondsElapsed){
+        if(secondsElapsed < objectiveTime) {
+            float dt = objectiveTime - secondsElapsed;
+            int minutes = ((int) dt % 3600) / 60;
+            int seconds = (int) dt % 60;
             getScene().getUI().missionLabel.setText("LEFT: " + String.format("%02d:%02d", minutes, seconds));
+            return true;
+        }else{
+            getScene().setSceneFinish();
+            return false;
         }
-        if(missionTime <= 0)getScene().setSceneFinish();
     }
+
+    public void onUpdate() {    }
 
     public void dispose () {
         super.dispose();
+        if(objectiveUpdateTimer != null)objectiveUpdateTimer.cancel();
+        if(objectiveAdvanceTimer != null)objectiveAdvanceTimer.cancel();
     }
 }

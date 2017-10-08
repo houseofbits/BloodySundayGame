@@ -21,6 +21,7 @@ import GameObjects.GameObjectiveObject;
 import GameObjects.PlayerObject;
 import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
+import Utils.Error;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -56,7 +57,6 @@ public class GameScene3 extends Scene {
         sceneManager.addGameObject(new DoorObject("door_2", new Vector3(0.92f,0, -0.88f), "door2.g3dj", false));
         sceneManager.addGameObject(new DoorObject("door_1", new Vector3(-0.88f,0, -0.88f), "ldoor1.g3dj", true));
 
-
         SpawnObject sp1 = new SpawnObject("spawn_1");
         sp1.addSpawnPoint(new Vector3(-0.4f,0,-1.5f),
                 new Vector3(-0.5f,0,-2.5f),
@@ -87,13 +87,6 @@ public class GameScene3 extends Scene {
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
         sceneManager.addGameObject(new GameObjectiveObject());
 
-        addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
-
         setNextGameScene(GameScene1.class);
     }
 
@@ -101,6 +94,29 @@ public class GameScene3 extends Scene {
         super.onUpdate();
         //if(camController != null)camController.update();
 
+    }
+
+    public boolean advanceDifficultyLevel(){
+
+        switch(difficultyLevel){
+            case 0:
+                addActorType(ActorObject.ActorType.NPC_1);
+                addActorType(ActorObject.ActorType.NPC_2);
+                addActorType(ActorObject.ActorType.NPC_3);
+                addActorType(ActorObject.ActorType.ENEMY_1);
+                break;
+            case 1:
+                addActorType(ActorObject.ActorType.ENEMY_2);
+                addActorType(ActorObject.ActorType.ENEMY_3);
+                break;
+            case 2:
+                removeActorType(ActorObject.ActorType.NPC_2);
+                removeActorType(ActorObject.ActorType.NPC_3);
+                break;
+        };
+
+        difficultyLevel++;
+        return true;
     }
 
     public void onDispose(){

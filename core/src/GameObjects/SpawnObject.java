@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
@@ -36,7 +38,6 @@ public class SpawnObject extends GameObject {
     private RandomDistribution<ActorObject.ActorType> actorDistribution = new RandomDistribution<ActorObject.ActorType>();
     public Vector3 position;
     public State state = null;
-    private float   nextSpawnTimer = 0;
     private static Random random = new Random();
     private boolean enabled = true;
     private boolean globalDistribution = true;
@@ -79,8 +80,19 @@ public class SpawnObject extends GameObject {
     //When spawned object dies it sets free spawn point so it can begin wait for new action
     private void setFree(){
         state = State.FREE;
-        nextSpawnTimer = (random.nextFloat() * 1);
         sendEvent(new SpawnEvent(State.FREE));
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if(state == State.FREE && enabled) {
+                    state = State.READY;
+                    //Add this object to readyToSpawn structure
+                    addReadyToSpawn();
+                }
+                cancel();
+            }
+        }, random.nextFloat());
     }
 
     //Perform spawn by actor type
@@ -97,7 +109,7 @@ public class SpawnObject extends GameObject {
     }
 
     //Perform spawn by RandomDistribution, by global distribution or local distribution
-    //??? Do I need local distribution? Can it be implemented other way?
+    //TODO: Do I need local distribution? Can it be implemented other way?
     public void spawn(){
         if(globalDistribution){
             ActorObject.ActorType actor = getScene().getRandomActorType();
@@ -110,17 +122,7 @@ public class SpawnObject extends GameObject {
         }
     }
 
-    public void onUpdate() {
-        if(state == State.FREE && enabled) {
-            nextSpawnTimer = nextSpawnTimer - getSceneManager().frame_time_s;
-            if(nextSpawnTimer <= 0){
-                state = State.READY;
-                //Add this object to readyToSpawn structure
-                addReadyToSpawn();
-            }
-        }
-    }
-
+    public void onUpdate() {}
     public void render () { }
     public void dispose () {
         super.dispose();

@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -59,7 +60,7 @@ public class BulletSplashObject extends GameObject {
     }
     public void onUpdate() {
 
-        stateTimer = stateTimer - getSceneManager().frame_time_s;
+        stateTimer = stateTimer - Gdx.graphics.getDeltaTime();
 
         float s = 0.5f + ((0.5f - stateTimer) * 5);
 

@@ -6,6 +6,7 @@ package GameObjects;
 
 //import com.mygdx.game.GameObject;
 //import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -93,8 +94,8 @@ public class DoorObject extends GameObject {
 
     //Implement in derived classes
     public void advanceMovement(){
-        if(state == State.OPENING)advancement = advancement + (speedOpening * getSceneManager().frame_time_s);
-        if(state == State.CLOSING)advancement = advancement - (speedClosing * getSceneManager().frame_time_s);
+        if(state == State.OPENING)advancement = advancement + (speedOpening * Gdx.graphics.getDeltaTime());
+        if(state == State.CLOSING)advancement = advancement - (speedClosing * Gdx.graphics.getDeltaTime());
     }
 
     public void onUpdate(){

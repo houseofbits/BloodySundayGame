@@ -37,48 +37,44 @@ public class GameScene3 extends Scene {
         cam.lookAt(0,1.1f,0);
         cam.near = 1f;
         cam.far = 500f;
-        //cam.fieldOfView = 30;
         cam.update();
-
-        //camController = new CameraInputController(cam);
-        //Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this));  //, camController, , sceneManager.guiMainStage.getStage()
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.6f, 0.6f, 0.5f,  0, -1f, -0.2f));
 
-        sceneManager.addGameObject(new DoorObject("door_2", new Vector3(0.92f,0, -0.88f), "door2.g3dj", false));
-        sceneManager.addGameObject(new DoorObject("door_1", new Vector3(-0.88f,0, -0.88f), "ldoor1.g3dj", true));
+        addGameObject(new DoorObject("door_2", new Vector3(0.92f,0, -0.88f), "door2.g3dj", false));
+        addGameObject(new DoorObject("door_1", new Vector3(-0.88f,0, -0.88f), "ldoor1.g3dj", true));
 
-        SpawnObject sp1 = new SpawnObject("spawn_1");
-        sp1.addSpawnPoint(new Vector3(-0.4f,0,-1.5f),
-                new Vector3(-0.5f,0,-2.5f),
-                new Vector3(-0.5f,0,-3.5f));
-        sp1.addAffectedDoor("door_1");
-        sp1.addSpawnGroup("spawn_2");
-        sceneManager.addGameObject(sp1);
 
-        SpawnObject sp2 = new SpawnObject("spawn_2");
-        sp2.addSpawnPoint(new Vector3(0.6f,0,-1.5f),
-                new Vector3(0.8f,0,-2.5f),
-                new Vector3(0.9f,0,-3.5f));
-        sp2.addAffectedDoor("door_2");
-        sp2.addSpawnGroup("spawn_1");
-        sceneManager.addGameObject(sp2);
+        SpawnObject sp = new SpawnObject("spawn");
+        addGameObject(sp);
+        sp.addSpawnPoint()
+                .addDoors("door_1")
+                .addPosition(new Vector3(-0.4f,0,-1.5f), new Vector3(-0.5f,0,-2.5f), new Vector3(-0.5f,0,-3.5f));
+        sp.addSpawnPoint()
+                .addDoors("door_2")
+                .addPosition(new Vector3(0.6f,0,-1.5f), new Vector3(0.8f,0,-2.5f), new Vector3(0.9f,0,-3.5f));
 
-        SpawnObject sp3 = new SpawnObject("spawn_3");
-        sp3.addSpawnPoint(new Vector3(0f,0,-1.5f),
-                new Vector3(0f,0,-5.5f),
-                new Vector3(0f,0,-4.5f),
-                new Vector3(0.5f,0,-4.5f),
-                new Vector3(-0.5f,0,-4.5f),
-                new Vector3(0f,0,-3.5f));
-        sp3.addAffectedDoor("door_1", "door_2");
-        sceneManager.addGameObject(sp3);
+//        sp.addSpawnPoint()
+//                .addDoors("door_1","door_2")
+//                .addPosition(new Vector3(0f,0,-1.5f),
+//                            new Vector3(0f,0,-5.5f),
+//                            new Vector3(0f,0,-4.5f),
+//                            new Vector3(0.5f,0,-4.5f),
+//                            new Vector3(-0.5f,0,-4.5f),
+//                            new Vector3(0f,0,-3.5f));
 
-        sceneManager.addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
-        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
-        sceneManager.addGameObject(new GameObjectiveTimerObject());
+        addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
+        addGameObject(new PlayerObject("gun.g3dj"));
+        addGameObject(new GameObjectiveTimerObject());
+
+        addActorType(ActorObject.ActorType.ENEMY_1,
+                ActorObject.ActorType.ENEMY_2,
+                ActorObject.ActorType.ENEMY_3,
+                ActorObject.ActorType.NPC_1,
+                ActorObject.ActorType.NPC_2,
+                ActorObject.ActorType.NPC_3);
 
         setNextGameScene(GameScene1.class);
     }

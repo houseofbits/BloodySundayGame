@@ -13,7 +13,6 @@ import GameObjects.ActorObject;
 import GameObjects.DoorObject;
 import GameObjects.GameObjectiveTimerObject;
 import GameObjects.PlayerObject;
-import GameObjects.SpawnObject;
 
 /**
  * Created by T510 on 8/8/2017.
@@ -49,17 +48,17 @@ public class GameScene2 extends Scene {
         environment.add(new PointLight().set(0.8f, 0.8f, 0.8f,  -2, 5, 0, 8.0f));
         environment.add(new PointLight().set(0.8f, 0.8f, 1.0f,  3, 5, 0, 2.0f));
 
-        SpawnObject s1 = (SpawnObject) sceneManager.addGameObject(new SpawnObject("spawn_1", "door_1", new Vector3(-2.4f,0,-0.6f)));
-        s1.addSpawnGroup("spawn_4");
-
-        SpawnObject s2 = (SpawnObject) sceneManager.addGameObject(new SpawnObject("spawn_2", "door_2", new Vector3(-0.9f,0,-5.6f)));
-        s2.addSpawnGroup("spawn_3");
-
-        SpawnObject s3 = (SpawnObject) sceneManager.addGameObject(new SpawnObject("spawn_3", "door_3", new Vector3(0.8f,0,-5.6f)));
-        s3.addSpawnGroup("spawn_2");
-
-        SpawnObject s4 = (SpawnObject) sceneManager.addGameObject(new SpawnObject("spawn_4", "door_4", new Vector3(2.4f,0,-0.6f)));
-        s4.addSpawnGroup("spawn_1");
+//        SpawnObjectOld s1 = (SpawnObjectOld) sceneManager.addGameObject(new SpawnObjectOld("spawn_1", "door_1", new Vector3(-2.4f,0,-0.6f)));
+//        s1.addSpawnGroup("spawn_4");
+//
+//        SpawnObjectOld s2 = (SpawnObjectOld) sceneManager.addGameObject(new SpawnObjectOld("spawn_2", "door_2", new Vector3(-0.9f,0,-5.6f)));
+//        s2.addSpawnGroup("spawn_3");
+//
+//        SpawnObjectOld s3 = (SpawnObjectOld) sceneManager.addGameObject(new SpawnObjectOld("spawn_3", "door_3", new Vector3(0.8f,0,-5.6f)));
+//        s3.addSpawnGroup("spawn_2");
+//
+//        SpawnObjectOld s4 = (SpawnObjectOld) sceneManager.addGameObject(new SpawnObjectOld("spawn_4", "door_4", new Vector3(2.4f,0,-0.6f)));
+//        s4.addSpawnGroup("spawn_1");
 
         sceneManager.addGameObject(new DoorObject("door_1", new Vector3(-1.6f,0.011f,0.045f), "door2.g3dj", false));
         sceneManager.addGameObject(new DoorObject("door_2", new Vector3(-0.3f,0.011f,-5), "door2.g3dj", false));

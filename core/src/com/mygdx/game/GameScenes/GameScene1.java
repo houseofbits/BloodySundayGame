@@ -44,49 +44,28 @@ public class GameScene1 extends Scene {
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 0.7f, 1f));
-        //environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
+        addGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj", false));
+        addGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj", false));
+        addGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj", false));
 
-        sceneManager.addGameObject(new DoorObject("door_1", new Vector3(-1.188f,0.011f,0.045f), "door2.g3dj", false));
-        sceneManager.addGameObject(new DoorObject("door_2", new Vector3(0.443f,0.011f,0.045f), "door2.g3dj", false));
-        sceneManager.addGameObject(new DoorObject("door_3", new Vector3(2.048f,0.011f,0.045f), "door2.g3dj", false));
+        SpawnObject sp = new SpawnObject("spawn");
+        sp.addSpawnPoint()
+            .addDoors("door_1")
+            .addPosition(new Vector3(-1.8f,0,-0.6f), new Vector3(-1.9f,0,-0.6f), new Vector3(-1.7f,0,-0.6f));
+        sp.addSpawnPoint()
+            .addDoors("door_2")
+            .addPosition(new Vector3(0,0,-0.6f), new Vector3(0.1f,0,-0.6f), new Vector3(-0.1f,0,-0.6f));
+        sp.addSpawnPoint()
+            .addDoors("door_3")
+                .addPosition(new Vector3(1.8f,0,-0.6f), new Vector3(1.9f,0,-0.6f), new Vector3(1.7f,0,-0.6f));
 
-        SpawnObject sp1 = new SpawnObject("spawn_1");
-        sp1.addSpawnPoint(new Vector3(-1.9f,0,-0.6f));
-        sp1.addSpawnPoint(new Vector3(-1.8f,0,-0.6f));
-        sp1.addSpawnPoint(new Vector3(-1.7f,0,-0.6f));
-        sp1.addAffectedDoor("door_1");
-//        sp1.addActorType(ActorObject.ActorType.ENEMY_1,
-//                ActorObject.ActorType.ENEMY_2,
-//                ActorObject.ActorType.ENEMY_3,
-//                ActorObject.ActorType.NPC_1,
-//                ActorObject.ActorType.NPC_2,
-//                ActorObject.ActorType.NPC_3);
-        sp1.addSpawnGroup("spawn_2","spawn_3");
-        sceneManager.addGameObject(sp1);
+        addGameObject(sp);
 
-        SpawnObject sp2 = new SpawnObject("spawn_2");
-        sp2.addSpawnPoint(new Vector3(0.1f,0,-0.6f));
-        sp2.addSpawnPoint(new Vector3(0,0,-0.6f));
-        sp2.addSpawnPoint(new Vector3(-0.1f,0,-0.6f));
-        sp2.addAffectedDoor("door_2");
-        sp2.addSpawnGroup("spawn_1","spawn_3");
-        sceneManager.addGameObject(sp2);
-
-        SpawnObject sp3 = new SpawnObject("spawn_3");
-        sp3.addSpawnPoint(new Vector3(1.9f,0,-0.6f));
-        sp3.addSpawnPoint(new Vector3(1.8f,0,-0.6f));
-        sp3.addSpawnPoint(new Vector3(1.7f,0,-0.6f));
-        sp3.addAffectedDoor("door_3");
-        sp3.addSpawnGroup("spawn_1","spawn_2");
-        sceneManager.addGameObject(sp3);
-
-        sceneManager.addGameObject(new StaticObject("scene.g3dj"));
-
-        sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
-
-        sceneManager.addGameObject(new GameObjectiveTimerObject());
+        addGameObject(new StaticObject("scene.g3dj"));
+        addGameObject(new PlayerObject("gun.g3dj"));
+        addGameObject(new GameObjectiveTimerObject());
 
         addActorType(ActorObject.ActorType.ENEMY_1,
                     ActorObject.ActorType.ENEMY_2,

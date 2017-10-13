@@ -1,6 +1,7 @@
 package GameObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -8,6 +9,7 @@ import com.mygdx.game.AnimatedRenderable;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.IntersectionMesh;
 import com.mygdx.game.SceneManager;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -40,9 +42,9 @@ public class ActorObject extends GameObject {
         public String modelName;
         private Class actorObjectClass;
 
-        public ActorObject createInstance(SpawnObject spawn){
+        public ActorObject createInstance(SpawnObject.SpawnPoint spawn){
             try {
-                Constructor<?> ctor = actorObjectClass.getConstructor(SpawnObject.class, ActorType.class);
+                Constructor<?> ctor = actorObjectClass.getConstructor(SpawnObject.SpawnPoint.class, ActorType.class);
                 return (ActorObject)ctor.newInstance(spawn, this);
             }catch (Exception e){
                 Error.log(e.getMessage());
@@ -78,7 +80,7 @@ public class ActorObject extends GameObject {
             super(stateName, nextStateName, stateDuration, animationSpeed, anim);
         }
         public void onStateStart(){
-            if(parent.spawnObject != null)parent.spawnObject.setAffectedDoorsState(DoorObject.State.OPEN);
+            if(parent.spawnPoint != null)parent.spawnPoint.setAffectedDoorsState(DoorObject.State.OPEN);
         }
     }
     public class ActorStateDisappear extends ActorState{
@@ -86,12 +88,13 @@ public class ActorObject extends GameObject {
             super(stateName, nextStateName, stateDuration, animationSpeed, anim);
         }
         public void onStateStart(){
-            if(parent.spawnObject != null)parent.spawnObject.setAffectedDoorsState(DoorObject.State.CLOSED);
+            if(parent.spawnPoint != null)parent.spawnPoint.setAffectedDoorsState(DoorObject.State.CLOSED);
         }
         public void onStateFinish(){
             //Error.log("State Disappear remove");
             parent.setDispose(true);
-            sendEvent(new ActorEvent(ActorEvent.State.REMOVED), spawnObject);
+            sendEvent(new ActorEvent(ActorEvent.State.REMOVED));
+            parent.spawnPoint.setFree();
         }
     }
 
@@ -123,13 +126,13 @@ public class ActorObject extends GameObject {
     public  Vector3 position;
     float   stateTimer = 0;
 
-    public SpawnObject spawnObject = null;
+    public SpawnObject.SpawnPoint spawnPoint = null;
 
     public AnimatedRenderable animatedRederable = null;
     IntersectionMesh intersectionMesh = null;
 
-    public ActorObject(SpawnObject spawn, ActorType type, String colModel){
-        spawnObject = spawn;
+    public ActorObject(SpawnObject.SpawnPoint spawn, ActorType type, String colModel){
+        spawnPoint = spawn;
         actorType = type;
         this.collide = true;
         position = spawn.getSpawnedPosition();

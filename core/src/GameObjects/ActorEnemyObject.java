@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 
 import GameEvents.ActorEvent;
-import Utils.Error;
 
 /**
  * Created by T510 on 9/12/2017.
@@ -30,7 +29,7 @@ public class ActorEnemyObject extends ActorObject {
             super(stateName, nextStateName, stateDuration, animationSpeed, anim);
         }
         public void onStateStart(){
-            if(parent.spawnObject != null)parent.spawnObject.setAffectedDoorsState(DoorObject.State.OPEN);
+            if(parent.spawnPoint != null)parent.spawnPoint.setAffectedDoorsState(DoorObject.State.OPEN);
         }
         public void onStateUpdate(float t){
             if(t > 0.35f)animatedRederable.setMaterialOpacity("ITEM_MATERIAL", 1);
@@ -39,7 +38,7 @@ public class ActorEnemyObject extends ActorObject {
             parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
         }
     }
-    public ActorEnemyObject(SpawnObject spawnObject, ActorType type) {
+    public ActorEnemyObject(SpawnObject.SpawnPoint spawnObject, ActorType type) {
         super(spawnObject, type, "test_actor.g3dj");
 
         switch (actorType){

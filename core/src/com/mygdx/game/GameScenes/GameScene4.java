@@ -9,16 +9,12 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
 
 import GUI.GUIDevStage;
 import GameObjects.AnimatedObject;
-import GameObjects.DoorObject;
-import GameObjects.PlayerObject;
-import GameObjects.SpawnObject;
 import GameObjects.StaticObject;
 
 /**

@@ -12,7 +12,7 @@ import GameEvents.ActorEvent;
 
 public class ActorNPCObject extends ActorObject {
 
-    public ActorNPCObject(SpawnObject spawnObject, ActorType type) {
+    public ActorNPCObject(SpawnObject.SpawnPoint spawnObject, ActorType type) {
         super(spawnObject, type, "test_actor.g3dj");
 
         switch (actorType){

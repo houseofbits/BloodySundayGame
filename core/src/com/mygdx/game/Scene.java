@@ -5,10 +5,9 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
-import com.mygdx.game.GameScenes.GameScene1;
-import com.mygdx.game.GameScenes.GameScene3;
 
 import java.lang.reflect.Constructor;
 
@@ -17,9 +16,7 @@ import GameEvents.DoorEvent;
 import GameEvents.PlayerEvent;
 import GameEvents.SpawnEvent;
 import GameObjects.ActorObject;
-import GameObjects.BulletSplashObject;
 import GameObjects.DoorObject;
-import GameObjects.SpawnObject;
 import Utils.Error;
 import Utils.RandomDistribution;
 
@@ -46,6 +43,10 @@ public class Scene extends InputAdapter {
 
     public GUIGameStage getUI(){
         return guiGameStage;
+    }
+
+    public <T extends GameObject> T addGameObject(T object) {
+        return sceneManager.addGameObject(object);
     }
 
     public void setNextGameScene(Class gc){
@@ -78,6 +79,7 @@ public class Scene extends InputAdapter {
     public void addActorType(ActorObject.ActorType... type){
         for (int i = 0; i < type.length; i++) {
             actorDistribution.add(type[i], 1.0f);
+            getSceneManager().assetsManager.load(type[i].modelName, Model.class);
         }
     }
     public void removeActorType(ActorObject.ActorType type){
@@ -97,12 +99,13 @@ public class Scene extends InputAdapter {
 
         Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this));
 
-        SpawnObject.resetReadyToSpawn();
+        //Preload some stuff
+        getSceneManager().assetsManager.load("test_actor.g3dj", Model.class);
+        getSceneManager().assetsManager.load(ActorObject.ActorType.ENEMY_POLICE.modelName, Model.class);
+        getSceneManager().assetsManager.load(ActorObject.ActorType.NPC_DOCTOR.modelName, Model.class);
     }
 
     public void onUpdate(){
-
-        SpawnObject.updateAndSpawn();
 
         if(sceneCompleteCounter > 0 && sceneCompleteTimer > 0) {
 

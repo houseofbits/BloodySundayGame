@@ -55,12 +55,11 @@ public class SceneManager {
         gamePaused = p;
     }
 
-    public GameObject addGameObject(GameObject object){
+    public <T extends GameObject> T addGameObject(T object) {
         object.onCreate(this);
         this.createGameObjectArray.add(object);
         return object;
     }
-
     public GameObject getObjectByName(String name){
         for(int i=0; i<gameObjectArray.size; i++){
             GameObject o = gameObjectArray.get(i);

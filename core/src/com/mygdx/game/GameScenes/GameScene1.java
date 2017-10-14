@@ -55,16 +55,19 @@ public class GameScene1 extends Scene {
 
         spawnObject = new SpawnObject("spawn");
         addGameObject(spawnObject);
-        spawnObject.addSpawnPoint()
-            .addDoors("door_1")
-            .addPosition(new Vector3(-1.8f,0,-0.6f), new Vector3(-1.9f,0,-0.6f), new Vector3(-1.7f,0,-0.6f));
-        spawnObject.addSpawnPoint()
-            .addDoors("door_2")
-            .addPosition(new Vector3(0,0,-0.6f), new Vector3(0.1f,0,-0.6f), new Vector3(-0.1f,0,-0.6f));
-        spawnObject.addSpawnPoint()
-            .addDoors("door_3")
+        spawnObject.addSpawnPoint("sp1")
+                .addDoors("door_1")
+                .addPosition(new Vector3(-1.8f,0,-0.6f), new Vector3(-1.9f,0,-0.6f), new Vector3(-1.7f,0,-0.6f));
+
+        spawnObject.addSpawnPoint("sp2")
+                .addDoors("door_2")
+                .addPosition(new Vector3(0,0,-0.6f), new Vector3(0.1f,0,-0.6f), new Vector3(-0.1f,0,-0.6f));
+
+        spawnObject.addSpawnPoint("sp3")
+                .addDoors("door_3")
                 .addPosition(new Vector3(1.8f,0,-0.6f), new Vector3(1.9f,0,-0.6f), new Vector3(1.7f,0,-0.6f));
-        spawnObject.setDifficultyLevel(1.0f);
+
+        spawnObject.setDifficultyLevel(0.9f);
 
         addGameObject(new StaticObject("scene.g3dj"));
         addGameObject(new PlayerObject("gun.g3dj"));
@@ -77,7 +80,7 @@ public class GameScene1 extends Scene {
                 .addActorType(ActorObject.ActorType.ENEMY_1, new float[]    {0.0f, 0.5f, 1.0f})
                 .addActorType(ActorObject.ActorType.ENEMY_2, new float[]    {0.0f, 0.5f, 1.0f})
                 .addActorType(ActorObject.ActorType.ENEMY_3, new float[]    {0.0f, 0.5f, 1.0f})
-                .setDifficultyLevel(1.0f);
+                .setDifficultyLevel(0.0f);
 
 //        for (int i = 0; i < 20; i++) {
 //            RandomDistributionActors.Node n = getActorDist().get();
@@ -128,12 +131,12 @@ public class GameScene1 extends Scene {
                 break;
 
             case 9:
-                Error.log("advance 5");
+                Error.log("ending 1");
                 getActorDist().setDifficultyLevel(0.7f);
                 spawnObject.setDifficultyLevel(0.7f);
                 break;
             case 10:
-                Error.log("advance 5");
+                Error.log("ending 2");
                 getActorDist().setDifficultyLevel(0.5f);
                 spawnObject.setDifficultyLevel(0.5f);
                 break;

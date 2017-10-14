@@ -23,9 +23,12 @@ public class SpawnObject extends GameObject {
     public enum State {
         FREE,                   //waiting to spawn object
         OCCUPIED,               //occupied by spawned object
+        BLOCKED,                //new spawns blocked by blocking point
+        BLOCKED_FREE,           //free but do not spawn new
     }
 
     public class SpawnPoint{
+        private String name = "";
         private Vector3 point = new Vector3();
         private Array<Vector3> points = new Array<Vector3>();
         private State state = State.FREE;
@@ -64,13 +67,36 @@ public class SpawnObject extends GameObject {
         public boolean isFreeToSpawn(){
             if(blocking.size > 0){
                 for (int i = 0; i < blocking.size; i++) {
-                    if(blocking.get(i).state != State.FREE)return false;
+                    SpawnPoint sp = blocking.get(i);
+                    if(sp.state != State.FREE && sp.state != State.BLOCKED_FREE)return false;
                 }
             }
             return true;
         }
+        public void blockLinkedGroup(){
+            if(blocking.size > 0) {
+                for (int i = 0; i < blocking.size; i++) {
+                    SpawnPoint sp = blocking.get(i);
+                    if (sp.state == State.FREE) sp.state = State.BLOCKED_FREE;
+                    else if (sp.state == State.OCCUPIED) blocking.get(i).state = State.BLOCKED;
+                }
+            }
+        }
         public void setFree(){
-            state = State.FREE;
+
+            if(blocking.size > 0){
+                for (int i = 0; i < blocking.size ; i++) {
+                    SpawnPoint sp = blocking.get(i);
+                    //if(sp.state == State.BLOCKED || sp.state == State.BLOCKED_FREE){
+                        sp.state = State.FREE;
+                    //}
+                }
+            }
+            if(state == State.BLOCKED){
+                state = State.BLOCKED_FREE;
+            }else {
+                state = State.FREE;
+            }
         }
 
         public Vector3 getSpawnedPosition(){
@@ -87,6 +113,7 @@ public class SpawnObject extends GameObject {
     }
 
     private Array<SpawnPoint> spawnPoints = new Array<SpawnPoint>();
+    private Array<SpawnPoint> activeSpawnPoints = new Array<SpawnPoint>();
     private Timer.Task nextSpawnTimerTask = null;
     private float timerMin = 0f;
     private float timerMax = 5f;
@@ -102,8 +129,9 @@ public class SpawnObject extends GameObject {
 
     }
 
-    public SpawnPoint addSpawnPoint(){
+    public SpawnPoint addSpawnPoint(String name){
         SpawnPoint sp = new SpawnPoint(this);
+        sp.name = name;
         spawnPoints.add(sp);
         return sp;
     }
@@ -138,21 +166,37 @@ public class SpawnObject extends GameObject {
             @Override
             public void run() {
                 //try tospawn
-                for (int i = 0; i < 10; i++) {
-                    int id = random.nextInt(spawnPoints.size);
-                    SpawnPoint sp = spawnPoints.get(id);
-                    if(sp.state == State.FREE && sp.isFreeToSpawn()){
+                //1) Get active spawn points
+                for (int i = 0; i < spawnPoints.size; i++) {
+                    SpawnPoint sp = spawnPoints.get(i);
+                    if(sp.state == State.FREE || sp.blocking.size > 0){
+                        activeSpawnPoints.add(sp);
+                    }
+                }
+                //2) Get random point from active ones
+                if(activeSpawnPoints.size > 0) {
+
+                    int id = random.nextInt(activeSpawnPoints.size);
+                    SpawnPoint sp = activeSpawnPoints.get(id);
+
+                    //if(sp.state == State.FREE)Error.log("try: "+sp.name+" isfree "+sp.isFreeToSpawn());
+
+                    if (sp.state == State.FREE) {     // && !sp.isFreeToSpawn()
+                        sp.blockLinkedGroup();
+                    }
+                    if (sp.state == State.FREE && sp.isFreeToSpawn()) {
                         //do spawn
                         int rip = random.nextInt(sp.points.size);
                         sp.point = sp.points.get(rip);
                         ActorObject.ActorType actor = getScene().getActorDist().getRandomActorType();
-                        if(actor!=null){
+                        if (actor != null) {
+                            //Error.log(" spawn "+sp.name);
                             getSceneManager().addGameObject(actor.createInstance(sp));
                             sp.state = State.OCCUPIED;
-                            break;
                         }
                     }
                 }
+                activeSpawnPoints.clear();
                 this.cancel();
                 startNextSpawnTimer();
             }

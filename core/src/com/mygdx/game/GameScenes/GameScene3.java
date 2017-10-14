@@ -48,22 +48,28 @@ public class GameScene3 extends Scene {
 
         SpawnObject sp = new SpawnObject("spawn");
         addGameObject(sp);
-        sp.addSpawnPoint()
-                .addDoors("door_1")
-                .addPosition(new Vector3(-0.4f,0,-1.5f), new Vector3(-0.5f,0,-2.5f), new Vector3(-0.5f,0,-3.5f));
-        sp.addSpawnPoint()
-                .addDoors("door_2")
-                .addPosition(new Vector3(0.6f,0,-1.5f), new Vector3(0.8f,0,-2.5f), new Vector3(0.9f,0,-3.5f));
 
-//        sp.addSpawnPoint()
-//                .addDoors("door_1","door_2")
-//                .addPosition(new Vector3(0f,0,-1.5f),
-//                            new Vector3(0f,0,-5.5f),
-//                            new Vector3(0f,0,-4.5f),
-//                            new Vector3(0.5f,0,-4.5f),
-//                            new Vector3(-0.5f,0,-4.5f),
-//                            new Vector3(0f,0,-3.5f));
-        sp.setDifficultyLevel(0.5f);
+        sp.addSpawnPoint("sp1")
+                .addDoors("door_1")
+                .addPosition(new Vector3(-0.4f,0,-1.5f), new Vector3(-0.5f,0,-2.5f), new Vector3(-0.5f,0,-3.5f))
+                .setGroupName("gspawn1");
+
+        sp.addSpawnPoint("sp2")
+                .addDoors("door_2")
+                .addPosition(new Vector3(0.6f,0,-1.5f), new Vector3(0.8f,0,-2.5f), new Vector3(0.9f,0,-3.5f))
+                .setGroupName("gspawn1");
+
+        sp.addSpawnPoint("sp3")
+                .addDoors("door_1","door_2")
+                .addPosition(new Vector3(0f,0,-1.5f),
+                                new Vector3(0f,0,-5.5f),
+                                new Vector3(0f,0,-4.5f),
+                                new Vector3(0.5f,0,-4.5f),
+                                new Vector3(-0.5f,0,-4.5f),
+                                new Vector3(0f,0,-3.5f))
+                .setBlockingGroup("gspawn1");
+
+        sp.setDifficultyLevel(1.0f);
 
         addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
         addGameObject(new PlayerObject("gun.g3dj"));
@@ -76,7 +82,7 @@ public class GameScene3 extends Scene {
         getActorDist().addActorType(ActorObject.ActorType.ENEMY_2, new float[]{0.0f, 0.5f, 1.0f});
         getActorDist().addActorType(ActorObject.ActorType.ENEMY_3, new float[]{0.0f, 0.5f, 1.0f});
 
-        getActorDist().setDifficultyLevel(0.5f);
+        getActorDist().setDifficultyLevel(0.7f);
 
         setNextGameScene(GameScene1.class);
     }

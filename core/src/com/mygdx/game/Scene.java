@@ -19,6 +19,7 @@ import GameObjects.ActorObject;
 import GameObjects.DoorObject;
 import Utils.Error;
 import Utils.RandomDistribution;
+import Utils.RandomDistributionActors;
 
 /**
  * Created by KristsPudzens on 07.08.2017.
@@ -31,7 +32,7 @@ public class Scene extends InputAdapter {
     public PerspectiveCamera cam = null;
     public GUIGameStage guiGameStage = null;
     private Class nextGameSceneClass = null;
-    protected RandomDistribution<ActorObject.ActorType> actorDistribution = new RandomDistribution<ActorObject.ActorType>();
+    protected RandomDistributionActors actorDistribution = null;
 
     protected int difficultyLevel = 0;
     private float sceneCompleteTimer = 7;
@@ -43,6 +44,10 @@ public class Scene extends InputAdapter {
 
     public GUIGameStage getUI(){
         return guiGameStage;
+    }
+
+    public RandomDistributionActors getActorDist(){
+        return actorDistribution;
     }
 
     public <T extends GameObject> T addGameObject(T object) {
@@ -62,32 +67,11 @@ public class Scene extends InputAdapter {
         }
         return null;
     }
-
+    //Called from GameObjective
     public boolean advanceDifficultyLevel(){
         difficultyLevel++;
         return true;
     }
-
-    public ActorObject.ActorType getRandomActorType(){
-        RandomDistribution<ActorObject.ActorType>.Node node = actorDistribution.get();
-        if(node != null)return node.data;
-        return null;
-    }
-    public void addActorType(ActorObject.ActorType type, float weight){
-        actorDistribution.add(type, weight);
-    }
-    public void addActorType(ActorObject.ActorType... type){
-        for (int i = 0; i < type.length; i++) {
-            actorDistribution.add(type[i], 1.0f);
-            getSceneManager().assetsManager.load(type[i].modelName, Model.class);
-        }
-    }
-    public void removeActorType(ActorObject.ActorType type){
-        actorDistribution.remove(type);
-    }
-    //Set weight by percentage of total weight
-    public void setActorWeight(ActorObject.ActorType type, float weight){actorDistribution.setFraction(type, weight);}
-    public void setActorWeightAbsolute(ActorObject.ActorType type, float weight){actorDistribution.set(type, weight);}
 
     public void setSceneFinish(){
         if(sceneCompleteCounter == 0)sceneCompleteCounter = 5;
@@ -95,14 +79,18 @@ public class Scene extends InputAdapter {
 
     public void onCreate(SceneManager mgr){
         sceneManager = mgr;
+        actorDistribution = new RandomDistributionActors(mgr);
         guiGameStage = new GUIGameStage(this);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(guiGameStage.getStage(), this));
 
         //Preload some stuff
         getSceneManager().assetsManager.load("test_actor.g3dj", Model.class);
-        getSceneManager().assetsManager.load(ActorObject.ActorType.ENEMY_POLICE.modelName, Model.class);
-        getSceneManager().assetsManager.load(ActorObject.ActorType.NPC_DOCTOR.modelName, Model.class);
+//        getSceneManager().assetsManager.load(ActorObject.ActorType.ENEMY_POLICE.modelName, Model.class);
+//        getSceneManager().assetsManager.load(ActorObject.ActorType.NPC_DOCTOR.modelName, Model.class);
+
+        getActorDist().addActorType(ActorObject.ActorType.ENEMY_POLICE, 0);
+        getActorDist().addActorType(ActorObject.ActorType.NPC_DOCTOR, 0);
     }
 
     public void onUpdate(){

@@ -46,7 +46,6 @@ public class GameScene3 extends Scene {
         addGameObject(new DoorObject("door_2", new Vector3(0.92f,0, -0.88f), "door2.g3dj", false));
         addGameObject(new DoorObject("door_1", new Vector3(-0.88f,0, -0.88f), "ldoor1.g3dj", true));
 
-
         SpawnObject sp = new SpawnObject("spawn");
         addGameObject(sp);
         sp.addSpawnPoint()
@@ -64,17 +63,20 @@ public class GameScene3 extends Scene {
 //                            new Vector3(0.5f,0,-4.5f),
 //                            new Vector3(-0.5f,0,-4.5f),
 //                            new Vector3(0f,0,-3.5f));
+        sp.setDifficultyLevel(0.5f);
 
         addGameObject(new StaticObject("dev_scenes/scene1.g3dj"));
         addGameObject(new PlayerObject("gun.g3dj"));
-        addGameObject(new GameObjectiveTimerObject());
+        addGameObject(new GameObjectiveTimerObject(120, 20));
 
-        addActorType(ActorObject.ActorType.ENEMY_1,
-                ActorObject.ActorType.ENEMY_2,
-                ActorObject.ActorType.ENEMY_3,
-                ActorObject.ActorType.NPC_1,
-                ActorObject.ActorType.NPC_2,
-                ActorObject.ActorType.NPC_3);
+        getActorDist().addActorType(ActorObject.ActorType.NPC_1, new float[]{1.0f, 0.5f, 0.0f});
+        getActorDist().addActorType(ActorObject.ActorType.NPC_2, new float[]{1.0f, 0.5f, 0.0f});
+        getActorDist().addActorType(ActorObject.ActorType.NPC_3, new float[]{1.0f, 0.5f, 0.0f});
+        getActorDist().addActorType(ActorObject.ActorType.ENEMY_1, new float[]{0.0f, 0.5f, 1.0f});
+        getActorDist().addActorType(ActorObject.ActorType.ENEMY_2, new float[]{0.0f, 0.5f, 1.0f});
+        getActorDist().addActorType(ActorObject.ActorType.ENEMY_3, new float[]{0.0f, 0.5f, 1.0f});
+
+        getActorDist().setDifficultyLevel(0.5f);
 
         setNextGameScene(GameScene1.class);
     }
@@ -89,21 +91,14 @@ public class GameScene3 extends Scene {
 
         switch(difficultyLevel){
             case 0:
-                addActorType(ActorObject.ActorType.NPC_1);
-                //addActorType(ActorObject.ActorType.NPC_2);
-                //addActorType(ActorObject.ActorType.NPC_3);
-                //addActorType(ActorObject.ActorType.ENEMY_1);
+
                 break;
-            /*
             case 1:
-                addActorType(ActorObject.ActorType.ENEMY_2);
-                addActorType(ActorObject.ActorType.ENEMY_3);
+
                 break;
             case 2:
-                removeActorType(ActorObject.ActorType.NPC_2);
-                removeActorType(ActorObject.ActorType.NPC_3);
+
                 break;
-                */
         };
 
         difficultyLevel++;

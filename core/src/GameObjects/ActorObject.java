@@ -53,6 +53,9 @@ public class ActorObject extends GameObject {
         }
     }
 
+
+
+
     public class ActorState{
 
         public String name = "";

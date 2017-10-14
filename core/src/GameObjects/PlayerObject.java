@@ -56,7 +56,7 @@ public class PlayerObject extends GameObject {
                 if(health>0)health--;
                 getScene().getUI().playerHurtOverlay();
                 getScene().getUI().SetHealthState(health);
-                getScene().addActorType(ActorObject.ActorType.NPC_DOCTOR, 0.5f);
+                getScene().getActorDist().setActorWeight(ActorObject.ActorType.NPC_DOCTOR, 0.5f);
 
                 if(health <= 0){
                     getScene().getUI().showGameOverPopup();
@@ -74,7 +74,7 @@ public class PlayerObject extends GameObject {
                         startWantedLevelTimer();
 
                         getScene().getUI().SetWantedState(wantedLevel);
-                        getScene().addActorType(ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel);
+                        getScene().getActorDist().setActorWeight(ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel);
 
                     }else if(wantedLevel == 4){
                         getScene().getUI().showGameOverPopup();
@@ -96,7 +96,7 @@ public class PlayerObject extends GameObject {
                                 health++;
                                 npcObject.doctorHealth = 0;
                             }else{
-                                getScene().removeActorType(ActorObject.ActorType.NPC_DOCTOR);
+                                getScene().getActorDist().setActorWeight(ActorObject.ActorType.NPC_DOCTOR, 0);
                             }
                             getScene().getUI().SetHealthState(health);
                             return;
@@ -126,7 +126,7 @@ public class PlayerObject extends GameObject {
                     wantedLevel--;
                     getScene().getUI().SetWantedState(wantedLevel);
                     if(wantedLevel == 0){
-                        getScene().removeActorType(ActorObject.ActorType.ENEMY_POLICE);
+                        getScene().getActorDist().setActorWeight(ActorObject.ActorType.ENEMY_POLICE, 0);
                     }else{
                         wantedLevelTimerTask = Timer.schedule(this, wantedLevelTimeout);
                     }

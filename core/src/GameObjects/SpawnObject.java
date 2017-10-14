@@ -1,5 +1,6 @@
 package GameObjects;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
@@ -10,6 +11,7 @@ import java.util.Random;
 
 import GameEvents.ActorEvent;
 import GameEvents.SpawnEvent;
+import Utils.Error;
 import Utils.RandomDistribution;
 
 /**
@@ -87,7 +89,7 @@ public class SpawnObject extends GameObject {
     private Array<SpawnPoint> spawnPoints = new Array<SpawnPoint>();
     private Timer.Task nextSpawnTimerTask = null;
     private float timerMin = 0f;
-    private float timerMax = 0.5f;
+    private float timerMax = 5f;
     private Random random = new Random();
 
     public SpawnObject(String name) {
@@ -106,6 +108,30 @@ public class SpawnObject extends GameObject {
         return sp;
     }
 
+    public void setDifficultyLevel(float f){
+        //Difficulty map for time delays between spawns
+        float diffMap[][] = {
+           //min,  max
+            {3.0f, 6.0f},   //f=0.0
+            {0.0f, 4.0f},
+            {0.0f, 0.5f}    //f=1.0
+        };
+
+        f = Math.min(1.0f, Math.max(0.0f, f));
+
+        int ia = (int)Math.floor(f * (float)(diffMap.length-1));
+        int ib = (int)Math.ceil(f * (float)(diffMap.length-1));
+
+        if(ia == ib){
+            timerMin = diffMap[ia][0];
+            timerMax = diffMap[ia][1];
+        }else{
+            float fa = (f * (float)(diffMap.length-1)) - (float)ia;
+            timerMin = Interpolation.linear.apply(diffMap[ia][0], diffMap[ib][0], fa);
+            timerMax = Interpolation.linear.apply(diffMap[ia][1], diffMap[ib][1], fa);
+        }
+    }
+
     private void startNextSpawnTimer(){
         float t = timerMin + (random.nextFloat() * (timerMax - timerMin));
         nextSpawnTimerTask = Timer.schedule(new Timer.Task() {
@@ -119,12 +145,15 @@ public class SpawnObject extends GameObject {
                         //do spawn
                         int rip = random.nextInt(sp.points.size);
                         sp.point = sp.points.get(rip);
-                        ActorObject.ActorType actor = getScene().getRandomActorType();
-                        getSceneManager().addGameObject(actor.createInstance(sp));
-                        sp.state = State.OCCUPIED;
-                        break;
+                        ActorObject.ActorType actor = getScene().getActorDist().getRandomActorType();
+                        if(actor!=null){
+                            getSceneManager().addGameObject(actor.createInstance(sp));
+                            sp.state = State.OCCUPIED;
+                            break;
+                        }
                     }
                 }
+                this.cancel();
                 startNextSpawnTimer();
             }
         }, t);

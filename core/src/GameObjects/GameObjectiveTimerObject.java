@@ -19,9 +19,10 @@ public class GameObjectiveTimerObject extends GameObject {
     private Timer.Task objectiveUpdateTimer = null;
     private Timer.Task objectiveAdvanceTimer = null;
 
-    public GameObjectiveTimerObject(){
+    public GameObjectiveTimerObject(float t, float at){
         this.collide = false;
-
+        objectiveTime = t;
+        objectiveAdvanceTime = at;
     }
 
     public void onCreate(SceneManager sceneManagerRef){

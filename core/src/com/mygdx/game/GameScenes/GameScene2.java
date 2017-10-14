@@ -67,14 +67,14 @@ public class GameScene2 extends Scene {
 
         sceneManager.addGameObject(new PlayerObject("gun.g3dj"));
 
-        addActorType(ActorObject.ActorType.ENEMY_1,
+        getActorDist().addActorType(ActorObject.ActorType.ENEMY_1,
                     ActorObject.ActorType.ENEMY_2,
                     ActorObject.ActorType.ENEMY_3,
                     ActorObject.ActorType.NPC_1,
                     ActorObject.ActorType.NPC_2,
                     ActorObject.ActorType.NPC_3);
 
-        sceneManager.addGameObject(new GameObjectiveTimerObject());
+        sceneManager.addGameObject(new GameObjectiveTimerObject(120, 20));
 
 
         setNextGameScene(GameScene3.class);

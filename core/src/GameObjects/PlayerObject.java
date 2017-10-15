@@ -56,7 +56,7 @@ public class PlayerObject extends GameObject {
                 if(health>0)health--;
                 getScene().getUI().playerHurtOverlay();
                 getScene().getUI().SetHealthState(health);
-                getScene().getActorDist().setActorWeight(ActorObject.ActorType.NPC_DOCTOR, 0.5f);
+                getScene().getActorDist().setActorWeight(ActorObject.ActorType.NPC_DOCTOR, 0.3f);
 
                 if(health <= 0){
                     getScene().getUI().showGameOverPopup();
@@ -74,7 +74,7 @@ public class PlayerObject extends GameObject {
                         startWantedLevelTimer();
 
                         getScene().getUI().SetWantedState(wantedLevel);
-                        getScene().getActorDist().setActorWeight(ActorObject.ActorType.ENEMY_POLICE, (float) wantedLevel);
+                        getScene().getActorDist().setActorWeight(ActorObject.ActorType.ENEMY_POLICE, (float) 10);
 
                     }else if(wantedLevel == 4){
                         getScene().getUI().showGameOverPopup();
@@ -175,6 +175,7 @@ public class PlayerObject extends GameObject {
         renderable.render(getScene().cam, getScene().environment);
     }
     public void dispose () {
+        if(wantedLevelTimerTask!=null)wantedLevelTimerTask.cancel();
         super.dispose();
         renderable.dispose();
     }

@@ -12,9 +12,10 @@ import events.GameEvent;
 public class GameObject implements events.EventListener {
 
     private SceneManager sceneManager = null;
-    private String       name = "";
-    private boolean      dispose = false;
-    public boolean     collide = false;
+    private String      name = "";
+    private boolean     dispose = false;
+    public boolean      collide = false;
+    public boolean      paused = false;
 
     public void onCreate(SceneManager sceneManagerRef){
         sceneManager = sceneManagerRef;
@@ -29,6 +30,8 @@ public class GameObject implements events.EventListener {
     public String getName(){
         return name;
     }
+
+    public void setPaused(boolean pause){paused = pause;}
 
     public Scene getScene(){
         return sceneManager.getScene();

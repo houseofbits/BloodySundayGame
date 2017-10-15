@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 
 import GameEvents.ActorEvent;
+import GameEvents.GameStateEvent;
+import Utils.Error;
 
 /**
  * Created by T510 on 9/12/2017.
@@ -60,7 +62,9 @@ public class ActorNPCObject extends ActorObject {
                 break;
         }
     }
-
+    public void onGameStateEvent(GameStateEvent e){
+        super.onGameStateEvent(e);
+    }
     public void onCollision(GameObject o, Vector3 p){
 
         if(o.getClass() == BulletObject.class){

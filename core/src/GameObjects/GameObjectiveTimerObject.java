@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.SceneManager;
 
+import GameEvents.GameStateEvent;
 import Utils.Error;
 
 /**
@@ -39,7 +40,7 @@ public class GameObjectiveTimerObject extends GameObject {
                 if(!checkUpdateMissionTimer(timer))cancel();
                 timer++;
             }
-        }, 0,1,(int)objectiveTime);
+        }, 0,1);
 
         //Start timer update for each difficulty advancement
         objectiveAdvanceTimer = Timer.schedule(new Timer.Task() {
@@ -55,7 +56,7 @@ public class GameObjectiveTimerObject extends GameObject {
     }
 
     private boolean checkUpdateMissionTimer(float secondsElapsed){
-        if(secondsElapsed < objectiveTime) {
+        if(secondsElapsed <= objectiveTime) {
             float dt = objectiveTime - secondsElapsed;
             int minutes = ((int) dt % 3600) / 60;
             int seconds = (int) dt % 60;
@@ -73,5 +74,24 @@ public class GameObjectiveTimerObject extends GameObject {
         super.dispose();
         if(objectiveUpdateTimer != null)objectiveUpdateTimer.cancel();
         if(objectiveAdvanceTimer != null)objectiveAdvanceTimer.cancel();
+    }
+
+    public void onGameStateEvent(GameStateEvent e){
+        switch (e.state){
+            case GAME_PAUSED:
+                if(objectiveUpdateTimer != null)objectiveUpdateTimer.cancel();
+                if(objectiveAdvanceTimer != null)objectiveAdvanceTimer.cancel();
+                break;
+            case GAME_RESUME:
+                if(objectiveUpdateTimer != null){
+                    //Start timer update every 1 second
+                    objectiveUpdateTimer = Timer.schedule(objectiveUpdateTimer, 1,1,(int)objectiveTime);
+                }
+                if(objectiveAdvanceTimer != null){
+                    //Start timer update for each difficulty advancement
+                    objectiveAdvanceTimer = Timer.schedule(objectiveAdvanceTimer, objectiveAdvanceTime);
+                }
+                break;
+        }
     }
 }

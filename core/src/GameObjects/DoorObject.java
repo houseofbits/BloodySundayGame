@@ -26,6 +26,7 @@ import com.mygdx.game.SceneManager;
 
 import GameEvents.ActorEvent;
 import GameEvents.DoorEvent;
+import GameEvents.GameStateEvent;
 import Utils.ParametricFunctions;
 
 public class DoorObject extends GameObject {
@@ -105,18 +106,19 @@ public class DoorObject extends GameObject {
     }
 
     public void onUpdate(){
+        if(!paused) {
+            advanceMovement();
 
-        advanceMovement();
-
-        if(advancement >= 1 && state != State.OPEN){
-            advancement = 1;
-            state = State.OPEN;
-            this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPEN));
-        }
-        if(advancement <= 0 && state != State.CLOSED){
-            advancement = 0;
-            state = State.CLOSED;
-            this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSED));
+            if (advancement >= 1 && state != State.OPEN) {
+                advancement = 1;
+                state = State.OPEN;
+                this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPEN));
+            }
+            if (advancement <= 0 && state != State.CLOSED) {
+                advancement = 0;
+                state = State.CLOSED;
+                this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSED));
+            }
         }
     }
 
@@ -159,5 +161,8 @@ public class DoorObject extends GameObject {
             //if(state == State.CLOSED)openDoor();
             //else closeDoor();
         }
+    }
+    public void onGameStateEvent(GameStateEvent e){
+        setPaused(e.isPaused);
     }
 }

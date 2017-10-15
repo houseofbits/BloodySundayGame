@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 
 import GUI.GUIMainStage;
+import GameEvents.GameStateEvent;
+import Utils.Error;
 import events.EventManager;
 import events.GameEvent;
 
@@ -52,7 +54,10 @@ public class SceneManager {
     }
 
     public void setGamePaused(boolean p){
-        gamePaused = p;
+
+        //gamePaused = p;
+        if(p == true)sendEvent(new GameStateEvent(GameStateEvent.State.GAME_PAUSED));
+        else sendEvent(new GameStateEvent(GameStateEvent.State.GAME_RESUME));
     }
 
     public <T extends GameObject> T addGameObject(T object) {
@@ -128,6 +133,18 @@ public class SceneManager {
             go.dispose();
         }
         this.gameObjectArray.clear();
+    }
+
+    public void reloadCurrentScene(){
+        try{
+            if(scene != null){
+                Scene s = scene.getClass().newInstance();
+                UnloadScene();
+                CreateScene(s);
+            }
+        }catch (Exception e){
+            Error.log(e.getMessage());
+        }
     }
 
     public void CreateScene(Scene s){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.AnimatedRenderable;
 import com.mygdx.game.GameObject;
 import com.mygdx.game.IntersectionMesh;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import GameEvents.ActorEvent;
+import GameEvents.GameStateEvent;
 import Utils.Error;
 
 /**
@@ -181,13 +183,15 @@ public class ActorObject extends GameObject {
     }
 
     public void onUpdate() {
-        if(currentState!= null && stateTimer > 0){
-            stateTimer = stateTimer - Gdx.graphics.getDeltaTime();
-            currentState.onStateUpdate(currentState.duration - stateTimer);
-        }
-        if(currentState != null && stateTimer <= 0) {
-            currentState.onStateFinish();
-            switchState(currentState.nextState);
+        if(!paused) {
+            if (currentState != null && stateTimer > 0) {
+                stateTimer = stateTimer - Gdx.graphics.getDeltaTime();
+                currentState.onStateUpdate(currentState.duration - stateTimer);
+            }
+            if (currentState != null && stateTimer <= 0) {
+                currentState.onStateFinish();
+                switchState(currentState.nextState);
+            }
         }
     }
 
@@ -207,4 +211,9 @@ public class ActorObject extends GameObject {
         //Error.log("Inttersect: "+intersectionMesh.IntersectRay(ray, inter));
         return intersectionMesh.IntersectRay(ray, inter);
     }
+    public void onGameStateEvent(GameStateEvent e){
+        setPaused(e.isPaused);
+        animatedRederable.setPaused(e.isPaused);
+    }
+
 }

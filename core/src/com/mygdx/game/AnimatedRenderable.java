@@ -25,6 +25,8 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
 
     public String modelName = "";
 
+    private boolean paused = false;
+
     public ModelBatch modelBatch = null;
     public ModelInstance modelInstance = null;
     private AnimationController controller = null;
@@ -73,6 +75,8 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
         }
     }
 
+    public void setPaused(boolean pause){paused = pause;}
+
     public void PlayAnim(String name){
 
         if(controller != null)controller.setAnimation(name,-1, 1, this);
@@ -96,7 +100,7 @@ public class AnimatedRenderable implements AnimationController.AnimationListener
     }
 
     public void render(PerspectiveCamera cam, Environment env){
-        controller.update(Gdx.graphics.getDeltaTime());
+        if(!paused)controller.update(Gdx.graphics.getDeltaTime());
         modelBatch.begin(cam);
         if(modelInstance != null)modelBatch.render(modelInstance, env);
         else System.out.println("Renderable:render instance not created "+modelName);

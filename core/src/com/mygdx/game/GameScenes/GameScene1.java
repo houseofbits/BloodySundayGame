@@ -100,44 +100,44 @@ public class GameScene1 extends Scene {
 
         switch(difficultyLevel){
             case 0:
-                Error.log("advance 0");
                 getActorDist().setDifficultyLevel(0);
                 spawnObject.setDifficultyLevel(0);
                 break;
             case 1:
-                Error.log("advance 1");
                 getActorDist().setDifficultyLevel(0.2f);
                 spawnObject.setDifficultyLevel(0.2f);
                 break;
             case 2:
-                Error.log("advance 2");
                 getActorDist().setDifficultyLevel(0.4f);
                 spawnObject.setDifficultyLevel(0.4f);
                 break;
             case 3:
-                Error.log("advance 3");
                 getActorDist().setDifficultyLevel(0.6f);
                 spawnObject.setDifficultyLevel(0.6f);
                 break;
             case 4:
-                Error.log("advance 4");
                 getActorDist().setDifficultyLevel(0.8f);
                 spawnObject.setDifficultyLevel(0.8f);
                 break;
+            case 5:
+                getActorDist().setDifficultyLevel(0.4f);
+                break;
             case 6:
-                Error.log("advance 5");
                 getActorDist().setDifficultyLevel(1.0f);
                 spawnObject.setDifficultyLevel(1.0f);
                 break;
-
+            case 7:
+                getActorDist().setDifficultyLevel(0.5f);
+                break;
+            case 8:
+                getActorDist().setDifficultyLevel(1.0f);
+                break;
             case 9:
-                Error.log("ending 1");
-                getActorDist().setDifficultyLevel(0.7f);
+                getActorDist().setDifficultyLevel(0.8f);
                 spawnObject.setDifficultyLevel(0.7f);
                 break;
             case 10:
-                Error.log("ending 2");
-                getActorDist().setDifficultyLevel(0.5f);
+                getActorDist().setDifficultyLevel(0.8f);
                 spawnObject.setDifficultyLevel(0.5f);
                 break;
         };

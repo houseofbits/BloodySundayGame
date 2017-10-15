@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +30,8 @@ import com.mygdx.game.GameScenes.GameScene2;
 import com.mygdx.game.GameScenes.GameScene3;
 import com.mygdx.game.Scene;
 import com.mygdx.game.SceneManager;
+
+import Utils.Error;
 
 /**
  * Created by KristsPudzens on 07.09.2017.
@@ -49,6 +53,8 @@ public class GUIGameStage extends InputListener {
     protected  Table hudTable;
     protected Table confirmPopupTable;
     protected Table gameLostPopupTable;
+    protected TextButton gameLostButtonExit = null;
+    protected TextButton gameLostButtonRestart = null;
     protected Table gameWonPopupTable;
 
     private ProgressBar healthBar;
@@ -186,19 +192,19 @@ public class GUIGameStage extends InputListener {
         gameLostPopupTable.setFillParent(true);
         stage.addActor(gameLostPopupTable);
 
-        TextButton buttonExit2 = new TextButton("Exit to main menu", style);
-        buttonExit2.setName("EXITMAIN");
-        buttonExit2.addListener(this);
+        gameLostButtonExit = new TextButton("Exit to main menu", style);
+        gameLostButtonExit.setName("EXITMAIN");
+        gameLostButtonExit.addListener(this);
 
-        TextButton buttonRestart = new TextButton("Play again", style);
-        buttonRestart.setName("RESTART");
-        buttonRestart.addListener(this);
+        gameLostButtonRestart = new TextButton("Play again", style);
+        gameLostButtonRestart.setName("RESTART");
+        gameLostButtonRestart.addListener(this);
 
-//        gameLostPopupTable.add(buttonRestart)
-//                .width(Value.percentWidth(0.4f, gameLostPopupTable))
-//                .height(Value.percentHeight(0.2f, gameLostPopupTable));
-//        gameLostPopupTable.row();
-        gameLostPopupTable.add(buttonExit2)
+        gameLostPopupTable.add(gameLostButtonRestart)
+                .width(Value.percentWidth(0.4f, gameLostPopupTable))
+                .height(Value.percentHeight(0.2f, gameLostPopupTable));
+        gameLostPopupTable.row();
+        gameLostPopupTable.add(gameLostButtonExit)
                 .width(Value.percentWidth(0.4f, gameLostPopupTable))
                 .height(Value.percentHeight(0.2f, gameLostPopupTable));
 
@@ -271,19 +277,60 @@ public class GUIGameStage extends InputListener {
         playerHurtOverlay.addAction(Actions.sequence(Actions.show(), Actions.fadeIn(0.5f), Actions.fadeOut(1.5f), Actions.hide()));
     }
 
-    public void showGameOverPopup(){
-        //FadeToBlack(1);
-        fadeHUD(true);
-        gameLostPopupTable.setVisible(true);
-        scene.sceneManager.setGamePaused(true);
+    public void showPausePopup(boolean show){
+        if(show) {
+            fadeHUD(true);
+            scene.getSceneManager().setGamePaused(true);
+            confirmPopupTable.addAction(Actions.sequence(
+                    Actions.hide(),
+                    Actions.moveBy(0, stage.getHeight()),
+                    Actions.show(),
+                    Actions.moveBy(0, -stage.getHeight(), 0.8f, Interpolation.swingOut)//bounceOut
+            ));
+        }else{
+            fadeHUD(false);
+            scene.getSceneManager().setGamePaused(false);
+            confirmPopupTable.addAction(Actions.sequence(
+                    Actions.show(),
+                    Actions.moveBy(0, stage.getHeight(), 1f, Interpolation.swing),
+                    Actions.hide(),
+                    Actions.moveBy(0, -stage.getHeight())
+            ));
+        }
     }
 
-    public void ShowGameWonPopup(){
-        //FadeToBlack(1);
-        //hudTable.setVisible(false);
+    public void showGameOverPopup(){
         fadeHUD(true);
-        gameWonPopupTable.setVisible(true);
-        scene.sceneManager.setGamePaused(true);
+        scene.getSceneManager().setGamePaused(true);
+
+        gameLostPopupTable.addAction(Actions.sequence(
+                Actions.show(),
+                Actions.fadeIn(0.5f)
+        ));
+
+        gameLostButtonExit.addAction(Actions.sequence(
+                Actions.hide(),
+                Actions.moveBy(0, stage.getHeight()),
+                Actions.show(),
+                Actions.moveBy(0,-stage.getHeight(), 0.8f, Interpolation.swingOut)));
+
+        gameLostButtonRestart.addAction(Actions.sequence(
+                Actions.hide(),
+                Actions.moveBy(0, stage.getHeight()),
+                Actions.show(),
+                Actions.moveBy(0,-stage.getHeight(), 0.8f, Interpolation.swingOut)));
+    }
+
+    public void showGameWonPopup(){
+        fadeHUD(true);
+
+        scene.getSceneManager().setGamePaused(true);
+        gameWonPopupTable.addAction(Actions.sequence(
+                Actions.hide(),
+                Actions.moveBy(0, stage.getHeight()),
+                Actions.show(),
+                Actions.moveBy(0,-stage.getHeight(), 0.8f, Interpolation.swingOut)
+        ));
     }
 
     public void render() {
@@ -314,19 +361,16 @@ public class GUIGameStage extends InputListener {
             gameLostPopupTable.setVisible(false);
             gameWonPopupTable.setVisible(false);
             playerHurtOverlay.setVisible(false);
-            confirmPopupTable.setVisible(true);
+
+            showPausePopup(true);
             fadeHUD(true);
             scene.sceneManager.setGamePaused(true);
         }else if(a.getName() == "CANCEL"){
-            confirmPopupTable.setVisible(false);
-            fadeHUD(false);
-            scene.sceneManager.setGamePaused(false);
+            showPausePopup(false);
         }else if(a.getName() == "EXITMAIN"){
             this.scene.sceneManager.UnloadScene();
         }else if(a.getName() == "RESTART"){
-            FadeFromBlack(1);
-            scene.sceneManager.setGamePaused(false);
-            gameLostPopupTable.setVisible(false);
+            scene.getSceneManager().reloadCurrentScene();
         }else if(a.getName() == "CONTINUE") {
             Scene s = scene.getNextGameSceneInstance();
             if(s != null){

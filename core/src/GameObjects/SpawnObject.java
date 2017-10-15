@@ -10,6 +10,7 @@ import com.mygdx.game.SceneManager;
 import java.util.Random;
 
 import GameEvents.ActorEvent;
+import GameEvents.GameStateEvent;
 import GameEvents.SpawnEvent;
 import Utils.Error;
 import Utils.RandomDistribution;
@@ -252,7 +253,21 @@ public class SpawnObject extends GameObject {
     public void onUpdate() {}
     public void render () { }
     public void dispose () {
+        if(nextSpawnTimerTask!=null)nextSpawnTimerTask.cancel();
         super.dispose();
     }
 
+
+    public void onGameStateEvent(GameStateEvent e){
+        switch (e.state){
+            case GAME_PAUSED:
+                if(nextSpawnTimerTask != null)nextSpawnTimerTask.cancel();
+                break;
+            case GAME_RESUME:
+                if(nextSpawnTimerTask != null){
+                    startNextSpawnTimer();
+                }
+                break;
+        }
+    }
 }

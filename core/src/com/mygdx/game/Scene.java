@@ -109,7 +109,7 @@ public class Scene extends InputAdapter {
                 sceneCompleteCounter = 3;
             }
             if (sceneCompleteTimer <= 0 && sceneCompleteCounter > 2) {
-                guiGameStage.ShowGameWonPopup();
+                guiGameStage.showGameWonPopup();
                 sceneCompleteCounter = 2;
             }
         }

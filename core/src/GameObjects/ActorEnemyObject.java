@@ -6,6 +6,7 @@ import com.mygdx.game.GameObject;
 
 import GameEvents.ActorEvent;
 import GameEvents.DoorEvent;
+import GameEvents.GameStateEvent;
 import Utils.Error;
 
 /**
@@ -68,7 +69,7 @@ public class ActorEnemyObject extends ActorObject {
                 addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
                 break;
             case ENEMY_POLICE:
-                addActorState(new ActorStateAppearPoliceman("APPEAR", "ACTION", 1.2f, 0.9f, "ACTION1"));
+                addActorState(new ActorStateAppearPoliceman("APPEAR", "ACTION", 1.0f, 0.9f, "ACTION1"));
                 addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.6f, 0.7f, "ACTION1"));
                 addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
                 addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
@@ -111,7 +112,9 @@ public class ActorEnemyObject extends ActorObject {
             }
         }
     }
-
+    public void onGameStateEvent(GameStateEvent e){
+        super.onGameStateEvent(e);
+    }
     public void onCollision(GameObject o, Vector3 p){
 
         if(o.getClass() == BulletObject.class){

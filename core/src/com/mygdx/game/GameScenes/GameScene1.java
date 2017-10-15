@@ -79,7 +79,7 @@ public class GameScene1 extends Scene {
                 .addActorType(ActorObject.ActorType.NPC_3, new float[]      {1.0f, 0.5f, 0.0f})
                 .addActorType(ActorObject.ActorType.ENEMY_1, new float[]    {0.0f, 0.5f, 1.0f})
                 .addActorType(ActorObject.ActorType.ENEMY_2, new float[]    {0.0f, 0.5f, 1.0f})
-                .addActorType(ActorObject.ActorType.ENEMY_3, new float[]    {0.0f, 0.5f, 1.0f})
+                .addActorType(ActorObject.ActorType.ENEMY_4, new float[]    {0.0f, 0.5f, 2.0f})
                 .setDifficultyLevel(0.0f);
 
 //        for (int i = 0; i < 20; i++) {

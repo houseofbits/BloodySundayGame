@@ -110,6 +110,21 @@ public class SpawnObject extends GameObject {
                 }
             }
         }
+        public boolean isDoorClosing(){
+            for (int i=0; i<affectedDoors.size; i++){
+                DoorObject d = (DoorObject)getSceneManager().getObjectByName(affectedDoors.get(i));
+                if(d != null){
+                    if(d.state == DoorObject.State.CLOSING || d.state == DoorObject.State.CLOSED)return true;
+                }
+            }
+            return false;
+        }
+        public boolean checkDoorName(String name){
+            for (int i=0; i<affectedDoors.size; i++) {
+                if(affectedDoors.get(i) == name)return true;
+            }
+            return false;
+        }
     }
 
     private Array<SpawnPoint> spawnPoints = new Array<SpawnPoint>();

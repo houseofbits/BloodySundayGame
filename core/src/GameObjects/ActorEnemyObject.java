@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameObject;
 
 import GameEvents.ActorEvent;
+import GameEvents.DoorEvent;
+import Utils.Error;
 
 /**
  * Created by T510 on 9/12/2017.
@@ -21,7 +23,7 @@ public class ActorEnemyObject extends ActorObject {
             if(t > 0.35f)animatedRederable.setMaterialOpacity("ITEM_MATERIAL", 1);
         }
         public void onStateFinish(){
-            parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
+            if(!parent.spawnPoint.isDoorClosing())parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
         }
     }
     public class ActorStateAppearPoliceman extends ActorState{
@@ -35,7 +37,7 @@ public class ActorEnemyObject extends ActorObject {
             if(t > 0.35f)animatedRederable.setMaterialOpacity("ITEM_MATERIAL", 1);
         }
         public void onStateFinish(){
-            parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
+            if(!parent.spawnPoint.isDoorClosing())parent.sendEvent(new ActorEvent(ActorEvent.State.SHOOT));
         }
     }
     public ActorEnemyObject(SpawnObject.SpawnPoint spawnObject, ActorType type) {
@@ -72,6 +74,13 @@ public class ActorEnemyObject extends ActorObject {
                 addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
                 addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
                 break;
+            case ENEMY_4:
+                addActorState(new ActorStateAppearPoliceman("APPEAR", "ACTION", 1.2f, 0.9f, "ACTION1"));
+                addActorState(new ActorStateAction("ACTION", "DISAPPEAR", 1.6f, 0.7f, "ACTION1"));
+                addActorState(new ActorState("DIE", "REMOVE", 0.7f, 1.5f, "DIE1"));
+                addActorState(new ActorState("DISAPPEAR", "REMOVE", 1, 1.0f, "APPEAR"));
+                addActorState(new ActorStateDisappear("REMOVE", null, 1, 1.0f, null));
+                break;
         }
 
     }
@@ -87,6 +96,19 @@ public class ActorEnemyObject extends ActorObject {
             case SET_DISAPPEAR:
                 switchState("DISSAPEAR");
                 break;
+        }
+    }
+
+    public void onDoorEvent(DoorEvent e){
+        if(e.action == DoorEvent.Action.STATE_CHANGED && e.state == DoorObject.State.CLOSING){
+            if(spawnPoint.checkDoorName(e.senderObject.getName())){
+                if(currentState.name != "DIE"
+                        && currentState.name != "DISAPPEAR"
+                        && currentState.name != "REMOVE"){
+                    //Error.log("door closing: "+e.senderObject.getName()+" "+e.state+", "+currentState.name);
+                    switchState("DISAPPEAR");
+                }
+            }
         }
     }
 

@@ -80,11 +80,17 @@ public class DoorObject extends GameObject {
     }
 
     public void openDoor(){
-        if(state != State.OPEN)state = State.OPENING;
+        if(state != State.OPEN){
+            state = State.OPENING;
+            this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.OPENING));
+        }
     }
 
     public void closeDoor(){
-        if(state != State.CLOSED)state = State.CLOSING;
+        if(state != State.CLOSED){
+            state = State.CLOSING;
+            this.sendEvent(new DoorEvent(DoorEvent.Action.STATE_CHANGED, State.CLOSING));
+        }
     }
 
     public void setState(State s){

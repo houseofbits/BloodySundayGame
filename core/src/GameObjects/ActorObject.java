@@ -29,6 +29,7 @@ public class ActorObject extends GameObject {
         ENEMY_1(ActorEnemyObject.class, "characters/character2.g3dj"),
         ENEMY_2(ActorEnemyObject.class, "characters/character3.g3dj"),
         ENEMY_3(ActorEnemyObject.class, "characters/character4.g3dj"),
+        ENEMY_4(ActorEnemyObject.class, "characters/character4.g3dj"),
         ENEMY_POLICE(ActorEnemyObject.class, "characters/cop.g3dj"),
         NPC_1(ActorNPCObject.class, "characters/character2.g3dj"),
         NPC_2(ActorNPCObject.class, "characters/character3.g3dj"),
